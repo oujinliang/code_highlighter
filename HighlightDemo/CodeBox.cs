@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Windows.Controls;
 using System.Windows;
-using Microsoft.Internals.Tools.Ding.HighlightEngine;
+using Org.Jinou.HighlightEngine;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using System.Globalization;
 using System.Windows.Input;
 
-namespace Microsoft.Internals.Tools.Ding.HighlightDemo
+namespace Org.Jinou.HighlightDemo
 {
     public delegate void CodeBoxScrollChanged(CodeBox sender, int firstLine, int firstCharColumn);
 

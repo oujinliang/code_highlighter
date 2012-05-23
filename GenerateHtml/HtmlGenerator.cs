@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using Microsoft.Internals.Tools.Ding.HighlightEngine;
+using Org.Jinou.HighlightEngine;
 using System.Windows.Media;
 
 namespace GenerateHtml

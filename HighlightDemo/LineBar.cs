@@ -6,7 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows;
 
-namespace Microsoft.Internals.Tools.Ding.HighlightDemo
+namespace Org.Jinou.HighlightDemo
 {
     public class LineBar : Control
     {

@@ -11,7 +11,7 @@
 // </summary>
 //---------------------------------------------------------------------
 
-namespace Microsoft.Internals.Tools.Ding.HighlightDemo
+namespace Org.Jinou.HighlightDemo
 {
     using System;
     using System.Collections.Generic;
@@ -22,7 +22,7 @@ namespace Microsoft.Internals.Tools.Ding.HighlightDemo
     using System.Windows.Media;
     using Microsoft.Win32;
     using System.IO;
-    using Microsoft.Internals.Tools.Ding.HighlightEngine;
+    using Org.Jinou.HighlightEngine;
     using System.Diagnostics;
 
     internal class MainWindow : Window

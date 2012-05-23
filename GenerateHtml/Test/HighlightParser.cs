@@ -11,7 +11,7 @@
 // </summary>
 //---------------------------------------------------------------------
 
-namespace Microsoft.Internals.Tools.Ding.HighlightEngine
+namespace Org.Jinou.HighlightEngine
 {
     using System;
     using System.Collections.Generic;
@@ -348,7 +348,7 @@ namespace Microsoft.Internals.Tools.Ding.HighlightEngine
 // </summary>
 //---------------------------------------------------------------------
 
-namespace Microsoft.Internals.Tools.Ding.HighlightEngine
+namespace Org.Jinou.HighlightEngine
 {
     using System;
     using System.Collections.Generic;
@@ -685,7 +685,7 @@ namespace Microsoft.Internals.Tools.Ding.HighlightEngine
 // </summary>
 //---------------------------------------------------------------------
 
-namespace Microsoft.Internals.Tools.Ding.HighlightEngine
+namespace Org.Jinou.HighlightEngine
 {
     using System;
     using System.Collections.Generic;
@@ -1022,7 +1022,7 @@ namespace Microsoft.Internals.Tools.Ding.HighlightEngine
 // </summary>
 //---------------------------------------------------------------------
 
-namespace Microsoft.Internals.Tools.Ding.HighlightEngine
+namespace Org.Jinou.HighlightEngine
 {
     using System;
     using System.Collections.Generic;
@@ -1359,7 +1359,7 @@ namespace Microsoft.Internals.Tools.Ding.HighlightEngine
 // </summary>
 //---------------------------------------------------------------------
 
-namespace Microsoft.Internals.Tools.Ding.HighlightEngine
+namespace Org.Jinou.HighlightEngine
 {
     using System;
     using System.Collections.Generic;
@@ -1696,7 +1696,7 @@ namespace Microsoft.Internals.Tools.Ding.HighlightEngine
 // </summary>
 //---------------------------------------------------------------------
 
-namespace Microsoft.Internals.Tools.Ding.HighlightEngine
+namespace Org.Jinou.HighlightEngine
 {
     using System;
     using System.Collections.Generic;
@@ -2033,7 +2033,7 @@ namespace Microsoft.Internals.Tools.Ding.HighlightEngine
 // </summary>
 //---------------------------------------------------------------------
 
-namespace Microsoft.Internals.Tools.Ding.HighlightEngine
+namespace Org.Jinou.HighlightEngine
 {
     using System;
     using System.Collections.Generic;
@@ -2370,7 +2370,7 @@ namespace Microsoft.Internals.Tools.Ding.HighlightEngine
 // </summary>
 //---------------------------------------------------------------------
 
-namespace Microsoft.Internals.Tools.Ding.HighlightEngine
+namespace Org.Jinou.HighlightEngine
 {
     using System;
     using System.Collections.Generic;
@@ -2707,7 +2707,7 @@ namespace Microsoft.Internals.Tools.Ding.HighlightEngine
 // </summary>
 //---------------------------------------------------------------------
 
-namespace Microsoft.Internals.Tools.Ding.HighlightEngine
+namespace Org.Jinou.HighlightEngine
 {
     using System;
     using System.Collections.Generic;
@@ -3044,7 +3044,7 @@ namespace Microsoft.Internals.Tools.Ding.HighlightEngine
 // </summary>
 //---------------------------------------------------------------------
 
-namespace Microsoft.Internals.Tools.Ding.HighlightEngine
+namespace Org.Jinou.HighlightEngine
 {
     using System;
     using System.Collections.Generic;
@@ -3381,7 +3381,7 @@ namespace Microsoft.Internals.Tools.Ding.HighlightEngine
 // </summary>
 //---------------------------------------------------------------------
 
-namespace Microsoft.Internals.Tools.Ding.HighlightEngine
+namespace Org.Jinou.HighlightEngine
 {
     using System;
     using System.Collections.Generic;
@@ -3718,7 +3718,7 @@ namespace Microsoft.Internals.Tools.Ding.HighlightEngine
 // </summary>
 //---------------------------------------------------------------------
 
-namespace Microsoft.Internals.Tools.Ding.HighlightEngine
+namespace Org.Jinou.HighlightEngine
 {
     using System;
     using System.Collections.Generic;
@@ -4055,7 +4055,7 @@ namespace Microsoft.Internals.Tools.Ding.HighlightEngine
 // </summary>
 //---------------------------------------------------------------------
 
-namespace Microsoft.Internals.Tools.Ding.HighlightEngine
+namespace Org.Jinou.HighlightEngine
 {
     using System;
     using System.Collections.Generic;
@@ -4392,7 +4392,7 @@ namespace Microsoft.Internals.Tools.Ding.HighlightEngine
 // </summary>
 //---------------------------------------------------------------------
 
-namespace Microsoft.Internals.Tools.Ding.HighlightEngine
+namespace Org.Jinou.HighlightEngine
 {
     using System;
     using System.Collections.Generic;
@@ -4729,7 +4729,7 @@ namespace Microsoft.Internals.Tools.Ding.HighlightEngine
 // </summary>
 //---------------------------------------------------------------------
 
-namespace Microsoft.Internals.Tools.Ding.HighlightEngine
+namespace Org.Jinou.HighlightEngine
 {
     using System;
     using System.Collections.Generic;
@@ -5066,7 +5066,7 @@ namespace Microsoft.Internals.Tools.Ding.HighlightEngine
 // </summary>
 //---------------------------------------------------------------------
 
-namespace Microsoft.Internals.Tools.Ding.HighlightEngine
+namespace Org.Jinou.HighlightEngine
 {
     using System;
     using System.Collections.Generic;
@@ -5403,7 +5403,7 @@ namespace Microsoft.Internals.Tools.Ding.HighlightEngine
 // </summary>
 //---------------------------------------------------------------------
 
-namespace Microsoft.Internals.Tools.Ding.HighlightEngine
+namespace Org.Jinou.HighlightEngine
 {
     using System;
     using System.Collections.Generic;
@@ -5740,7 +5740,7 @@ namespace Microsoft.Internals.Tools.Ding.HighlightEngine
 // </summary>
 //---------------------------------------------------------------------
 
-namespace Microsoft.Internals.Tools.Ding.HighlightEngine
+namespace Org.Jinou.HighlightEngine
 {
     using System;
     using System.Collections.Generic;
@@ -6077,7 +6077,7 @@ namespace Microsoft.Internals.Tools.Ding.HighlightEngine
 // </summary>
 //---------------------------------------------------------------------
 
-namespace Microsoft.Internals.Tools.Ding.HighlightEngine
+namespace Org.Jinou.HighlightEngine
 {
     using System;
     using System.Collections.Generic;
@@ -6414,7 +6414,7 @@ namespace Microsoft.Internals.Tools.Ding.HighlightEngine
 // </summary>
 //---------------------------------------------------------------------
 
-namespace Microsoft.Internals.Tools.Ding.HighlightEngine
+namespace Org.Jinou.HighlightEngine
 {
     using System;
     using System.Collections.Generic;
@@ -6751,7 +6751,7 @@ namespace Microsoft.Internals.Tools.Ding.HighlightEngine
 // </summary>
 //---------------------------------------------------------------------
 
-namespace Microsoft.Internals.Tools.Ding.HighlightEngine
+namespace Org.Jinou.HighlightEngine
 {
     using System;
     using System.Collections.Generic;
@@ -7088,7 +7088,7 @@ namespace Microsoft.Internals.Tools.Ding.HighlightEngine
 // </summary>
 //---------------------------------------------------------------------
 
-namespace Microsoft.Internals.Tools.Ding.HighlightEngine
+namespace Org.Jinou.HighlightEngine
 {
     using System;
     using System.Collections.Generic;
@@ -7425,7 +7425,7 @@ namespace Microsoft.Internals.Tools.Ding.HighlightEngine
 // </summary>
 //---------------------------------------------------------------------
 
-namespace Microsoft.Internals.Tools.Ding.HighlightEngine
+namespace Org.Jinou.HighlightEngine
 {
     using System;
     using System.Collections.Generic;
@@ -7762,7 +7762,7 @@ namespace Microsoft.Internals.Tools.Ding.HighlightEngine
 // </summary>
 //---------------------------------------------------------------------
 
-namespace Microsoft.Internals.Tools.Ding.HighlightEngine
+namespace Org.Jinou.HighlightEngine
 {
     using System;
     using System.Collections.Generic;
@@ -8099,7 +8099,7 @@ namespace Microsoft.Internals.Tools.Ding.HighlightEngine
 // </summary>
 //---------------------------------------------------------------------
 
-namespace Microsoft.Internals.Tools.Ding.HighlightEngine
+namespace Org.Jinou.HighlightEngine
 {
     using System;
     using System.Collections.Generic;
@@ -8436,7 +8436,7 @@ namespace Microsoft.Internals.Tools.Ding.HighlightEngine
 // </summary>
 //---------------------------------------------------------------------
 
-namespace Microsoft.Internals.Tools.Ding.HighlightEngine
+namespace Org.Jinou.HighlightEngine
 {
     using System;
     using System.Collections.Generic;
@@ -8773,7 +8773,7 @@ namespace Microsoft.Internals.Tools.Ding.HighlightEngine
 // </summary>
 //---------------------------------------------------------------------
 
-namespace Microsoft.Internals.Tools.Ding.HighlightEngine
+namespace Org.Jinou.HighlightEngine
 {
     using System;
     using System.Collections.Generic;
@@ -9110,7 +9110,7 @@ namespace Microsoft.Internals.Tools.Ding.HighlightEngine
 // </summary>
 //---------------------------------------------------------------------
 
-namespace Microsoft.Internals.Tools.Ding.HighlightEngine
+namespace Org.Jinou.HighlightEngine
 {
     using System;
     using System.Collections.Generic;
@@ -9447,7 +9447,7 @@ namespace Microsoft.Internals.Tools.Ding.HighlightEngine
 // </summary>
 //---------------------------------------------------------------------
 
-namespace Microsoft.Internals.Tools.Ding.HighlightEngine
+namespace Org.Jinou.HighlightEngine
 {
     using System;
     using System.Collections.Generic;
@@ -9784,7 +9784,7 @@ namespace Microsoft.Internals.Tools.Ding.HighlightEngine
 // </summary>
 //---------------------------------------------------------------------
 
-namespace Microsoft.Internals.Tools.Ding.HighlightEngine
+namespace Org.Jinou.HighlightEngine
 {
     using System;
     using System.Collections.Generic;

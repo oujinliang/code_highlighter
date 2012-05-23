@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.Internals.Tools.Ding.HighlightEngine
+namespace Org.Jinou.HighlightEngine
 {
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
@@ -37,7 +37,7 @@ namespace Microsoft.Internals.Tools.Ding.HighlightEngine
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Microsoft.Internals.Tools.Ding.HighlightEngine.Resource", typeof(Resource).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Org.Jinou.HighlightEngine.Resource", typeof(Resource).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

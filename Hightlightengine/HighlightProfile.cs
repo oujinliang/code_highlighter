@@ -11,7 +11,7 @@
 // </summary>
 //---------------------------------------------------------------------
 
-namespace Microsoft.Internals.Tools.Ding.HighlightEngine
+namespace Org.Jinou.HighlightEngine
 {
     using System.Text.RegularExpressions;
     using System.Windows.Media;

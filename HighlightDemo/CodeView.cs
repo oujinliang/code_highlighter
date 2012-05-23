@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Controls;
-using Microsoft.Internals.Tools.Ding.HighlightEngine;
+using Org.Jinou.HighlightEngine;
 using System.Windows.Media;
 using System.Windows;
 using System.Windows.Input;
 
-namespace Microsoft.Internals.Tools.Ding.HighlightDemo
+namespace Org.Jinou.HighlightDemo
 {
     public class CodeView : Control
     {

@@ -11,7 +11,7 @@
 // </summary>
 //---------------------------------------------------------------------
 
-namespace Microsoft.Internals.Tools.Ding.HighlightDemo
+namespace Org.Jinou.HighlightDemo
 {
     using System;
     using System.Collections.Generic;
