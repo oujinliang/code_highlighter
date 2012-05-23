@@ -1,0 +1,364 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <style>
+            <!--
+.lineNumber {
+    font-size:10.0pt;
+    font-family:"Consolas","sans-serif";
+    background-color: Beige; 
+    color: darkgray;
+    width: 20pt;
+}
+.code {    
+    font-size:10.0pt;
+    font-family:"Consolas","sans-serif";
+    background-color: #ffffff; 
+}
+-->
+        </style>
+    </head>
+    <body bgcolor="white" lang="EN-US" link="blue" vlink="purple"  >
+        <table class="code" style="width:100%;cellpadding="0"; cellspacing="0"">
+<tr><td class="lineNumber">0</td><td><span style="color:#008000">//---------------------------------------------------------------------</span></td></tr>
+<tr><td class="lineNumber">1</td><td><span style="color:#008000">//&nbsp;<copyright&nbsp;file="HighlightParser.cs"&nbsp;company="Microsoft"></span></td></tr>
+<tr><td class="lineNumber">2</td><td><span style="color:#008000">//&nbsp;Copyright&nbsp;(c)&nbsp;Microsoft&nbsp;Corporation.&nbsp;All&nbsp;rights&nbsp;reserved.</span></td></tr>
+<tr><td class="lineNumber">3</td><td><span style="color:#008000">//&nbsp;</copyright></span></td></tr>
+<tr><td class="lineNumber">4</td><td><span style="color:#008000">//&nbsp;<summary></span></td></tr>
+<tr><td class="lineNumber">5</td><td><span style="color:#008000">//&nbsp;Use&nbsp;of&nbsp;this&nbsp;source&nbsp;code&nbsp;is&nbsp;subject&nbsp;to&nbsp;the&nbsp;terms&nbsp;of&nbsp;the&nbsp;Microsoft&nbsp;</span></td></tr>
+<tr><td class="lineNumber">6</td><td><span style="color:#008000">//&nbsp;end-user&nbsp;license&nbsp;agreement&nbsp;(EULA)&nbsp;under&nbsp;which&nbsp;you&nbsp;licensed&nbsp;this</span></td></tr>
+<tr><td class="lineNumber">7</td><td><span style="color:#008000">//&nbsp;SOFTWARE&nbsp;PRODUCT.&nbsp;If&nbsp;you&nbsp;did&nbsp;not&nbsp;accept&nbsp;the&nbsp;terms&nbsp;of&nbsp;the&nbsp;EULA,&nbsp;you&nbsp;</span></td></tr>
+<tr><td class="lineNumber">8</td><td><span style="color:#008000">//&nbsp;are&nbsp;not&nbsp;authorized&nbsp;to&nbsp;use&nbsp;this&nbsp;source&nbsp;code.&nbsp;For&nbsp;a&nbsp;copy&nbsp;of&nbsp;the&nbsp;EULA,&nbsp;</span></td></tr>
+<tr><td class="lineNumber">9</td><td><span style="color:#008000">//&nbsp;please&nbsp;see&nbsp;the&nbsp;LICENSE.RTF&nbsp;on&nbsp;your&nbsp;install&nbsp;media.</span></td></tr>
+<tr><td class="lineNumber">10</td><td><span style="color:#008000">//&nbsp;</summary></span></td></tr>
+<tr><td class="lineNumber">11</td><td><span style="color:#008000">//---------------------------------------------------------------------</span></td></tr>
+<tr><td class="lineNumber">12</td><td></td></tr>
+<tr><td class="lineNumber">13</td><td><span style="color:#0000ff">namespace</span>&nbsp;Microsoft.Internals.Tools.Ding.HighlightEngine</td></tr>
+<tr><td class="lineNumber">14</td><td>{</td></tr>
+<tr><td class="lineNumber">15</td><td>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">using</span>&nbsp;System;</td></tr>
+<tr><td class="lineNumber">16</td><td>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">using</span>&nbsp;System.Collections.Generic;</td></tr>
+<tr><td class="lineNumber">17</td><td>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">using</span>&nbsp;System.Linq;</td></tr>
+<tr><td class="lineNumber">18</td><td>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">using</span>&nbsp;System.Text.RegularExpressions;</td></tr>
+<tr><td class="lineNumber">19</td><td></td></tr>
+<tr><td class="lineNumber">20</td><td>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#008000">///&nbsp;<summary></span></td></tr>
+<tr><td class="lineNumber">21</td><td>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#008000">///&nbsp;A&nbsp;class&nbsp;to&nbsp;parse&nbsp;text&nbsp;lines.</span></td></tr>
+<tr><td class="lineNumber">22</td><td>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#008000">///&nbsp;</summary></span></td></tr>
+<tr><td class="lineNumber">23</td><td>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">public</span>&nbsp;<span style="color:#0000ff">class</span>&nbsp;HighlightParser</td></tr>
+<tr><td class="lineNumber">24</td><td>&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">25</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">private</span>&nbsp;HighlightProfile&nbsp;profile;</td></tr>
+<tr><td class="lineNumber">26</td><td></td></tr>
+<tr><td class="lineNumber">27</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#008000">///&nbsp;<summary></span></td></tr>
+<tr><td class="lineNumber">28</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#008000">///&nbsp;Constructor.</span></td></tr>
+<tr><td class="lineNumber">29</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#008000">///&nbsp;</summary></span></td></tr>
+<tr><td class="lineNumber">30</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#008000">///&nbsp;<param&nbsp;name="profile"></param></span></td></tr>
+<tr><td class="lineNumber">31</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">public</span>&nbsp;HighlightParser(HighlightProfile&nbsp;profile)</td></tr>
+<tr><td class="lineNumber">32</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">33</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">this</span>.profile&nbsp;=&nbsp;profile;</td></tr>
+<tr><td class="lineNumber">34</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">35</td><td></td></tr>
+<tr><td class="lineNumber">36</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#008000">///&nbsp;<summary></span></td></tr>
+<tr><td class="lineNumber">37</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#008000">///&nbsp;Parse&nbsp;the&nbsp;text&nbsp;lines;</span></td></tr>
+<tr><td class="lineNumber">38</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#008000">///&nbsp;</summary></span></td></tr>
+<tr><td class="lineNumber">39</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#008000">///&nbsp;<param&nbsp;name="lines"></param></span></td></tr>
+<tr><td class="lineNumber">40</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#008000">///&nbsp;<returns></returns></span></td></tr>
+<tr><td class="lineNumber">41</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">public</span>&nbsp;TextLineInfo[]&nbsp;Parse(<span style="color:#6495ed">string</span>[]&nbsp;lines,&nbsp;<span style="color:#6495ed">int</span>&nbsp;startLine)</td></tr>
+<tr><td class="lineNumber">42</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">43</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Expect.ArgumentNotNull(lines,&nbsp;<span style="color:#8b0000">"lines"</span>);</td></tr>
+<tr><td class="lineNumber">44</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Expect.ArgumentCheck(startLine&nbsp;>=&nbsp;<span style="color:#d2691e">0</span>,&nbsp;<span style="color:#8b0000">"startLine&nbsp;should&nbsp;>=&nbsp;0"</span>);</td></tr>
+<tr><td class="lineNumber">45</td><td></td></tr>
+<tr><td class="lineNumber">46</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MultiLinesBlock&nbsp;inBlock&nbsp;=&nbsp;<span style="color:#0000ff">null</span>;</td></tr>
+<tr><td class="lineNumber">47</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TextLineInfo[]&nbsp;lineInfos&nbsp;=&nbsp;<span style="color:#0000ff">new</span>&nbsp;TextLineInfo[lines.Length];</td></tr>
+<tr><td class="lineNumber">48</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">for</span>&nbsp;(<span style="color:#6495ed">int</span>&nbsp;i&nbsp;=&nbsp;<span style="color:#d2691e">0</span>;&nbsp;i&nbsp;<&nbsp;lines.Length;&nbsp;++i)</td></tr>
+<tr><td class="lineNumber">49</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">50</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lineInfos[i]&nbsp;=&nbsp;<span style="color:#0000ff">new</span>&nbsp;TextLineInfo(lines[i],&nbsp;startLine&nbsp;+&nbsp;i);</td></tr>
+<tr><td class="lineNumber">51</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">if</span>&nbsp;(<span style="color:#0000ff">this</span>.profile&nbsp;!=&nbsp;<span style="color:#0000ff">null</span>)</td></tr>
+<tr><td class="lineNumber">52</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">53</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inBlock&nbsp;=&nbsp;ParseLine(lineInfos[i],&nbsp;inBlock);</td></tr>
+<tr><td class="lineNumber">54</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">55</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">56</td><td></td></tr>
+<tr><td class="lineNumber">57</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">return</span>&nbsp;lineInfos;</td></tr>
+<tr><td class="lineNumber">58</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">59</td><td></td></tr>
+<tr><td class="lineNumber">60</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080">#region&nbsp;Private&nbsp;Methods</span></td></tr>
+<tr><td class="lineNumber">61</td><td></td></tr>
+<tr><td class="lineNumber">62</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#008000">//&nbsp;Parse&nbsp;single&nbsp;line.</span></td></tr>
+<tr><td class="lineNumber">63</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">private</span>&nbsp;MultiLinesBlock&nbsp;ParseLine(TextLineInfo&nbsp;info,&nbsp;MultiLinesBlock&nbsp;blockForLineStart)</td></tr>
+<tr><td class="lineNumber">64</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">65</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">var</span>&nbsp;seg&nbsp;=&nbsp;info.Segments;</td></tr>
+<tr><td class="lineNumber">66</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6495ed">string</span>&nbsp;line&nbsp;=&nbsp;info.TextLine;</td></tr>
+<tr><td class="lineNumber">67</td><td></td></tr>
+<tr><td class="lineNumber">68</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6495ed">int</span>&nbsp;index&nbsp;=&nbsp;<span style="color:#d2691e">0</span>;</td></tr>
+<tr><td class="lineNumber">69</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">while</span>&nbsp;(index&nbsp;<&nbsp;line.Length)</td></tr>
+<tr><td class="lineNumber">70</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">71</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6495ed">int</span>&nbsp;endIndex;</td></tr>
+<tr><td class="lineNumber">72</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#008000">//&nbsp;check&nbsp;multiline&nbsp;block</span></td></tr>
+<tr><td class="lineNumber">73</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6495ed">bool</span>&nbsp;lineStartInBlock&nbsp;=&nbsp;blockForLineStart&nbsp;!=&nbsp;<span style="color:#0000ff">null</span>;</td></tr>
+<tr><td class="lineNumber">74</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">if</span>&nbsp;(blockForLineStart&nbsp;!=&nbsp;<span style="color:#0000ff">null</span></td></tr>
+<tr><td class="lineNumber">75</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;||&nbsp;(blockForLineStart&nbsp;=&nbsp;MatchLineBlockStart(<span style="color:#0000ff">this</span>.profile.MultiLinesBlocks,&nbsp;line,&nbsp;index))&nbsp;!=&nbsp;<span style="color:#0000ff">null</span>)</td></tr>
+<tr><td class="lineNumber">76</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">77</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;endIndex&nbsp;=&nbsp;GetBlockEndIndex(line,&nbsp;index,&nbsp;blockForLineStart,&nbsp;lineStartInBlock);</td></tr>
+<tr><td class="lineNumber">78</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#008000">//&nbsp;try&nbsp;next&nbsp;line.</span></td></tr>
+<tr><td class="lineNumber">79</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">if</span>&nbsp;(endIndex&nbsp;<&nbsp;<span style="color:#d2691e">0</span>)</td></tr>
+<tr><td class="lineNumber">80</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">81</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddSegments(seg,&nbsp;index,&nbsp;line.Length&nbsp;-&nbsp;index,&nbsp;blockForLineStart,&nbsp;!lineStartInBlock,&nbsp;<span style="color:#0000ff">false</span>);</td></tr>
+<tr><td class="lineNumber">82</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">return</span>&nbsp;blockForLineStart;</td></tr>
+<tr><td class="lineNumber">83</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">84</td><td></td></tr>
+<tr><td class="lineNumber">85</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddSegments(seg,&nbsp;index,&nbsp;endIndex&nbsp;-&nbsp;index,&nbsp;blockForLineStart,&nbsp;!lineStartInBlock,&nbsp;<span style="color:#0000ff">true</span>);</td></tr>
+<tr><td class="lineNumber">86</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;blockForLineStart&nbsp;=&nbsp;<span style="color:#0000ff">null</span>;</td></tr>
+<tr><td class="lineNumber">87</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index&nbsp;=&nbsp;endIndex;</td></tr>
+<tr><td class="lineNumber">88</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">continue</span>;</td></tr>
+<tr><td class="lineNumber">89</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">90</td><td></td></tr>
+<tr><td class="lineNumber">91</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#008000">//&nbsp;check&nbsp;single&nbsp;line&nbsp;block</span></td></tr>
+<tr><td class="lineNumber">92</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SingleLineBlock&nbsp;singleLineBlock&nbsp;=&nbsp;MatchLineBlockStart(<span style="color:#0000ff">this</span>.profile.SingleLineBlocks,&nbsp;line,&nbsp;index);</td></tr>
+<tr><td class="lineNumber">93</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">if</span>&nbsp;(singleLineBlock&nbsp;!=&nbsp;<span style="color:#0000ff">null</span>)</td></tr>
+<tr><td class="lineNumber">94</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">95</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;endIndex&nbsp;=&nbsp;GetBlockEndIndex(line,&nbsp;index,&nbsp;singleLineBlock,&nbsp;<span style="color:#0000ff">false</span>);</td></tr>
+<tr><td class="lineNumber">96</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;endIndex&nbsp;=&nbsp;endIndex&nbsp;<&nbsp;<span style="color:#d2691e">0</span>&nbsp;?&nbsp;line.Length&nbsp;:&nbsp;endIndex;</td></tr>
+<tr><td class="lineNumber">97</td><td></td></tr>
+<tr><td class="lineNumber">98</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddSegments(seg,&nbsp;index,&nbsp;endIndex&nbsp;-&nbsp;index,&nbsp;singleLineBlock,&nbsp;<span style="color:#0000ff">true</span>,&nbsp;<span style="color:#0000ff">true</span>);</td></tr>
+<tr><td class="lineNumber">99</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index&nbsp;=&nbsp;endIndex;</td></tr>
+<tr><td class="lineNumber">100</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">continue</span>;</td></tr>
+<tr><td class="lineNumber">101</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">102</td><td></td></tr>
+<tr><td class="lineNumber">103</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#008000">//&nbsp;check&nbsp;tokens</span></td></tr>
+<tr><td class="lineNumber">104</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Token&nbsp;token;</td></tr>
+<tr><td class="lineNumber">105</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">var</span>&nbsp;match&nbsp;=&nbsp;MatchToken(line,&nbsp;index,&nbsp;<span style="color:#0000ff">out</span>&nbsp;token);</td></tr>
+<tr><td class="lineNumber">106</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">if</span>&nbsp;(match&nbsp;!=&nbsp;<span style="color:#0000ff">null</span>)</td></tr>
+<tr><td class="lineNumber">107</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">108</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddSegments(seg,&nbsp;token,&nbsp;match);</td></tr>
+<tr><td class="lineNumber">109</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index&nbsp;+=&nbsp;match.Length;</td></tr>
+<tr><td class="lineNumber">110</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">continue</span>;</td></tr>
+<tr><td class="lineNumber">111</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">112</td><td></td></tr>
+<tr><td class="lineNumber">113</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#008000">//&nbsp;check&nbsp;keywords</span></td></tr>
+<tr><td class="lineNumber">114</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;endIndex&nbsp;=&nbsp;GetNextTokenEndIndex(line,&nbsp;index);</td></tr>
+<tr><td class="lineNumber">115</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">if</span>&nbsp;(endIndex&nbsp;>&nbsp;index)</td></tr>
+<tr><td class="lineNumber">116</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">117</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6495ed">int</span>&nbsp;length&nbsp;=&nbsp;endIndex&nbsp;-&nbsp;index;</td></tr>
+<tr><td class="lineNumber">118</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">var</span>&nbsp;keywords&nbsp;=&nbsp;MatchKeyword(line,&nbsp;index,&nbsp;length);</td></tr>
+<tr><td class="lineNumber">119</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">if</span>&nbsp;(keywords&nbsp;!=&nbsp;<span style="color:#0000ff">null</span>)</td></tr>
+<tr><td class="lineNumber">120</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">121</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seg.Add(<span style="color:#0000ff">new</span>&nbsp;TextLineInfo.TextSegment(index,&nbsp;length,&nbsp;keywords.Foreground));</td></tr>
+<tr><td class="lineNumber">122</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">123</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index&nbsp;=&nbsp;endIndex&nbsp;+&nbsp;<span style="color:#d2691e">1</span>;</td></tr>
+<tr><td class="lineNumber">124</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">continue</span>;</td></tr>
+<tr><td class="lineNumber">125</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">126</td><td></td></tr>
+<tr><td class="lineNumber">127</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++index;</td></tr>
+<tr><td class="lineNumber">128</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">129</td><td></td></tr>
+<tr><td class="lineNumber">130</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">return</span>&nbsp;blockForLineStart;</td></tr>
+<tr><td class="lineNumber">131</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">132</td><td></td></tr>
+<tr><td class="lineNumber">133</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#008000">//&nbsp;Check&nbsp;if&nbsp;given&nbsp;line&nbsp;can&nbsp;match&nbsp;token&nbsp;using&nbsp;regular&nbsp;expression.</span></td></tr>
+<tr><td class="lineNumber">134</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">private</span>&nbsp;Match&nbsp;MatchToken(<span style="color:#6495ed">string</span>&nbsp;line,&nbsp;<span style="color:#6495ed">int</span>&nbsp;index,&nbsp;<span style="color:#0000ff">out</span>&nbsp;Token&nbsp;token)</td></tr>
+<tr><td class="lineNumber">135</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">136</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">foreach</span>&nbsp;(<span style="color:#0000ff">var</span>&nbsp;t&nbsp;<span style="color:#0000ff">in</span>&nbsp;<span style="color:#0000ff">this</span>.profile.Tokens)</td></tr>
+<tr><td class="lineNumber">137</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">138</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Match&nbsp;match&nbsp;=&nbsp;t.Pattern.Match(line,&nbsp;index);</td></tr>
+<tr><td class="lineNumber">139</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">if</span>&nbsp;(match.Success&nbsp;&&&nbsp;match.Index&nbsp;==&nbsp;index)</td></tr>
+<tr><td class="lineNumber">140</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">141</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;token&nbsp;=&nbsp;t;</td></tr>
+<tr><td class="lineNumber">142</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">return</span>&nbsp;match;</td></tr>
+<tr><td class="lineNumber">143</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">144</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">145</td><td></td></tr>
+<tr><td class="lineNumber">146</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;token&nbsp;=&nbsp;<span style="color:#0000ff">null</span>;</td></tr>
+<tr><td class="lineNumber">147</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">return</span>&nbsp;<span style="color:#0000ff">null</span>;</td></tr>
+<tr><td class="lineNumber">148</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">149</td><td></td></tr>
+<tr><td class="lineNumber">150</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#008000">//&nbsp;Add&nbsp;segments&nbsp;to&nbsp;TextLineInfo&nbsp;if&nbsp;there&nbsp;is&nbsp;token&nbsp;matches.</span></td></tr>
+<tr><td class="lineNumber">151</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">private</span>&nbsp;<span style="color:#0000ff">void</span>&nbsp;AddSegments(IList<TextLineInfo.TextSegment>&nbsp;seg,&nbsp;Token&nbsp;token,&nbsp;Match&nbsp;match)</td></tr>
+<tr><td class="lineNumber">152</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">153</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">if</span>&nbsp;(token.Groups&nbsp;==&nbsp;<span style="color:#0000ff">null</span>&nbsp;||&nbsp;token.Groups.Length&nbsp;==&nbsp;<span style="color:#d2691e">0</span>)</td></tr>
+<tr><td class="lineNumber">154</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">155</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seg.Add(<span style="color:#0000ff">new</span>&nbsp;TextLineInfo.TextSegment(match.Index,&nbsp;match.Length,&nbsp;token.Foreground));</td></tr>
+<tr><td class="lineNumber">156</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">return</span>;</td></tr>
+<tr><td class="lineNumber">157</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">158</td><td></td></tr>
+<tr><td class="lineNumber">159</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6495ed">int</span>&nbsp;index&nbsp;=&nbsp;match.Index;</td></tr>
+<tr><td class="lineNumber">160</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">var</span>&nbsp;groups&nbsp;=&nbsp;token.Groups</td></tr>
+<tr><td class="lineNumber">161</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.Select(g&nbsp;=>&nbsp;<span style="color:#0000ff">new</span>&nbsp;{&nbsp;Foreground&nbsp;=&nbsp;g.Foreground,&nbsp;Captrue&nbsp;=&nbsp;match.Groups[g.Name]&nbsp;})</td></tr>
+<tr><td class="lineNumber">162</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.OrderBy(g&nbsp;=>&nbsp;g.Captrue.Index);</td></tr>
+<tr><td class="lineNumber">163</td><td></td></tr>
+<tr><td class="lineNumber">164</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">foreach</span>&nbsp;(<span style="color:#0000ff">var</span>&nbsp;g&nbsp;<span style="color:#0000ff">in</span>&nbsp;groups)</td></tr>
+<tr><td class="lineNumber">165</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">166</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">if</span>&nbsp;(index&nbsp;!=&nbsp;g.Captrue.Index)</td></tr>
+<tr><td class="lineNumber">167</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">168</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seg.Add(<span style="color:#0000ff">new</span>&nbsp;TextLineInfo.TextSegment(index,&nbsp;g.Captrue.Index&nbsp;-&nbsp;index,&nbsp;token.Foreground));</td></tr>
+<tr><td class="lineNumber">169</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">170</td><td></td></tr>
+<tr><td class="lineNumber">171</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seg.Add(<span style="color:#0000ff">new</span>&nbsp;TextLineInfo.TextSegment(g.Captrue.Index,&nbsp;g.Captrue.Length,&nbsp;g.Foreground));</td></tr>
+<tr><td class="lineNumber">172</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index&nbsp;=&nbsp;g.Captrue.Index&nbsp;+&nbsp;g.Captrue.Length;</td></tr>
+<tr><td class="lineNumber">173</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">174</td><td></td></tr>
+<tr><td class="lineNumber">175</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">if</span>&nbsp;(index&nbsp;!=&nbsp;match.Index&nbsp;+&nbsp;match.Length)</td></tr>
+<tr><td class="lineNumber">176</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">177</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seg.Add(<span style="color:#0000ff">new</span>&nbsp;TextLineInfo.TextSegment(index,&nbsp;match.Index&nbsp;+&nbsp;match.Length&nbsp;-&nbsp;index,&nbsp;token.Foreground));</td></tr>
+<tr><td class="lineNumber">178</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">179</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">180</td><td></td></tr>
+<tr><td class="lineNumber">181</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#008000">//&nbsp;Add&nbsp;segments&nbsp;to&nbsp;TextLineInfo&nbsp;if&nbsp;there&nbsp;is&nbsp;code&nbsp;block&nbsp;found.</span></td></tr>
+<tr><td class="lineNumber">182</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">private</span>&nbsp;<span style="color:#0000ff">void</span>&nbsp;AddSegments(IList<TextLineInfo.TextSegment>&nbsp;seg,&nbsp;<span style="color:#6495ed">int</span>&nbsp;index,&nbsp;<span style="color:#6495ed">int</span>&nbsp;length,&nbsp;CodeBlock&nbsp;block,&nbsp;<span style="color:#6495ed">bool</span>&nbsp;hasStart,&nbsp;<span style="color:#6495ed">bool</span>&nbsp;hasEnd)</td></tr>
+<tr><td class="lineNumber">183</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">184</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">if</span>&nbsp;(block.WrapperForeground&nbsp;==&nbsp;<span style="color:#0000ff">null</span>)</td></tr>
+<tr><td class="lineNumber">185</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">186</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seg.Add(<span style="color:#0000ff">new</span>&nbsp;TextLineInfo.TextSegment(index,&nbsp;length,&nbsp;block.Foreground));</td></tr>
+<tr><td class="lineNumber">187</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">return</span>;</td></tr>
+<tr><td class="lineNumber">188</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">189</td><td></td></tr>
+<tr><td class="lineNumber">190</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">if</span>&nbsp;(hasStart)</td></tr>
+<tr><td class="lineNumber">191</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">192</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seg.Add(<span style="color:#0000ff">new</span>&nbsp;TextLineInfo.TextSegment(index,&nbsp;block.Start.Length,&nbsp;block.WrapperForeground));</td></tr>
+<tr><td class="lineNumber">193</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index&nbsp;+=&nbsp;block.Start.Length;</td></tr>
+<tr><td class="lineNumber">194</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;length&nbsp;-=&nbsp;block.Start.Length;</td></tr>
+<tr><td class="lineNumber">195</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">196</td><td></td></tr>
+<tr><td class="lineNumber">197</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;length&nbsp;=&nbsp;hasEnd&nbsp;?&nbsp;length&nbsp;-&nbsp;block.End.Length&nbsp;:&nbsp;length;</td></tr>
+<tr><td class="lineNumber">198</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seg.Add(<span style="color:#0000ff">new</span>&nbsp;TextLineInfo.TextSegment(index,&nbsp;length,&nbsp;block.Foreground));</td></tr>
+<tr><td class="lineNumber">199</td><td></td></tr>
+<tr><td class="lineNumber">200</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">if</span>&nbsp;(hasEnd)</td></tr>
+<tr><td class="lineNumber">201</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">202</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seg.Add(<span style="color:#0000ff">new</span>&nbsp;TextLineInfo.TextSegment(index&nbsp;+&nbsp;length,&nbsp;block.End.Length,&nbsp;block.WrapperForeground));</td></tr>
+<tr><td class="lineNumber">203</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">204</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">205</td><td></td></tr>
+<tr><td class="lineNumber">206</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#008000">//&nbsp;Check&nbsp;if&nbsp;line&nbsp;starting&nbsp;from&nbsp;index&nbsp;matches&nbsp;a&nbsp;code&nbsp;block.</span></td></tr>
+<tr><td class="lineNumber">207</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">private</span>&nbsp;T&nbsp;MatchLineBlockStart<T>(IEnumerable<T>&nbsp;blocks,&nbsp;<span style="color:#6495ed">string</span>&nbsp;line,&nbsp;<span style="color:#6495ed">int</span>&nbsp;index)&nbsp;<span style="color:#0000ff">where</span>&nbsp;T&nbsp;:&nbsp;CodeBlock</td></tr>
+<tr><td class="lineNumber">208</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">209</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">return</span>&nbsp;blocks.FirstOrDefault(block&nbsp;=>&nbsp;StartsWith(line,&nbsp;index,&nbsp;block.Start));</td></tr>
+<tr><td class="lineNumber">210</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">211</td><td></td></tr>
+<tr><td class="lineNumber">212</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#008000">//&nbsp;Find&nbsp;the&nbsp;block&nbsp;end&nbsp;index.</span></td></tr>
+<tr><td class="lineNumber">213</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">private</span>&nbsp;<span style="color:#6495ed">int</span>&nbsp;GetBlockEndIndex(<span style="color:#6495ed">string</span>&nbsp;line,&nbsp;<span style="color:#6495ed">int</span>&nbsp;index,&nbsp;CodeBlock&nbsp;block,&nbsp;<span style="color:#6495ed">bool</span>&nbsp;ignoreBlockStart)</td></tr>
+<tr><td class="lineNumber">214</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">215</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">if</span>&nbsp;(!ignoreBlockStart)</td></tr>
+<tr><td class="lineNumber">216</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">217</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index&nbsp;+=&nbsp;block.Start.Length;</td></tr>
+<tr><td class="lineNumber">218</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">219</td><td></td></tr>
+<tr><td class="lineNumber">220</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">if</span>&nbsp;(block&nbsp;<span style="color:#0000ff">is</span>&nbsp;SingleLineBlock&nbsp;&&&nbsp;<span style="color:#6495ed">string</span>.IsNullOrEmpty(block.End))</td></tr>
+<tr><td class="lineNumber">221</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">222</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">return</span>&nbsp;line.Length;</td></tr>
+<tr><td class="lineNumber">223</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">224</td><td></td></tr>
+<tr><td class="lineNumber">225</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">for</span>&nbsp;(<span style="color:#6495ed">int</span>&nbsp;i&nbsp;=&nbsp;index;&nbsp;i&nbsp;<&nbsp;line.Length;&nbsp;++i)</td></tr>
+<tr><td class="lineNumber">226</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">227</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">var</span>&nbsp;escape&nbsp;=&nbsp;block.Escape;</td></tr>
+<tr><td class="lineNumber">228</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">if</span>&nbsp;(escape&nbsp;!=&nbsp;<span style="color:#0000ff">null</span>)</td></tr>
+<tr><td class="lineNumber">229</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">230</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6495ed">string</span>&nbsp;escapeString&nbsp;=&nbsp;block.Escape.EscapeString;</td></tr>
+<tr><td class="lineNumber">231</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">if</span>&nbsp;(!<span style="color:#6495ed">string</span>.IsNullOrEmpty(escapeString)&nbsp;&&&nbsp;StartsWith(line,&nbsp;i,&nbsp;escapeString))</td></tr>
+<tr><td class="lineNumber">232</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">233</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i&nbsp;+=&nbsp;escapeString.Length;&nbsp;<span style="color:#008000">//&nbsp;skip&nbsp;next&nbsp;one;</span></td></tr>
+<tr><td class="lineNumber">234</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">continue</span>;</td></tr>
+<tr><td class="lineNumber">235</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">236</td><td></td></tr>
+<tr><td class="lineNumber">237</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6495ed">string</span>[]&nbsp;escapeItems&nbsp;=&nbsp;block.Escape.Items&nbsp;??&nbsp;(<span style="color:#0000ff">new</span>&nbsp;<span style="color:#6495ed">string</span>[<span style="color:#d2691e">0</span>]);</td></tr>
+<tr><td class="lineNumber">238</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6495ed">string</span>&nbsp;found&nbsp;=&nbsp;escapeItems.FirstOrDefault(item&nbsp;=>&nbsp;StartsWith(line,&nbsp;i,&nbsp;item));</td></tr>
+<tr><td class="lineNumber">239</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">if</span>&nbsp;(found&nbsp;!=&nbsp;<span style="color:#0000ff">null</span>)</td></tr>
+<tr><td class="lineNumber">240</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">241</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i&nbsp;+=&nbsp;found.Length&nbsp;-&nbsp;<span style="color:#d2691e">1</span>;</td></tr>
+<tr><td class="lineNumber">242</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">continue</span>;</td></tr>
+<tr><td class="lineNumber">243</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">244</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">245</td><td></td></tr>
+<tr><td class="lineNumber">246</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">if</span>&nbsp;(StartsWith(line,&nbsp;i,&nbsp;block.End))</td></tr>
+<tr><td class="lineNumber">247</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">248</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">return</span>&nbsp;i&nbsp;+&nbsp;block.End.Length;</td></tr>
+<tr><td class="lineNumber">249</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">250</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">251</td><td></td></tr>
+<tr><td class="lineNumber">252</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#008000">//&nbsp;not&nbsp;found.</span></td></tr>
+<tr><td class="lineNumber">253</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">return</span>&nbsp;-<span style="color:#d2691e">1</span>;</td></tr>
+<tr><td class="lineNumber">254</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">255</td><td></td></tr>
+<tr><td class="lineNumber">256</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#008000">//&nbsp;Get&nbsp;next&nbsp;index&nbsp;of&nbsp;end&nbsp;of&nbsp;the&nbsp;token.</span></td></tr>
+<tr><td class="lineNumber">257</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">private</span>&nbsp;<span style="color:#6495ed">int</span>&nbsp;GetNextTokenEndIndex(<span style="color:#6495ed">string</span>&nbsp;line,&nbsp;<span style="color:#6495ed">int</span>&nbsp;startIndex)</td></tr>
+<tr><td class="lineNumber">258</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">259</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">for</span>&nbsp;(<span style="color:#6495ed">int</span>&nbsp;i&nbsp;=&nbsp;startIndex;&nbsp;i&nbsp;<&nbsp;line.Length;&nbsp;++i)</td></tr>
+<tr><td class="lineNumber">260</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">261</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#008000">//&nbsp;Matches&nbsp;delimeter.</span></td></tr>
+<tr><td class="lineNumber">262</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">if</span>&nbsp;(Array.BinarySearch(<span style="color:#0000ff">this</span>.profile.Delimiter,&nbsp;line[i])&nbsp;>=&nbsp;<span style="color:#d2691e">0</span>)</td></tr>
+<tr><td class="lineNumber">263</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">264</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">return</span>&nbsp;i;</td></tr>
+<tr><td class="lineNumber">265</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">266</td><td></td></tr>
+<tr><td class="lineNumber">267</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">if</span>&nbsp;(Array.BinarySearch(<span style="color:#0000ff">this</span>.profile.BackDelimiter,&nbsp;line[i])&nbsp;>=&nbsp;<span style="color:#d2691e">0</span>)</td></tr>
+<tr><td class="lineNumber">268</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">269</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">return</span>&nbsp;i&nbsp;-&nbsp;<span style="color:#d2691e">1</span>;</td></tr>
+<tr><td class="lineNumber">270</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">271</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">272</td><td></td></tr>
+<tr><td class="lineNumber">273</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">return</span>&nbsp;line.Length;</td></tr>
+<tr><td class="lineNumber">274</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">275</td><td></td></tr>
+<tr><td class="lineNumber">276</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#008000">//&nbsp;Check&nbsp;if&nbsp;the&nbsp;line&nbsp;starting&nbsp;from&nbsp;index&nbsp;matches&nbsp;a&nbsp;keyword.</span></td></tr>
+<tr><td class="lineNumber">277</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">private</span>&nbsp;KeywordCollection&nbsp;MatchKeyword(<span style="color:#6495ed">string</span>&nbsp;line,&nbsp;<span style="color:#6495ed">int</span>&nbsp;index,&nbsp;<span style="color:#6495ed">int</span>&nbsp;length)</td></tr>
+<tr><td class="lineNumber">278</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">279</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Expect.ArgumentNotNull(line,&nbsp;<span style="color:#8b0000">"line"</span>);</td></tr>
+<tr><td class="lineNumber">280</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Expect.ArgumentCheck(line.Length&nbsp;>=&nbsp;index&nbsp;+&nbsp;length,&nbsp;<span style="color:#8b0000">"Check&nbsp;line&nbsp;length"</span>);</td></tr>
+<tr><td class="lineNumber">281</td><td></td></tr>
+<tr><td class="lineNumber">282</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">foreach</span>&nbsp;(<span style="color:#0000ff">var</span>&nbsp;keywords&nbsp;<span style="color:#0000ff">in</span>&nbsp;<span style="color:#0000ff">this</span>.profile.KeywordCollecions)</td></tr>
+<tr><td class="lineNumber">283</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">284</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6495ed">int</span>&nbsp;result&nbsp;=&nbsp;keywords.Keywords.BinarySearch(k&nbsp;=>&nbsp;CompareKeyword(k,&nbsp;line,&nbsp;index,&nbsp;length));</td></tr>
+<tr><td class="lineNumber">285</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">if</span>&nbsp;(result&nbsp;>=&nbsp;<span style="color:#d2691e">0</span>)</td></tr>
+<tr><td class="lineNumber">286</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">287</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">return</span>&nbsp;keywords;</td></tr>
+<tr><td class="lineNumber">288</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">289</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">290</td><td></td></tr>
+<tr><td class="lineNumber">291</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">return</span>&nbsp;<span style="color:#0000ff">null</span>;</td></tr>
+<tr><td class="lineNumber">292</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">293</td><td></td></tr>
+<tr><td class="lineNumber">294</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#008000">//&nbsp;Check&nbsp;if&nbsp;the&nbsp;line&nbsp;starting&nbsp;from&nbsp;index&nbsp;starts&nbsp;another&nbsp;string.</span></td></tr>
+<tr><td class="lineNumber">295</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">private</span>&nbsp;<span style="color:#6495ed">bool</span>&nbsp;StartsWith(<span style="color:#6495ed">string</span>&nbsp;line,&nbsp;<span style="color:#6495ed">int</span>&nbsp;index,&nbsp;<span style="color:#6495ed">string</span>&nbsp;another)</td></tr>
+<tr><td class="lineNumber">296</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">297</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">if</span>&nbsp;(line.Length&nbsp;<&nbsp;another.Length&nbsp;+&nbsp;index)</td></tr>
+<tr><td class="lineNumber">298</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">299</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">return</span>&nbsp;<span style="color:#0000ff">false</span>;</td></tr>
+<tr><td class="lineNumber">300</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">301</td><td></td></tr>
+<tr><td class="lineNumber">302</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">for</span>&nbsp;(<span style="color:#6495ed">int</span>&nbsp;i&nbsp;=&nbsp;<span style="color:#d2691e">0</span>;&nbsp;i&nbsp;<&nbsp;another.Length;&nbsp;++i)</td></tr>
+<tr><td class="lineNumber">303</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">304</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">if</span>&nbsp;(GetChar(line[index&nbsp;+&nbsp;i])&nbsp;!=&nbsp;GetChar(another[i]))</td></tr>
+<tr><td class="lineNumber">305</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">306</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">return</span>&nbsp;<span style="color:#0000ff">false</span>;</td></tr>
+<tr><td class="lineNumber">307</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">308</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">309</td><td></td></tr>
+<tr><td class="lineNumber">310</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">return</span>&nbsp;<span style="color:#0000ff">true</span>;</td></tr>
+<tr><td class="lineNumber">311</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">312</td><td></td></tr>
+<tr><td class="lineNumber">313</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#008000">//&nbsp;Compare&nbsp;a&nbsp;keyword.</span></td></tr>
+<tr><td class="lineNumber">314</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">private</span>&nbsp;<span style="color:#6495ed">int</span>&nbsp;CompareKeyword(<span style="color:#6495ed">string</span>&nbsp;keyword,&nbsp;<span style="color:#6495ed">string</span>&nbsp;line,&nbsp;<span style="color:#6495ed">int</span>&nbsp;index,&nbsp;<span style="color:#6495ed">int</span>&nbsp;length)</td></tr>
+<tr><td class="lineNumber">315</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">316</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">for</span>&nbsp;(<span style="color:#6495ed">int</span>&nbsp;i&nbsp;=&nbsp;<span style="color:#d2691e">0</span>;&nbsp;i&nbsp;<&nbsp;Math.Min(keyword.Length,&nbsp;length);&nbsp;++i)</td></tr>
+<tr><td class="lineNumber">317</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">318</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#6495ed">int</span>&nbsp;result&nbsp;=&nbsp;GetChar(keyword[i])&nbsp;-&nbsp;GetChar(line[index&nbsp;+&nbsp;i]);</td></tr>
+<tr><td class="lineNumber">319</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">if</span>&nbsp;(result&nbsp;!=&nbsp;<span style="color:#d2691e">0</span>)</td></tr>
+<tr><td class="lineNumber">320</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">321</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">return</span>&nbsp;result;</td></tr>
+<tr><td class="lineNumber">322</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">323</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">324</td><td></td></tr>
+<tr><td class="lineNumber">325</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">return</span>&nbsp;keyword.Length&nbsp;-&nbsp;length;</td></tr>
+<tr><td class="lineNumber">326</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">327</td><td></td></tr>
+<tr><td class="lineNumber">328</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#008000">//&nbsp;Convert&nbsp;a&nbsp;char.</span></td></tr>
+<tr><td class="lineNumber">329</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">private</span>&nbsp;<span style="color:#6495ed">char</span>&nbsp;GetChar(<span style="color:#6495ed">char</span>&nbsp;c)</td></tr>
+<tr><td class="lineNumber">330</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</td></tr>
+<tr><td class="lineNumber">331</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0000ff">return</span>&nbsp;<span style="color:#0000ff">this</span>.profile.IgnoreCase&nbsp;?&nbsp;<span style="color:#6495ed">char</span>.ToUpper(c)&nbsp;:&nbsp;c;</td></tr>
+<tr><td class="lineNumber">332</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">333</td><td></td></tr>
+<tr><td class="lineNumber">334</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#808080">#endregion</span></td></tr>
+<tr><td class="lineNumber">335</td><td>&nbsp;&nbsp;&nbsp;&nbsp;}</td></tr>
+<tr><td class="lineNumber">336</td><td>}</td></tr>
+
+         </table>
+
+    </body>
+</html>

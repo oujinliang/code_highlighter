@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HighlightEngine", "Hightlightengine\HighlightEngine.csproj", "{EFDB579E-05DC-43A6-80AB-708850435D7B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HighlightDemo", "HighlightDemo\HighlightDemo.csproj", "{8AF39B90-2FD8-4D5C-A815-D0E3CA21C488}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenerateHtml", "GenerateHtml\GenerateHtml.csproj", "{49816D68-075B-479B-8292-CBBE68BF9712}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EFDB579E-05DC-43A6-80AB-708850435D7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFDB579E-05DC-43A6-80AB-708850435D7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFDB579E-05DC-43A6-80AB-708850435D7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFDB579E-05DC-43A6-80AB-708850435D7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8AF39B90-2FD8-4D5C-A815-D0E3CA21C488}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AF39B90-2FD8-4D5C-A815-D0E3CA21C488}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AF39B90-2FD8-4D5C-A815-D0E3CA21C488}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AF39B90-2FD8-4D5C-A815-D0E3CA21C488}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49816D68-075B-479B-8292-CBBE68BF9712}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49816D68-075B-479B-8292-CBBE68BF9712}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49816D68-075B-479B-8292-CBBE68BF9712}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49816D68-075B-479B-8292-CBBE68BF9712}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

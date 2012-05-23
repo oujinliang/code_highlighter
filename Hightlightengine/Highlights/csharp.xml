@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<profile>
+    <delimiter>()[]{}\|/+-=`~:!@#$%^ ,.;"'?&gt;&lt;&#009;</delimiter>
+    <ignoreCase>false</ignoreCase>
+    
+    <keywords name="keyword" foreground="Blue">
+        <keyword>abstract</keyword>
+        <keyword>as</keyword>
+        <keyword>base</keyword>
+        <keyword>break</keyword>
+        <keyword>by</keyword>
+        <keyword>case</keyword>
+        <keyword>catch</keyword>
+        <keyword>checked</keyword>
+        <keyword>class</keyword>
+        <keyword>const</keyword>
+        <keyword>continue</keyword>
+        <keyword>default</keyword>
+        <keyword>delegate</keyword>
+        <keyword>do</keyword>
+        <keyword>descending3</keyword>
+        <keyword>explicit</keyword>
+        <keyword>event</keyword>
+        <keyword>extern</keyword>
+        <keyword>else</keyword>
+        <keyword>enum</keyword>
+        <keyword>false</keyword>
+        <keyword>finally</keyword>
+        <keyword>fixed</keyword>
+        <keyword>for</keyword>
+        <keyword>foreach</keyword>
+        <keyword>from</keyword>
+        <keyword>goto</keyword>
+        <keyword>group</keyword>
+        <keyword>if</keyword>
+        <keyword>implicit</keyword>
+        <keyword>in</keyword>
+        <keyword>interface</keyword>
+        <keyword>internal</keyword>
+        <keyword>into</keyword>
+        <keyword>is</keyword>
+        <keyword>lock</keyword>
+        <keyword>new</keyword>
+        <keyword>null</keyword>
+        <keyword>namespace</keyword>
+        <keyword>object</keyword>
+        <keyword>operator</keyword>
+        <keyword>out</keyword>
+        <keyword>override</keyword>
+        <keyword>orderby</keyword>
+        <keyword>params</keyword>
+        <keyword>private</keyword>
+        <keyword>protected</keyword>
+        <keyword>public</keyword>
+        <keyword>readonly</keyword>
+        <keyword>ref</keyword>
+        <keyword>return</keyword>
+        <keyword>switch</keyword>
+        <keyword>struct</keyword>
+        <keyword>sealed</keyword>
+        <keyword>short</keyword>
+        <keyword>sizeof</keyword>
+        <keyword>stackalloc</keyword>
+        <keyword>static</keyword>
+        <keyword>select</keyword>
+        <keyword>this</keyword>
+        <keyword>throw</keyword>
+        <keyword>true</keyword>
+        <keyword>try</keyword>
+        <keyword>typeof</keyword>
+        <keyword>unchecked</keyword>
+        <keyword>unsafe</keyword>
+        <keyword>using</keyword>
+        <keyword>var</keyword>
+        <keyword>virtual</keyword>
+        <keyword>volatile</keyword>
+        <keyword>void</keyword>
+        <keyword>while</keyword>
+        <keyword>where</keyword>
+        <keyword>yield</keyword>
+    </keywords>
+
+    <keywords name="basictypes" foreground="CornflowerBlue">
+        <keyword>string</keyword>
+        <keyword>sbyte</keyword>
+        <keyword>uint</keyword>
+        <keyword>ulong</keyword>
+        <keyword>ushort</keyword>
+        <keyword>bool</keyword>
+        <keyword>byte</keyword>
+        <keyword>float</keyword>
+        <keyword>long</keyword>
+        <keyword>int</keyword>
+        <keyword>char</keyword>
+        <keyword>decimal</keyword>
+        <keyword>double</keyword>
+    </keywords>
+
+    <singleLineBlock name="string" foreground="DarkRed">
+        <escape start="\"></escape>
+        <start>"</start>
+        <end>"</end>
+    </singleLineBlock>
+
+    <singleLineBlock name="singleLineComment" foreground="Green">
+        <escape></escape>
+        <start>//</start>
+        <end></end>
+    </singleLineBlock>
+
+    <multiLinesBlock name="string" foreground="DarkRed">
+        <escape>
+            <item>""</item>
+        </escape>
+        <start>@"</start>
+        <end>"</end>
+    </multiLinesBlock>
+    
+    <multiLinesBlock name="multiLineComment" foreground="Gray">
+        <escape></escape>
+        <start>/*</start>
+        <end>*/</end>
+    </multiLinesBlock>
+
+    <token pattern="#.*" name="precompile" foreground="Gray" />
+    <token pattern="(0[x|X])?\d+" name="digit" foreground="Chocolate" />
+
+</profile>

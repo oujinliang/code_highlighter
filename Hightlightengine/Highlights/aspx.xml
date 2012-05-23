@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<profile>
+    <delimiter>= </delimiter>
+    <backDelimiter>&lt;</backDelimiter>
+    <ignoreCase>true</ignoreCase>
+
+    <multiLinesBlock name="cdata" foreground="Gray" wrapperForeground="Blue">
+        <escape></escape>
+        <start>&lt;![CDATA[</start>
+        <end>]]&gt;</end>
+    </multiLinesBlock>
+
+    <multiLinesBlock name="string" foreground="Chocolate" wrapperForeground="Blue">
+        <escape></escape>
+        <start>"</start>
+        <end>"</end>
+    </multiLinesBlock>
+    
+    <multiLinesBlock name="comment" foreground="Gray" wrapperForeground="DarkGray">
+        <escape></escape>
+        <start>&lt;!--</start>
+        <end>--&gt;</end>
+    </multiLinesBlock>
+
+    <multiLinesBlock name="aspxComment" foreground="Gray" wrapperForeground="DarkGray">
+        <escape></escape>
+        <start>&lt;%--</start>
+        <end>--%&gt;</end>
+    </multiLinesBlock>
+
+    <multiLinesBlock name="script" foreground="DarkGreen" wrapperForeground="DarkGreen">
+        <escape></escape>
+        <start>&lt;script type="text/javascript"&gt;</start>
+        <end>&lt;/script&gt;</end>
+    </multiLinesBlock>
+
+    <!-- <%@?\s*(?<name>\w+(:\w+)?)>? -->
+    <token pattern="&lt;%@\s*(?&lt;aspxName&gt;\w+(:\w+)?)&gt;?" name="aspxElementStart" foreground="Blue">
+        <group name="aspxName" foreground="DarkRed" />
+    </token>
+  
+    <!-- </?(?<name>\w+(:\w+)?)>? -->
+    <token pattern="&lt;/?(?&lt;name&gt;\w+(:\w+)?)&gt;?" name="elementStart" foreground="Blue">
+        <group name="name" foreground="DarkRed" />
+    </token>
+
+    <!-- /?> -->
+    <token pattern="/?&gt;" name="elementEnd" foreground="Blue" />
+    
+    <!-- %> -->
+    <token pattern="%&gt;" name="elementEnd2" foreground="Blue" />
+
+    <!-- (?<name>\w*?)\s*= -->
+    <token pattern="(?&lt;name&gt;\w*?)\s*=" name="propertyName" foreground="Blue">
+        <group name="name" foreground="DarkBlue" />
+    </token>
+    
+</profile>

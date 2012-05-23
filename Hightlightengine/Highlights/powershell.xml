@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<profile>
+    <delimiter>()[]{}\|/+-=`~!@#%^ ,.;"'?&gt;&lt;</delimiter>
+    <ignoreCase>true</ignoreCase>
+    
+    <keywords name="keyword" foreground="Blue">
+        <keyword>elseif</keyword>
+        <keyword>begin</keyword>
+        <keyword>function</keyword>
+        <keyword>for</keyword>
+        <keyword>foreach</keyword>
+        <keyword>return</keyword>
+        <keyword>else</keyword>
+        <keyword>trap</keyword>
+        <keyword>while</keyword>
+        <keyword>do</keyword>
+        <keyword>data</keyword>
+        <keyword>dynamicparam</keyword>
+        <keyword>until</keyword>
+        <keyword>end</keyword>
+        <keyword>break</keyword>
+        <keyword>if</keyword>
+        <keyword>throw</keyword>
+        <keyword>param</keyword>
+        <keyword>continue</keyword>
+        <keyword>finally</keyword>
+        <keyword>in</keyword>
+        <keyword>switch</keyword>
+        <keyword>exit</keyword>
+        <keyword>filter</keyword>
+        <keyword>from</keyword>
+        <keyword>try</keyword>
+        <keyword>process</keyword>
+        <keyword>catch</keyword>
+    </keywords>
+
+    <keywords name="basictype" foreground="Blue">
+        <keyword>array</keyword>
+        <keyword>int</keyword>
+        <keyword>string</keyword>
+    </keywords>
+
+    <multiLinesBlock name="string" foreground="DarkRed">
+        <escape start="`"></escape>
+        <start>"</start>
+        <end>"</end>
+    </multiLinesBlock>
+
+    <singleLineBlock name="singleLineComment" foreground="Green">
+        <escape></escape>
+        <start>#</start>
+        <end></end>
+    </singleLineBlock>
+
+    <multiLinesBlock name="string" foreground="DarkRed">
+        <start>@"</start>
+        <end>"@</end>
+    </multiLinesBlock>
+    
+    <multiLinesBlock name="multiLineComment" foreground="Gray">
+        <escape></escape>
+        <start>&lt;#</start>
+        <end>#&gt;</end>
+    </multiLinesBlock>
+
+    <token pattern="\$\w+" name="variable" foreground="Chocolate" />
+    <token pattern="-\w+ " name="param" foreground="DarkBlue" />
+
+</profile>

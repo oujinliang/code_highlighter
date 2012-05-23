@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<profile>
+    <delimiter>= </delimiter>
+    <backDelimiter>&lt;</backDelimiter>
+    
+    <multiLinesBlock name="cdata" foreground="Gray" wrapperForeground="Blue">
+        <escape></escape>
+        <start>&lt;![CDATA[</start>
+        <end>]]&gt;</end>
+    </multiLinesBlock>
+
+    <multiLinesBlock name="string" foreground="Red" wrapperForeground="Blue">
+        <escape></escape>
+        <start>"</start>
+        <end>"</end>
+    </multiLinesBlock>
+    
+    <multiLinesBlock name="comment" foreground="Green" wrapperForeground="Blue">
+        <escape></escape>
+        <start>&lt;!--</start>
+        <end>--&gt;</end>
+    </multiLinesBlock>
+
+    <!-- </?(?<name>\w+(:\w+)?)>? -->
+    <token pattern="&lt;/?(?&lt;name&gt;\w+(:\w+)?)&gt;?" name="elementStart" foreground="Blue">
+        <group name="name" foreground="DarkRed" />
+    </token>
+
+    <!-- /?> -->
+    <token pattern="/?&gt;" name="elementEnd" foreground="Blue" />
+
+    <!-- (?<name>\w*?)\s*= -->
+    <token pattern="(?&lt;name&gt;\w*?)\s*=" name="propertyName" foreground="Blue">
+        <group name="name" foreground="DarkBlue" />
+    </token>
+    
+</profile>

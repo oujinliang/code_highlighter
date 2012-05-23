@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<profile>
+    <delimiter>()[]{}\|/+-=:`~!@#$%^ ,.;"'?&gt;&lt;&#009;</delimiter>
+    <ignoreCase>true</ignoreCase>
+    
+    <keywords name="keyword" foreground="Blue">
+        <keyword>break</keyword>
+        <keyword>const</keyword>
+        <keyword>continue</keyword>
+        <keyword>delete</keyword>
+        <keyword>do</keyword>
+        <keyword>while</keyword>
+        <keyword>export</keyword>
+        <keyword>for</keyword>
+        <keyword>for</keyword>
+        <keyword>in</keyword>
+        <keyword>function</keyword>
+        <keyword>if</keyword>
+        <keyword>else</keyword>
+        <keyword>import</keyword>
+        <keyword>in</keyword>
+        <keyword>instanceOf</keyword>
+        <keyword>label</keyword>
+        <keyword>let</keyword>
+        <keyword>new</keyword>
+        <keyword>return</keyword>
+        <keyword>switch</keyword>
+        <keyword>this</keyword>
+        <keyword>throw</keyword>
+        <keyword>try</keyword>
+        <keyword>catch</keyword>
+        <keyword>typeof</keyword>
+        <keyword>var</keyword>
+        <keyword>void</keyword>
+        <keyword>while</keyword>
+        <keyword>with</keyword>
+        <keyword>yield</keyword>
+    </keywords>
+
+    <singleLineBlock name="string" foreground="DarkRed">
+        <escape start="\"></escape>
+        <start>"</start>
+        <end>"</end>
+    </singleLineBlock>
+    
+    <singleLineBlock name="string" foreground="DarkRed">
+        <escape start="\"></escape>
+        <start>'</start>
+        <end>'</end>
+    </singleLineBlock>
+    
+    <singleLineBlock name="singleLineComment" foreground="Green">
+        <escape></escape>
+        <start>//</start>
+        <end></end>
+    </singleLineBlock>
+
+    <multiLinesBlock name="multiLineComment" foreground="Gray">
+        <escape></escape>
+        <start>/*</start>
+        <end>*/</end>
+    </multiLinesBlock>
+</profile>
