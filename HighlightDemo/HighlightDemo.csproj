@@ -9,8 +9,8 @@
     <ProjectGuid>{8AF39B90-2FD8-4D5C-A815-D0E3CA21C488}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Microsoft.Internals.Tools.Ding.HighlightDemo</RootNamespace>
-    <AssemblyName>Microsoft.Internals.Tools.Ding.HighlightDemo</AssemblyName>
+    <RootNamespace>Org.Jinou.HighlightDemo</RootNamespace>
+    <AssemblyName>Org.Jinou.HighlightDemo</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <OutputPath>$(BinariesDirectory)\$(BuildType)\$(BuildArchitecture)\V2\Client\HighlightDemo\</OutputPath>
     <FileAlignment>512</FileAlignment>
