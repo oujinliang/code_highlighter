@@ -1,0 +1,180 @@
+name = "python"
+extensions = [".py", ".pyw", ".pyi"]
+delimiters = [" ", "\t", "(", ")", "{", "}", "[", "]", ";", ",", ".", "<", ">", "+", "-", "*", "/", "%", "&", "|", "^", "!", "~", "=", "?", ":", "@"]
+back_delimiters = []
+ignore_case = false
+
+[[keywords]]
+name = "keyword"
+foreground = "Blue"
+keywords = [
+    "False", "None", "True", "and", "as", "assert", "async", "await", "break",
+    "class", "continue", "def", "del", "elif", "else", "except", "finally",
+    "for", "from", "global", "if", "import", "in", "is", "lambda", "nonlocal",
+    "not", "or", "pass", "raise", "return", "try", "while", "with", "yield"
+]
+
+[[keywords]]
+name = "builtin"
+foreground = "DarkCyan"
+keywords = [
+    "abs", "all", "any", "bin", "bool", "bytearray", "bytes", "callable", "chr",
+    "classmethod", "compile", "complex", "delattr", "dict", "dir", "divmod",
+    "enumerate", "eval", "exec", "filter", "float", "format", "frozenset",
+    "getattr", "globals", "hasattr", "hash", "help", "hex", "id", "input", "int",
+    "isinstance", "issubclass", "iter", "len", "list", "locals", "map", "max",
+    "memoryview", "min", "next", "object", "oct", "open", "ord", "pow", "print",
+    "property", "range", "repr", "reversed", "round", "set", "setattr", "slice",
+    "sorted", "staticmethod", "str", "sum", "super", "tuple", "type", "vars", "zip"
+]
+
+[[keywords]]
+name = "decorator"
+foreground = "Chocolate"
+keywords = [
+    "property", "staticmethod", "classmethod", "abstractmethod", "abstractproperty",
+    "abstractclassmethod", "abstractstaticmethod", "dataclass", "attrs", "wraps"
+]
+
+[[single_line_blocks]]
+name = "comment"
+foreground = "Green"
+start = "#"
+end = ""
+
+[[single_line_blocks]]
+name = "string"
+foreground = "DarkRed"
+start = "\""
+end = "\""
+escape = { escape_string = "\\", items = ["\\\"", "\\\\"] }
+
+[[single_line_blocks]]
+name = "string"
+foreground = "DarkRed"
+start = "'"
+end = "'"
+escape = { escape_string = "\\", items = ["\\'", "\\\\"] }
+
+[[single_line_blocks]]
+name = "f-string"
+foreground = "DarkRed"
+start = "f\""
+end = "\""
+escape = { escape_string = "\\", items = ["\\\"", "\\\\"] }
+
+[[single_line_blocks]]
+name = "f-string"
+foreground = "DarkRed"
+start = "f'"
+end = "'"
+escape = { escape_string = "\\", items = ["\\'", "\\\\"] }
+
+[[single_line_blocks]]
+name = "raw string"
+foreground = "DarkRed"
+start = "r\""
+end = "\""
+
+[[single_line_blocks]]
+name = "raw string"
+foreground = "DarkRed"
+start = "r'"
+end = "'"
+
+[[single_line_blocks]]
+name = "byte string"
+foreground = "DarkRed"
+start = "b\""
+end = "\""
+escape = { escape_string = "\\", items = ["\\\"", "\\\\"] }
+
+[[single_line_blocks]]
+name = "byte string"
+foreground = "DarkRed"
+start = "b'"
+end = "'"
+escape = { escape_string = "\\", items = ["\\'", "\\\\"] }
+
+[[multi_line_blocks]]
+name = "multi-line string"
+foreground = "DarkRed"
+start = "\"\"\""
+end = "\"\"\""
+
+[[multi_line_blocks]]
+name = "multi-line string"
+foreground = "DarkRed"
+start = "'''"
+end = "'''"
+
+[[multi_line_blocks]]
+name = "multi-line f-string"
+foreground = "DarkRed"
+start = "f\"\"\""
+end = "\"\"\""
+
+[[multi_line_blocks]]
+name = "multi-line f-string"
+foreground = "DarkRed"
+start = "f'''"
+end = "'''"
+
+[[multi_line_blocks]]
+name = "multi-line raw string"
+foreground = "DarkRed"
+start = "r\"\"\""
+end = "\"\"\""
+
+[[multi_line_blocks]]
+name = "multi-line raw string"
+foreground = "DarkRed"
+start = "r'''"
+end = "'''"
+
+[[multi_line_blocks]]
+name = "multi-line byte string"
+foreground = "DarkRed"
+start = "b\"\"\""
+end = "\"\"\""
+
+[[multi_line_blocks]]
+name = "multi-line byte string"
+foreground = "DarkRed"
+start = "b'''"
+end = "'''"
+
+[[tokens]]
+name = "number"
+foreground = "Magenta"
+pattern = "\\b\\d+\\.?\\d*([eE][+-]?\\d+)?[jJ]?\\b"
+
+[[tokens]]
+name = "hex number"
+foreground = "Magenta"
+pattern = "\\b0[xX][0-9a-fA-F]+\\b"
+
+[[tokens]]
+name = "octal number"
+foreground = "Magenta"
+pattern = "\\b0[oO][0-7]+\\b"
+
+[[tokens]]
+name = "binary number"
+foreground = "Magenta"
+pattern = "\\b0[bB][01]+\\b"
+
+[[tokens]]
+name = "decorator"
+foreground = "Chocolate"
+pattern = "@\\w+(\\.\\w+)*"
+
+[[tokens]]
+name = "type hint"
+foreground = "Chocolate"
+pattern = ":\\s*\\w+(\\[.*?\\])?"
+
+[[tokens]]
+name = "arrow"
+foreground = "Chocolate"
+pattern = "->\\s*\\w+(\\[.*?\\])?"

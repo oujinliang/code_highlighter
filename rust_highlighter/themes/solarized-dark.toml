@@ -1,0 +1,22 @@
+name = "solarized-dark"
+description = "Solarized Dark theme"
+
+[colors]
+background = "#002B36"
+foreground = "#839496"
+line_number = "#586E75"
+selection = "#073642"
+cursor = "#839496"
+
+[token_colors]
+keyword = "#859900"
+type = "#268BD2"
+string = "#2AA198"
+comment = "#586E75"
+number = "#D33682"
+preprocessor = "#CB4B16"
+operator = "#839496"
+punctuation = "#839496"
+attribute = "#268BD2"
+decorator = "#B58900"
+default = "#839496"

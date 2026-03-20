@@ -1,0 +1,103 @@
+name = "csharp"
+extensions = [".cs", ".csx"]
+delimiters = [" ", "\t", "(", ")", "{", "}", "[", "]", ";", ",", ".", "<", ">", "+", "-", "*", "/", "%", "&", "|", "^", "!", "~", "=", "?", ":", "@"]
+back_delimiters = []
+ignore_case = false
+
+[[keywords]]
+name = "keyword"
+foreground = "Blue"
+keywords = [
+    "abstract", "as", "base", "bool", "break", "byte", "case", "catch", "char",
+    "checked", "class", "const", "continue", "decimal", "default", "delegate",
+    "do", "double", "else", "enum", "event", "explicit", "extern", "false",
+    "finally", "fixed", "float", "for", "foreach", "goto", "if", "implicit",
+    "in", "int", "interface", "internal", "is", "lock", "long", "namespace",
+    "new", "null", "object", "operator", "out", "override", "params", "private",
+    "protected", "public", "readonly", "ref", "return", "sbyte", "sealed",
+    "short", "sizeof", "stackalloc", "static", "string", "struct", "switch",
+    "this", "throw", "true", "try", "typeof", "uint", "ulong", "unchecked",
+    "unsafe", "ushort", "using", "virtual", "void", "volatile", "while",
+    "async", "await", "dynamic", "nameof", "when", "yield"
+]
+
+[[keywords]]
+name = "type"
+foreground = "DarkCyan"
+keywords = [
+    "Boolean", "Byte", "Char", "DateTime", "Decimal", "Double", "Guid", "Int16",
+    "Int32", "Int64", "Object", "SByte", "Single", "String", "TimeSpan", "UInt16",
+    "UInt32", "UInt64", "BigInteger", "Complex", "Matrix", "Vector"
+]
+
+[[keywords]]
+name = "preprocessor"
+foreground = "Gray"
+keywords = [
+    "if", "else", "elif", "endif", "define", "undef", "warning", "error",
+    "line", "region", "endregion", "pragma"
+]
+
+[[single_line_blocks]]
+name = "comment"
+foreground = "Green"
+start = "//"
+end = ""
+
+[[single_line_blocks]]
+name = "xml comment"
+foreground = "Green"
+start = "///"
+end = ""
+
+[[single_line_blocks]]
+name = "string"
+foreground = "DarkRed"
+start = "\""
+end = "\""
+escape = { escape_string = "\\", items = ["\\\"", "\\\\"] }
+
+[[single_line_blocks]]
+name = "character"
+foreground = "DarkRed"
+start = "'"
+end = "'"
+escape = { escape_string = "\\", items = ["\\'", "\\\\"] }
+
+[[multi_line_blocks]]
+name = "multi-line comment"
+foreground = "Green"
+start = "/*"
+end = "*/"
+
+[[multi_line_blocks]]
+name = "multi-line string"
+foreground = "DarkRed"
+start = "@\""
+end = "\""
+escape = { items = ["\"\""] }
+
+[[tokens]]
+name = "number"
+foreground = "Magenta"
+pattern = "\\b\\d+\\.?\\d*([eE][+-]?\\d+)?[fFdDmMlLuU]?\\b"
+
+[[tokens]]
+name = "hex number"
+foreground = "Magenta"
+pattern = "\\b0[xX][0-9a-fA-F]+[lLuU]?\\b"
+
+[[tokens]]
+name = "preprocessor directive"
+foreground = "Gray"
+pattern = "#\\w+"
+
+[[tokens]]
+name = "attribute"
+foreground = "CornflowerBlue"
+pattern = "\\[\\s*\\w+(\\s*\\([^)]*\\))?\\s*\\]"
+
+[[tokens]]
+name = "generic"
+foreground = "Chocolate"
+pattern = "\\<\\s*\\w+(\\s*,\\s*\\w+)*\\s*\\>"

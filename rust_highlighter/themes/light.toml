@@ -1,0 +1,22 @@
+name = "light"
+description = "Default light theme"
+
+[colors]
+background = "#FFFFFF"
+foreground = "#000000"
+line_number = "#888888"
+selection = "#ADD6FF"
+cursor = "#000000"
+
+[token_colors]
+keyword = "#0000FF"
+type = "#008080"
+string = "#8B0000"
+comment = "#008000"
+number = "#FF00FF"
+preprocessor = "#808080"
+operator = "#000000"
+punctuation = "#000000"
+attribute = "#6495ED"
+decorator = "#D2691E"
+default = "#000000"

@@ -1,0 +1,145 @@
+name = "rust"
+extensions = [".rs"]
+delimiters = [" ", "\t", "(", ")", "{", "}", "[", "]", ";", ",", ".", "<", ">", "+", "-", "*", "/", "%", "&", "|", "^", "!", "~", "=", "?", ":", "@"]
+back_delimiters = []
+ignore_case = false
+
+[[keywords]]
+name = "keyword"
+foreground = "Blue"
+keywords = [
+    "as", "break", "const", "continue", "crate", "else", "enum", "extern",
+    "false", "fn", "for", "if", "impl", "in", "let", "loop", "match", "mod",
+    "move", "mut", "pub", "ref", "return", "self", "Self", "static", "struct",
+    "super", "trait", "true", "type", "unsafe", "use", "where", "while",
+    "async", "await", "dyn", "abstract", "become", "box", "do", "final",
+    "macro", "override", "priv", "typeof", "unsized", "virtual", "yield",
+    "try", "gen"
+]
+
+[[keywords]]
+name = "type"
+foreground = "DarkCyan"
+keywords = [
+    "bool", "char", "f32", "f64", "i8", "i16", "i32", "i64", "i128", "isize",
+    "str", "u8", "u16", "u32", "u64", "u128", "usize", "String", "Vec", "Box",
+    "Rc", "Arc", "Cell", "RefCell", "Option", "Result", "HashMap", "HashSet",
+    "BTreeMap", "BTreeSet", "VecDeque", "LinkedList", "BinaryHeap"
+]
+
+[[keywords]]
+name = "macro"
+foreground = "Chocolate"
+keywords = [
+    "println", "print", "eprintln", "eprint", "format", "write", "writeln",
+    "vec", "panic", "assert", "assert_eq", "assert_ne", "debug_assert",
+    "debug_assert_eq", "debug_assert_ne", "cfg", "cfg_attr", "derive",
+    "include", "include_str", "include_bytes", "env", "option_env",
+    "concat", "line", "column", "file", "stringify", "module_path"
+]
+
+[[single_line_blocks]]
+name = "comment"
+foreground = "Green"
+start = "//"
+end = ""
+
+[[single_line_blocks]]
+name = "doc comment"
+foreground = "Green"
+start = "///"
+end = ""
+
+[[single_line_blocks]]
+name = "doc comment"
+foreground = "Green"
+start = "//!"
+end = ""
+
+[[single_line_blocks]]
+name = "string"
+foreground = "DarkRed"
+start = "\""
+end = "\""
+escape = { escape_string = "\\", items = ["\\\"", "\\\\"] }
+
+[[single_line_blocks]]
+name = "raw string"
+foreground = "DarkRed"
+start = "r#\""
+end = "\"#"
+
+[[single_line_blocks]]
+name = "raw string"
+foreground = "DarkRed"
+start = "r\""
+end = "\""
+
+[[single_line_blocks]]
+name = "byte string"
+foreground = "DarkRed"
+start = "b\""
+end = "\""
+escape = { escape_string = "\\", items = ["\\\"", "\\\\"] }
+
+[[single_line_blocks]]
+name = "character"
+foreground = "DarkRed"
+start = "'"
+end = "'"
+escape = { escape_string = "\\", items = ["\\'", "\\\\"] }
+
+[[single_line_blocks]]
+name = "byte"
+foreground = "DarkRed"
+start = "b'"
+end = "'"
+escape = { escape_string = "\\", items = ["\\'", "\\\\"] }
+
+[[multi_line_blocks]]
+name = "multi-line comment"
+foreground = "Green"
+start = "/*"
+end = "*/"
+
+[[multi_line_blocks]]
+name = "multi-line doc comment"
+foreground = "Green"
+start = "/**"
+end = "*/"
+
+[[multi_line_blocks]]
+name = "multi-line doc comment"
+foreground = "Green"
+start = "/*!"
+end = "*/"
+
+[[tokens]]
+name = "number"
+foreground = "Magenta"
+pattern = "\\b\\d[\\d_]*\\.?[\\d_]*([eE][+-]?[\\d_]+)?(f32|f64|i8|i16|i32|i64|i128|isize|u8|u16|u32|u64|u128|usize)?\\b"
+
+[[tokens]]
+name = "hex number"
+foreground = "Magenta"
+pattern = "\\b0[xXoObB][0-9a-fA-F_]+(i8|i16|i32|i64|i128|isize|u8|u16|u32|u64|u128|usize)?\\b"
+
+[[tokens]]
+name = "lifetime"
+foreground = "Chocolate"
+pattern = "'[a-zA-Z_][a-zA-Z0-9_]*"
+
+[[tokens]]
+name = "attribute"
+foreground = "CornflowerBlue"
+pattern = "#\\!?\\[[^\\]]*\\]"
+
+[[tokens]]
+name = "macro invocation"
+foreground = "Chocolate"
+pattern = "\\b\\w+!"
+
+[[tokens]]
+name = "generic"
+foreground = "Chocolate"
+pattern = "\\<\\s*\\w+(\\s*,\\s*\\w+)*\\s*\\>"

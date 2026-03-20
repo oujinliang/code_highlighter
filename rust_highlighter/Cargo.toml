@@ -1,0 +1,23 @@
+[package]
+name = "highlight-engine"
+version = "0.1.0"
+edition = "2021"
+description = "A syntax highlighting engine for source code"
+license = "MIT"
+include = ["src/**/*", "languages/**/*", "themes/**/*", "README.md"]
+
+[dependencies]
+regex = "1.10"
+serde = { version = "1.0", features = ["derive"] }
+toml = "0.8"
+clap = { version = "4.4", features = ["derive"] }
+anyhow = "1.0"
+thiserror = "1.0"
+
+[lib]
+name = "highlight_engine"
+path = "src/lib.rs"
+
+[[bin]]
+name = "highlight"
+path = "src/bin/main.rs"

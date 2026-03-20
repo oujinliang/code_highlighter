@@ -1,0 +1,22 @@
+name = "monokai"
+description = "Monokai color theme"
+
+[colors]
+background = "#272822"
+foreground = "#F8F8F2"
+line_number = "#75715E"
+selection = "#49483E"
+cursor = "#F8F8F0"
+
+[token_colors]
+keyword = "#F92672"
+type = "#66D9EF"
+string = "#E6DB74"
+comment = "#75715E"
+number = "#AE81FF"
+preprocessor = "#A6E22E"
+operator = "#F92672"
+punctuation = "#F8F8F2"
+attribute = "#A6E22E"
+decorator = "#A6E22E"
+default = "#F8F8F2"

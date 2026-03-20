@@ -1,0 +1,22 @@
+name = "solarized-light"
+description = "Solarized Light theme"
+
+[colors]
+background = "#FDF6E3"
+foreground = "#657B83"
+line_number = "#93A1A1"
+selection = "#EEE8D5"
+cursor = "#657B83"
+
+[token_colors]
+keyword = "#859900"
+type = "#268BD2"
+string = "#2AA198"
+comment = "#93A1A1"
+number = "#D33682"
+preprocessor = "#CB4B16"
+operator = "#657B83"
+punctuation = "#657B83"
+attribute = "#268BD2"
+decorator = "#B58900"
+default = "#657B83"

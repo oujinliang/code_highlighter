@@ -1,0 +1,23 @@
+# Build artifacts
+/target/
+
+# Test files
+test_*.html
+test_*.txt
+test_ansi
+test_ansi.rs
+output*.html
+output*.txt
+final_*.html
+
+# Debug binaries
+debug_*
+test_*
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
