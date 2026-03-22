@@ -1,0 +1,85 @@
+name = "php"
+extensions = [".php", ".phtml", ".php3", ".php4", ".php5", ".php7", ".phps"]
+delimiters = [" ", "\t", "(", ")", "{", "}", "[", "]", ";", ",", ".", "<", ">", "+", "-", "*", "/", "%", "&", "|", "^", "!", "~", "=", "?", ":", "$", "@"]
+back_delimiters = []
+ignore_case = true
+
+[[keywords]]
+name = "keyword"
+keywords = [
+    "abstract", "and", "array", "as", "break",
+    "callable", "case", "catch", "class", "clone",
+    "const", "continue", "declare", "default", "die",
+    "do", "echo", "else", "elseif", "empty",
+    "enddeclare", "endfor", "endforeach", "endif", "endswitch",
+    "endwhile", "eval", "exit", "extends", "final",
+    "finally", "fn", "for", "foreach", "function",
+    "global", "goto", "if", "implements", "include",
+    "include_once", "instanceof", "insteadof", "interface", "isset",
+    "list", "match", "namespace", "new", "or",
+    "print", "private", "protected", "public", "readonly",
+    "require", "require_once", "return", "static", "switch",
+    "throw", "trait", "try", "unset", "use",
+    "var", "while", "xor", "yield", "yield from",
+    "true", "false", "null"
+]
+
+[[keywords]]
+name = "type"
+keywords = [
+    "bool", "int", "float", "string", "array",
+    "object", "resource", "null", "mixed", "numeric",
+    "scalar", "void", "never", "false", "true",
+    "self", "parent", "static"
+]
+
+[[keywords]]
+name = "builtin"
+keywords = [
+    "isset", "unset", "empty", "die", "exit",
+    "echo", "print", "array", "list", "each",
+    "key", "current", "next", "prev", "reset",
+    "end", "count", "sizeof", "in_array", "array_push",
+    "array_pop", "array_shift", "array_unshift", "array_merge", "array_slice"
+]
+
+[[single_line_blocks]]
+name = "comment"
+start = "//"
+end = ""
+
+[[single_line_blocks]]
+name = "comment"
+start = "#"
+end = ""
+
+[[single_line_blocks]]
+name = "string"
+start = """
+end = """
+
+[[single_line_blocks]]
+name = "string"
+start = "'"
+end = "'"
+
+[[multi_line_blocks]]
+name = "multi-line comment"
+start = "/*"
+end = "*/"
+
+[[tokens]]
+name = "number"
+pattern = "\\b\\d+\\.?\\d*([eE][+-]?\\d+)?\\b"
+
+[[tokens]]
+name = "hex number"
+pattern = "\\b0[xX][0-9a-fA-F]+\\b"
+
+[[tokens]]
+name = "octal number"
+pattern = "\\b0[0-7]+\\b"
+
+[[tokens]]
+name = "variable"
+pattern = "\\$[a-zA-Z_][a-zA-Z0-9_]*"

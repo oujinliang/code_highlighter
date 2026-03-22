@@ -1,0 +1,100 @@
+name = "objectivec"
+extensions = [".m", ".mm", ".h"]
+delimiters = [" ", "\t", "(", ")", "{", "}", "[", "]", ";", ",", ".", "<", ">", "+", "-", "*", "/", "%", "&", "|", "^", "!", "~", "=", "?", ":", "@", "#"]
+back_delimiters = []
+ignore_case = false
+
+[[keywords]]
+name = "keyword"
+keywords = [
+    "auto", "break", "case", "char", "const",
+    "continue", "default", "do", "double", "else",
+    "enum", "extern", "float", "for", "goto",
+    "if", "inline", "int", "long", "register",
+    "restrict", "return", "short", "signed", "sizeof",
+    "static", "struct", "switch", "typedef", "union",
+    "unsigned", "void", "volatile", "while", "_Bool",
+    "_Complex", "_Imaginary", "asm", "fortran", "objc_class",
+    "objc_selector", "objc_protocol", "objc_public", "objc_private", "objc_protected",
+    "objc_package", "synchronized", "autoreleasepool", "try", "catch",
+    "finally", "throw", "class", "interface", "implementation",
+    "protocol", "end", "private", "public", "protected",
+    "package", "property", "synthesize", "dynamic", "optional",
+    "required", "encode", "defs", "selector", "protocol"
+]
+
+[[keywords]]
+name = "type"
+keywords = [
+    "id", "Class", "SEL", "IMP", "BOOL",
+    "NSInteger", "NSUInteger", "CGFloat", "CGPoint", "CGSize",
+    "CGRect", "NSRange", "NSString", "NSMutableString", "NSArray",
+    "NSMutableArray", "NSDictionary", "NSMutableDictionary", "NSSet", "NSMutableSet",
+    "NSNumber", "NSValue", "NSData", "NSMutableData", "NSDate",
+    "NSError", "NSObject", "NSProxy", "NSNull"
+]
+
+[[keywords]]
+name = "builtin"
+keywords = [
+    "NSLog", "NSAssert", "NSCAssert", "NSParameterAssert", "NSCParameterAssert",
+    "NSGetSizeAndAlignment", "objc_getClass", "objc_getProtocol", "objc_getClassList", "objc_lookUpClass",
+    "objc_getMetaClass", "objc_registerClassPair", "objc_disposeClassPair"
+]
+
+[[single_line_blocks]]
+name = "comment"
+start = "//"
+end = ""
+
+[[single_line_blocks]]
+name = "string"
+start = """
+end = """
+
+[[single_line_blocks]]
+name = "character"
+start = "'"
+end = "'"
+
+[[multi_line_blocks]]
+name = "multi-line comment"
+start = "/*"
+end = "*/"
+
+[[multi_line_blocks]]
+name = "documentation"
+start = "/**"
+end = "*/"
+
+[[tokens]]
+name = "number"
+pattern = "\\b\\d+\\.?\\d*([eE][+-]?\\d+)?[fFlLuU]?\\b"
+
+[[tokens]]
+name = "hex number"
+pattern = "\\b0[xX][0-9a-fA-F]+[lLuU]?\\b"
+
+[[tokens]]
+name = "octal number"
+pattern = "\\b0[0-7]+[lLuU]?\\b"
+
+[[tokens]]
+name = "preprocessor"
+pattern = "#\\w+"
+
+[[tokens]]
+name = "directive"
+pattern = "@\\w+"
+
+[[tokens]]
+name = "selector"
+pattern = "@selector\\([^)]+\\)"
+
+[[tokens]]
+name = "protocol"
+pattern = "@protocol\\([^)]+\\)"
+
+[[tokens]]
+name = "encode"
+pattern = "@encode\\([^)]+\\)"

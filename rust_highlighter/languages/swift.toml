@@ -1,0 +1,85 @@
+name = "swift"
+extensions = [".swift"]
+delimiters = [" ", "\t", "(", ")", "{", "}", "[", "]", ";", ",", ".", "<", ">", "+", "-", "*", "/", "%", "&", "|", "^", "!", "~", "=", "?", ":", "@"]
+back_delimiters = []
+ignore_case = false
+
+[[keywords]]
+name = "keyword"
+keywords = [
+    "associatedtype", "break", "case", "catch", "class",
+    "continue", "convenience", "default", "defer", "deinit",
+    "do", "else", "enum", "extension", "fallthrough",
+    "false", "fileprivate", "final", "for", "func",
+    "guard", "if", "import", "in", "indirect",
+    "infix", "init", "inout", "internal", "is",
+    "lazy", "let", "mutating", "nil", "nonmutating",
+    "open", "operator", "optional", "override", "postfix",
+    "precedencegroup", "prefix", "private", "protocol", "public",
+    "repeat", "required", "rethrows", "return", "self",
+    "Self", "set", "some", "static", "struct",
+    "subscript", "super", "switch", "throw", "throws",
+    "true", "try", "typealias", "unowned", "var",
+    "weak", "where", "while", "willSet", "didSet",
+    "get", "set"
+]
+
+[[keywords]]
+name = "type"
+keywords = [
+    "Bool", "Int", "Int8", "Int16", "Int32",
+    "Int64", "UInt", "UInt8", "UInt16", "UInt32",
+    "UInt64", "Float", "Double", "String", "Character",
+    "Array", "Dictionary", "Set", "Optional", "Result",
+    "Error", "Any", "AnyObject", "Void"
+]
+
+[[keywords]]
+name = "builtin"
+keywords = [
+    "print", "debugPrint", "dump", "fatalError", "precondition",
+    "preconditionFailure", "assert", "assertionFailure", "abs", "min",
+    "max", "zip", "map", "filter", "reduce",
+    "forEach", "contains", "sorted", "reversed", "enumerated",
+    "first", "last", "count"
+]
+
+[[single_line_blocks]]
+name = "comment"
+start = "//"
+end = ""
+
+[[single_line_blocks]]
+name = "string"
+start = """
+end = """
+
+[[multi_line_blocks]]
+name = "multi-line comment"
+start = "/*"
+end = "*/"
+
+[[multi_line_blocks]]
+name = "documentation"
+start = "/**"
+end = "*/"
+
+[[tokens]]
+name = "number"
+pattern = "\\b\\d+\\.?\\d*([eE][+-]?\\d+)?[fF]?\\b"
+
+[[tokens]]
+name = "hex number"
+pattern = "\\b0[xX][0-9a-fA-F]+\\b"
+
+[[tokens]]
+name = "octal number"
+pattern = "\\b0[oO][0-7]+\\b"
+
+[[tokens]]
+name = "binary number"
+pattern = "\\b0[bB][01]+\\b"
+
+[[tokens]]
+name = "interpolation"
+pattern = "\\\\\\(.*?\\)"

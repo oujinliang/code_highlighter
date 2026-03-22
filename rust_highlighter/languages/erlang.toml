@@ -1,0 +1,72 @@
+name = "erlang"
+extensions = [".erl", ".hrl"]
+delimiters = [" ", "\t", "(", ")", "{", "}", "[", "]", ";", ",", ".", "<", ">", "+", "-", "*", "/", "%", "&", "|", "^", "!", "~", "=", "?", ":", "#"]
+back_delimiters = []
+ignore_case = false
+
+[[keywords]]
+name = "keyword"
+keywords = [
+    "after", "begin", "case", "catch", "cond",
+    "end", "fun", "if", "let", "of",
+    "query", "receive", "try", "when", "andalso",
+    "orelse", "maybe", "else"
+]
+
+[[keywords]]
+name = "type"
+keywords = [
+    "atom", "binary", "bitstring", "boolean", "byte",
+    "char", "float", "fun", "function", "integer",
+    "iodata", "iolist", "list", "map", "maybe_improper_list",
+    "mfa", "module", "neg_integer", "nil", "node",
+    "non_neg_integer", "nonempty_list", "nonempty_improper_list", "nonempty_maybe_improper_list", "number",
+    "pid", "port", "pos_integer", "reference", "string",
+    "term", "timeout", "tuple"
+]
+
+[[keywords]]
+name = "builtin"
+keywords = [
+    "abs", "apply", "atom_to_binary", "atom_to_list", "binary_part",
+    "binary_to_atom", "binary_to_existing_atom", "binary_to_float", "binary_to_integer", "binary_to_list",
+    "binary_to_term", "bit_size", "bitstring_to_list", "byte_size", "ceil",
+    "check_process_code", "delete_module", "element", "erase", "exit",
+    "float", "float_to_binary", "float_to_list", "floor", "garbage_collect",
+    "get", "get_keys", "group_leader", "halt", "hd",
+    "integer_to_binary"
+]
+
+[[single_line_blocks]]
+name = "comment"
+start = "%"
+end = ""
+
+[[single_line_blocks]]
+name = "string"
+start = """
+end = """
+
+[[tokens]]
+name = "number"
+pattern = "\\b\\d+\\.?\\d*([eE][+-]?\\d+)?\\b"
+
+[[tokens]]
+name = "hex number"
+pattern = "\\b#[xX][0-9a-fA-F]+\\b"
+
+[[tokens]]
+name = "base number"
+pattern = "\\b\\d+#[0-9a-zA-Z]+\\b"
+
+[[tokens]]
+name = "atom"
+pattern = "'[^']*'"
+
+[[tokens]]
+name = "variable"
+pattern = "[A-Z_][a-zA-Z0-9_]*"
+
+[[tokens]]
+name = "pid"
+pattern = "<\\d+\\.\\d+\\.\\d+>"

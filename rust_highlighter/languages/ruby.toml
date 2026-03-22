@@ -1,0 +1,90 @@
+name = "ruby"
+extensions = [".rb", ".rbw", ".rake", ".gemspec", ".ru"]
+delimiters = [" ", "\t", "(", ")", "{", "}", "[", "]", ";", ",", ".", "<", ">", "+", "-", "*", "/", "%", "&", "|", "^", "!", "~", "=", "?", ":", "@"]
+back_delimiters = []
+ignore_case = false
+
+[[keywords]]
+name = "keyword"
+keywords = [
+    "BEGIN", "END", "alias", "and", "begin",
+    "break", "case", "class", "def", "defined?",
+    "do", "else", "elsif", "end", "ensure",
+    "false", "for", "if", "in", "module",
+    "next", "nil", "not", "or", "redo",
+    "rescue", "retry", "return", "self", "super",
+    "then", "true", "undef", "unless", "until",
+    "when", "while", "yield", "__FILE__", "__LINE__"
+]
+
+[[keywords]]
+name = "type"
+keywords = [
+    "Array", "Hash", "String", "Integer", "Float",
+    "Numeric", "Fixnum", "Bignum", "Symbol", "Regexp",
+    "Range", "IO", "File", "Dir", "Time",
+    "Proc", "Method", "Class", "Module", "Object",
+    "BasicObject", "TrueClass", "FalseClass", "NilClass"
+]
+
+[[keywords]]
+name = "builtin"
+keywords = [
+    "puts", "print", "p", "pp", "printf",
+    "sprintf", "gets", "readline", "readlines", "require",
+    "require_relative", "load", "include", "extend", "prepend",
+    "raise", "fail", "throw", "catch", "loop",
+    "each", "map", "select", "reject", "reduce"
+]
+
+[[single_line_blocks]]
+name = "comment"
+start = "#"
+end = ""
+
+[[single_line_blocks]]
+name = "string"
+start = """
+end = """
+
+[[single_line_blocks]]
+name = "string"
+start = "'"
+end = "'"
+
+[[multi_line_blocks]]
+name = "multi-line comment"
+start = "=begin"
+end = "=end"
+
+[[tokens]]
+name = "number"
+pattern = "\\b\\d+\\.?\\d*([eE][+-]?\\d+)?\\b"
+
+[[tokens]]
+name = "hex number"
+pattern = "\\b0[xX][0-9a-fA-F]+\\b"
+
+[[tokens]]
+name = "octal number"
+pattern = "\\b0[0-7]+\\b"
+
+[[tokens]]
+name = "binary number"
+pattern = "\\b0[bB][01]+\\b"
+
+[[tokens]]
+name = "symbol"
+pattern = ":[a-zA-Z_][a-zA-Z0-9_]*[?!]?"
+
+[[tokens]]
+name = "instance variable"
+pattern = "@[a-zA-Z_][a-zA-Z0-9_]*"
+
+[[tokens]]
+name = "class variable"
+pattern = "@@[a-zA-Z_][a-zA-Z0-9_]*"
+
+[[tokens]]
+name = "global variable"
+pattern = "\\$[a-zA-Z_][a-zA-Z0-9_]*"

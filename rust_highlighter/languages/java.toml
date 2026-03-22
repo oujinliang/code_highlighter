@@ -1,0 +1,85 @@
+name = "java"
+extensions = [".java"]
+delimiters = [" ", "\t", "(", ")", "{", "}", "[", "]", ";", ",", ".", "<", ">", "+", "-", "*", "/", "%", "&", "|", "^", "!", "~", "=", "?", ":", "@"]
+back_delimiters = []
+ignore_case = false
+
+[[keywords]]
+name = "keyword"
+keywords = [
+    "abstract", "assert", "boolean", "break", "byte",
+    "case", "catch", "char", "class", "const",
+    "continue", "default", "do", "double", "else",
+    "enum", "extends", "final", "finally", "float",
+    "for", "goto", "if", "implements", "import",
+    "instanceof", "int", "interface", "long", "native",
+    "new", "package", "private", "protected", "public",
+    "return", "short", "static", "strictfp", "super",
+    "switch", "synchronized", "this", "throw", "throws",
+    "transient", "try", "void", "volatile", "while",
+    "true", "false", "null", "var", "yield",
+    "record", "sealed", "permits"
+]
+
+[[keywords]]
+name = "type"
+keywords = [
+    "Boolean", "Byte", "Character", "Double", "Float",
+    "Integer", "Long", "Short", "String", "Object",
+    "Class", "System", "Thread", "Runnable", "Exception",
+    "RuntimeException"
+]
+
+[[keywords]]
+name = "builtin"
+keywords = [
+    "System", "Math", "Arrays", "Collections", "List",
+    "ArrayList", "HashMap", "HashSet", "LinkedList", "TreeMap",
+    "TreeSet", "Queue", "Stack", "Vector", "StringBuilder",
+    "StringBuffer"
+]
+
+[[single_line_blocks]]
+name = "comment"
+start = "//"
+end = ""
+
+[[single_line_blocks]]
+name = "string"
+start = """
+end = """
+
+[[single_line_blocks]]
+name = "char"
+start = "'"
+end = "'"
+
+[[multi_line_blocks]]
+name = "multi-line comment"
+start = "/*"
+end = "*/"
+
+[[multi_line_blocks]]
+name = "javadoc"
+start = "/**"
+end = "*/"
+
+[[tokens]]
+name = "number"
+pattern = "\\b\\d+\\.?\\d*([eE][+-]?\\d+)?[fFdDlL]?\\b"
+
+[[tokens]]
+name = "hex number"
+pattern = "\\b0[xX][0-9a-fA-F]+[lL]?\\b"
+
+[[tokens]]
+name = "octal number"
+pattern = "\\b0[0-7]+[lL]?\\b"
+
+[[tokens]]
+name = "binary number"
+pattern = "\\b0[bB][01]+[lL]?\\b"
+
+[[tokens]]
+name = "annotation"
+pattern = "@\\w+"

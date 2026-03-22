@@ -1,0 +1,71 @@
+name = "matlab"
+extensions = [".m"]
+delimiters = [" ", "\t", "(", ")", "{", "}", "[", "]", ";", ",", ".", "<", ">", "+", "-", "*", "/", "%", "&", "|", "^", "!", "~", "=", "?", ":", "@"]
+back_delimiters = []
+ignore_case = true
+
+[[keywords]]
+name = "keyword"
+keywords = [
+    "break", "case", "catch", "classdef", "continue",
+    "else", "elseif", "end", "for", "function",
+    "global", "if", "otherwise", "parfor", "persistent",
+    "return", "spmd", "switch", "try", "while",
+    "methods", "properties", "events", "arguments", "enumeration"
+]
+
+[[keywords]]
+name = "type"
+keywords = [
+    "double", "single", "int8", "int16", "int32",
+    "int64", "uint8", "uint16", "uint32", "uint64",
+    "logical", "char", "string", "cell", "struct",
+    "table", "timetable", "function_handle", "categorical", "datetime",
+    "duration", "calendarDuration"
+]
+
+[[keywords]]
+name = "builtin"
+keywords = [
+    "disp", "display", "fprintf", "sprintf", "num2str",
+    "int2str", "mat2str", "str2num", "str2double", "length",
+    "size", "numel", "ndims", "iscolumn", "isrow",
+    "ismatrix", "isempty", "isequal", "isequaln", "isnumeric",
+    "isfloat", "isinteger", "islogical"
+]
+
+[[single_line_blocks]]
+name = "comment"
+start = "%"
+end = ""
+
+[[single_line_blocks]]
+name = "string"
+start = "'"
+end = "'"
+
+[[single_line_blocks]]
+name = "string"
+start = """
+end = """
+
+[[multi_line_blocks]]
+name = "block comment"
+start = "%{"
+end = "%}"
+
+[[tokens]]
+name = "number"
+pattern = "\\b\\d+\\.?\\d*([eE][+-]?\\d+)?[i]?\\b"
+
+[[tokens]]
+name = "hex number"
+pattern = "\\b0[xX][0-9a-fA-F]+\\b"
+
+[[tokens]]
+name = "command"
+pattern = "![^\\n]+"
+
+[[tokens]]
+name = "metaclass"
+pattern = "\\?\\w+"

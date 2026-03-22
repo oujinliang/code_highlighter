@@ -1,0 +1,73 @@
+name = "haskell"
+extensions = [".hs", ".lhs"]
+delimiters = [" ", "\t", "(", ")", "{", "}", "[", "]", ";", ",", ".", "<", ">", "+", "-", "*", "/", "%", "&", "|", "^", "!", "~", "=", "?", ":", "@", "#"]
+back_delimiters = []
+ignore_case = false
+
+[[keywords]]
+name = "keyword"
+keywords = [
+    "case", "class", "data", "default", "deriving",
+    "do", "else", "if", "import", "in",
+    "infix", "infixl", "infixr", "instance", "let",
+    "module", "newtype", "of", "then", "type",
+    "where", "forall", "mdo", "family", "role",
+    "pattern", "static", "stock", "anyclass", "via",
+    "proc", "rec", "qualified", "as", "hiding"
+]
+
+[[keywords]]
+name = "type"
+keywords = [
+    "Bool", "Char", "Double", "Float", "Int",
+    "Integer", "String", "Maybe", "Either", "IO",
+    "Ordering", "ReadS", "ShowS", "FilePath", "IOError",
+    "Functor", "Applicative", "Monad", "MonadPlus", "Foldable",
+    "Traversable", "Show", "Read", "Eq", "Ord"
+]
+
+[[keywords]]
+name = "builtin"
+keywords = [
+    "print", "putStr", "putStrLn", "getLine", "readFile",
+    "writeFile", "appendFile", "interact", "readIO", "readLn",
+    "show", "read", "reads", "id", "const",
+    "flip", "map", "filter", "foldr", "foldl",
+    "scanr", "scanl", "iterate", "repeat", "replicate"
+]
+
+[[single_line_blocks]]
+name = "comment"
+start = "--"
+end = ""
+
+[[single_line_blocks]]
+name = "string"
+start = """
+end = """
+
+[[single_line_blocks]]
+name = "char"
+start = "'"
+end = "'"
+
+[[multi_line_blocks]]
+name = "multi-line comment"
+start = "{-"
+end = "-}"
+
+[[tokens]]
+name = "number"
+pattern = "\\b\\d+\\.?\\d*([eE][+-]?\\d+)?\\b"
+
+[[tokens]]
+name = "hex number"
+pattern = "\\b0[xX][0-9a-fA-F]+\\b"
+
+[[tokens]]
+name = "octal number"
+pattern = "\\b0[oO][0-7]+\\b"
+
+[[tokens]]
+name = "operator"
+pattern = "[!#$%&*+./<=>?@\\\\^|~-]+"

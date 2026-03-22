@@ -1,0 +1,121 @@
+name = "perl"
+extensions = [".pl", ".pm", ".t", ".pod"]
+delimiters = [" ", "\t", "(", ")", "{", "}", "[", "]", ";", ",", ".", "<", ">", "+", "-", "*", "/", "%", "&", "|", "^", "!", "~", "=", "?", ":", "$", "@", "%"]
+back_delimiters = []
+ignore_case = false
+
+[[keywords]]
+name = "keyword"
+keywords = [
+    "abs", "accept", "alarm", "and", "atan2",
+    "bind", "binmode", "bless", "break", "caller",
+    "chdir", "chmod", "chomp", "chop", "chown",
+    "chr", "chroot", "close", "closedir", "connect",
+    "continue", "cos", "crypt", "dbmclose", "dbmopen",
+    "defined", "delete", "die", "do", "dump",
+    "each", "else", "elsif", "endgrent", "endhostent",
+    "endnetent", "endprotoent", "endpwent", "endservent", "eof",
+    "eval", "exec", "exists", "exit", "exp",
+    "fcntl", "fileno", "flock", "for", "foreach",
+    "fork", "format", "formline", "getc", "getgrent",
+    "getgrgid", "getgrnam", "gethostbyaddr", "gethostbyname", "gethostent",
+    "getlogin", "getnetbyaddr", "getnetbyname", "getnetent", "getpeername",
+    "getpgrp", "getppid", "getpriority", "getprotobyname", "getprotobynumber",
+    "getprotoent", "getpwent", "getpwnam", "getpwuid", "getservbyname",
+    "getservbyport", "getservent", "getsockname", "getsockopt", "glob",
+    "gmtime", "goto", "grep", "hex", "if",
+    "import", "index", "int", "ioctl", "join",
+    "keys", "kill", "last", "lc", "lcfirst",
+    "length", "link", "listen", "local", "localtime",
+    "log", "lstat", "map", "mkdir", "msgctl",
+    "msgget", "msgrcv", "msgsnd", "my", "next",
+    "no", "not", "oct", "open", "opendir",
+    "or", "ord", "our", "pack", "package",
+    "pipe", "pop", "pos", "print", "printf",
+    "prototype", "push", "quotemeta", "rand", "read",
+    "readdir", "readline", "readlink", "readpipe", "recv",
+    "redo", "ref", "rename", "require", "reset",
+    "return", "reverse", "rewinddir", "rindex", "rmdir",
+    "say", "scalar", "seek", "seekdir", "select",
+    "semctl", "semget", "semop", "send", "setgrent",
+    "sethostent", "setnetent", "setpgrp", "setpriority", "setprotoent",
+    "setpwent", "setservent", "setsockopt", "shift", "shmctl",
+    "shmget", "shmread", "shmwrite", "shutdown", "sin",
+    "sleep", "socket", "socketpair", "sort", "splice",
+    "split", "sprintf", "sqrt", "srand", "stat",
+    "state", "study", "sub", "substr", "symlink",
+    "syscall", "sysopen", "sysread", "sysseek", "system",
+    "syswrite", "tell", "telldir", "tie", "tied",
+    "time", "times", "truncate", "uc", "ucfirst",
+    "umask", "undef", "unless", "unlink", "unpack",
+    "unshift", "untie", "until", "use", "utime",
+    "values", "vec", "wait", "waitpid", "wantarray",
+    "warn", "while", "write", "xor"
+]
+
+[[keywords]]
+name = "type"
+keywords = [
+    "ARRAY", "CODE", "FORMAT", "GLOB", "HASH",
+    "IO", "LVALUE", "REF", "REGEXP", "SCALAR",
+    "VFILE", "main", "CORE", "UNIVERSAL"
+]
+
+[[keywords]]
+name = "builtin"
+keywords = [
+    "AUTOLOAD", "BEGIN", "CHECK", "DESTROY", "END",
+    "INIT", "UNITCHECK", "abs", "accept", "alarm",
+    "and", "atan2", "bind", "binmode", "bless",
+    "break", "caller", "chdir", "chmod", "chomp",
+    "chop", "chown", "chr", "chroot", "close",
+    "closedir"
+]
+
+[[single_line_blocks]]
+name = "comment"
+start = "#"
+end = ""
+
+[[single_line_blocks]]
+name = "string"
+start = """
+end = """
+
+[[single_line_blocks]]
+name = "string"
+start = "'"
+end = "'"
+
+[[multi_line_blocks]]
+name = "multi-line comment"
+start = "="
+end = "=cut"
+
+[[tokens]]
+name = "number"
+pattern = "\\b\\d+\\.?\\d*([eE][+-]?\\d+)?\\b"
+
+[[tokens]]
+name = "hex number"
+pattern = "\\b0[xX][0-9a-fA-F]+\\b"
+
+[[tokens]]
+name = "octal number"
+pattern = "\\b0[0-7]+\\b"
+
+[[tokens]]
+name = "scalar"
+pattern = "\\$[a-zA-Z_][a-zA-Z0-9_]*"
+
+[[tokens]]
+name = "array"
+pattern = "@[a-zA-Z_][a-zA-Z0-9_]*"
+
+[[tokens]]
+name = "hash"
+pattern = "%[a-zA-Z_][a-zA-Z0-9_]*"
+
+[[tokens]]
+name = "glob"
+pattern = "\\*[a-zA-Z_][a-zA-Z0-9_]*"

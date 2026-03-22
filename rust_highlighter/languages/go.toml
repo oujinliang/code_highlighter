@@ -1,0 +1,75 @@
+name = "go"
+extensions = [".go"]
+delimiters = [" ", "\t", "(", ")", "{", "}", "[", "]", ";", ",", ".", "<", ">", "+", "-", "*", "/", "%", "&", "|", "^", "!", "~", "=", "?", ":", "@"]
+back_delimiters = []
+ignore_case = false
+
+[[keywords]]
+name = "keyword"
+keywords = [
+    "break", "case", "chan", "const", "continue",
+    "default", "defer", "else", "fallthrough", "for",
+    "func", "go", "goto", "if", "import",
+    "interface", "map", "package", "range", "return",
+    "select", "struct", "switch", "type", "var",
+    "true", "false", "nil", "iota"
+]
+
+[[keywords]]
+name = "type"
+keywords = [
+    "bool", "byte", "complex64", "complex128", "error",
+    "float32", "float64", "int", "int8", "int16",
+    "int32", "int64", "rune", "string", "uint",
+    "uint8", "uint16", "uint32", "uint64", "uintptr",
+    "any", "comparable"
+]
+
+[[keywords]]
+name = "builtin"
+keywords = [
+    "append", "cap", "close", "complex", "copy",
+    "delete", "imag", "len", "make", "new",
+    "panic", "print", "println", "real", "recover",
+    "error", "string", "int", "float64"
+]
+
+[[single_line_blocks]]
+name = "comment"
+start = "//"
+end = ""
+
+[[single_line_blocks]]
+name = "string"
+start = """
+end = """
+
+[[single_line_blocks]]
+name = "raw string"
+start = "`"
+end = "`"
+
+[[multi_line_blocks]]
+name = "multi-line comment"
+start = "/*"
+end = "*/"
+
+[[tokens]]
+name = "number"
+pattern = "\\b\\d+\\.?\\d*([eE][+-]?\\d+)?\\b"
+
+[[tokens]]
+name = "hex number"
+pattern = "\\b0[xX][0-9a-fA-F]+\\b"
+
+[[tokens]]
+name = "octal number"
+pattern = "\\b0[0-7]+\\b"
+
+[[tokens]]
+name = "binary number"
+pattern = "\\b0[bB][01]+\\b"
+
+[[tokens]]
+name = "imaginary number"
+pattern = "\\b\\d+\\.?\\d*([eE][+-]?\\d+)?i\\b"

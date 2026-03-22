@@ -1,0 +1,69 @@
+name = "lua"
+extensions = [".lua"]
+delimiters = [" ", "\t", "(", ")", "{", "}", "[", "]", ";", ",", ".", "<", ">", "+", "-", "*", "/", "%", "&", "|", "^", "!", "~", "=", "?", ":", "#"]
+back_delimiters = []
+ignore_case = false
+
+[[keywords]]
+name = "keyword"
+keywords = [
+    "and", "break", "do", "else", "elseif",
+    "end", "false", "for", "function", "goto",
+    "if", "in", "local", "nil", "not",
+    "or", "repeat", "return", "then", "true",
+    "until", "while"
+]
+
+[[keywords]]
+name = "type"
+keywords = [
+    "nil", "boolean", "number", "string", "function",
+    "userdata", "thread", "table"
+]
+
+[[keywords]]
+name = "builtin"
+keywords = [
+    "assert", "collectgarbage", "dofile", "error", "getmetatable",
+    "ipairs", "load", "loadfile", "next", "pairs",
+    "pcall", "print", "rawequal", "rawget", "rawlen",
+    "rawset", "require", "select", "setmetatable", "tonumber",
+    "tostring", "type", "warn"
+]
+
+[[single_line_blocks]]
+name = "comment"
+start = "--"
+end = ""
+
+[[single_line_blocks]]
+name = "string"
+start = """
+end = """
+
+[[single_line_blocks]]
+name = "string"
+start = "'"
+end = "'"
+
+[[multi_line_blocks]]
+name = "multi-line comment"
+start = "--[["
+end = "]]"
+
+[[multi_line_blocks]]
+name = "multi-line string"
+start = "[["
+end = "]]"
+
+[[tokens]]
+name = "number"
+pattern = "\\b\\d+\\.?\\d*([eE][+-]?\\d+)?\\b"
+
+[[tokens]]
+name = "hex number"
+pattern = "\\b0[xX][0-9a-fA-F]+\\b"
+
+[[tokens]]
+name = "vararg"
+pattern = "\\.\\.\\."

@@ -1,0 +1,69 @@
+name = "r"
+extensions = [".r", ".R", ".Rhistory", ".Rprofile", ".RData"]
+delimiters = [" ", "\t", "(", ")", "{", "}", "[", "]", ";", ",", ".", "<", ">", "+", "-", "*", "/", "%", "&", "|", "^", "!", "~", "=", "?", ":", "$", "@"]
+back_delimiters = []
+ignore_case = true
+
+[[keywords]]
+name = "keyword"
+keywords = [
+    "if", "else", "repeat", "while", "function",
+    "for", "in", "next", "break", "TRUE",
+    "FALSE", "NULL", "Inf", "NaN", "NA",
+    "NA_integer_", "NA_real_", "NA_complex_", "NA_character_", "return",
+    "invisible", "library", "require", "source", "setwd",
+    "getwd", "q", "quit", "save", "load",
+    "rm", "remove", "ls", "objects", "class"
+]
+
+[[keywords]]
+name = "type"
+keywords = [
+    "numeric", "double", "integer", "complex", "character",
+    "logical", "raw", "list", "vector", "matrix",
+    "array", "factor", "data.frame", "table", "formula",
+    "function", "environment", "externalptr", "bytecode", "symbol",
+    "pairlist", "promise", "language"
+]
+
+[[keywords]]
+name = "builtin"
+keywords = [
+    "c", "length", "nrow", "ncol", "dim",
+    "names", "colnames", "rownames", "class", "typeof",
+    "mode", "str", "summary", "print", "cat",
+    "paste", "paste0", "sprintf", "substr", "substring",
+    "nchar", "tolower", "toupper", "trimws", "gsub",
+    "sub"
+]
+
+[[single_line_blocks]]
+name = "comment"
+start = "#"
+end = ""
+
+[[single_line_blocks]]
+name = "string"
+start = """
+end = """
+
+[[single_line_blocks]]
+name = "string"
+start = "'"
+end = "'"
+
+[[tokens]]
+name = "number"
+pattern = "\\b\\d+\\.?\\d*([eE][+-]?\\d+)?[iL]?\\b"
+
+[[tokens]]
+name = "hex number"
+pattern = "\\b0[xX][0-9a-fA-F]+\\b"
+
+[[tokens]]
+name = "special"
+pattern = "%[^%]+%"
+
+[[tokens]]
+name = "slot"
+pattern = "@\\w+"

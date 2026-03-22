@@ -1,0 +1,103 @@
+name = "typescript"
+extensions = [".ts", ".tsx"]
+delimiters = [" ", "\t", "(", ")", "{", "}", "[", "]", ";", ",", ".", "<", ">", "+", "-", "*", "/", "%", "&", "|", "^", "!", "~", "=", "?", ":", "@"]
+back_delimiters = []
+ignore_case = false
+
+[[keywords]]
+name = "keyword"
+keywords = [
+    "abstract", "as", "async", "await", "break",
+    "case", "catch", "class", "const", "constructor",
+    "continue", "debugger", "declare", "default", "delete",
+    "do", "else", "enum", "export", "extends",
+    "finally", "for", "from", "function", "get",
+    "if", "implements", "import", "in", "instanceof",
+    "interface", "is", "keyof", "let", "module",
+    "namespace", "new", "of", "package", "private",
+    "protected", "public", "readonly", "require", "return",
+    "set", "static", "super", "switch", "this",
+    "throw", "try", "type", "typeof", "var",
+    "void", "while", "with", "yield"
+]
+
+[[keywords]]
+name = "type"
+keywords = [
+    "any", "boolean", "bigint", "never", "null",
+    "number", "object", "string", "symbol", "undefined",
+    "unknown", "void", "Array", "Map", "Set",
+    "Promise", "Date", "RegExp"
+]
+
+[[keywords]]
+name = "builtin"
+keywords = [
+    "console", "window", "document", "Math", "JSON",
+    "Date", "Array", "Object", "String", "Number",
+    "Boolean", "RegExp", "Error", "Map", "Set",
+    "WeakMap", "WeakSet", "Promise", "Symbol", "Proxy",
+    "Reflect", "Intl", "ArrayBuffer", "DataView", "Int8Array",
+    "Int16Array"
+]
+
+[[single_line_blocks]]
+name = "comment"
+start = "//"
+end = ""
+
+[[single_line_blocks]]
+name = "string"
+start = """
+end = """
+
+[[single_line_blocks]]
+name = "string"
+start = "'"
+end = "'"
+
+[[single_line_blocks]]
+name = "template literal"
+start = "`"
+end = "`"
+
+[[multi_line_blocks]]
+name = "multi-line comment"
+start = "/*"
+end = "*/"
+
+[[tokens]]
+name = "number"
+pattern = "\\b\\d+\\.?\\d*([eE][+-]?\\d+)?\\b"
+
+[[tokens]]
+name = "hex number"
+pattern = "\\b0[xX][0-9a-fA-F]+\\b"
+
+[[tokens]]
+name = "octal number"
+pattern = "\\b0[oO][0-7]+\\b"
+
+[[tokens]]
+name = "binary number"
+pattern = "\\b0[bB][01]+\\b"
+
+[[tokens]]
+name = "regex"
+pattern = "/[^/\\n]+/[gimsuy]*"
+
+[[tokens]]
+name = "arrow function"
+pattern = "=>"
+
+[[tokens]]
+name = "spread operator"
+pattern = "\\.\\.\\."
+
+[[tokens]]
+name = "optional chaining"
+pattern = "\\?\\."
+
+[[tokens]]
+name = "nullish coalescing"
+pattern = "\\?\\?"

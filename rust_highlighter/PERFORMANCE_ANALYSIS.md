@@ -1,259 +1,262 @@
-# Performance Analysis: Rust vs C# Optimizations
+# Highlight Engine - 性能分析报告
+
+## 📊 性能测试方法论
+
+### 测试环境
+- **操作系统**: macOS (darwin)
+- **Rust 版本**: 1.70+ (dev profile, unoptimized)
+- **测试数据**: 生成的 C# 代码样本
+- **测试方法**: 单次运行，无预热优化
+
+### 测试数据说明
+
+**重要说明**: 以下性能数据基于项目内部的基准测试，与其他库的对比数据为**估算值**，并非在同一环境下进行的直接对比测试。
+
+## 🎯 实际测试结果
+
+### Highlight Engine 性能数据
+
+基于实际测试结果：
+
+#### Debug 模式 (`cargo run --bin benchmark`)
+| 测试规模 | 行数 | 处理时间 | 吞吐量 (行/秒) | 段落数 |
+|----------|------|----------|----------------|--------|
+| **小型文件** | 126 行 | 6.01 ms | **20,972** | 1,857 |
+| **中型文件** | 1,206 行 | 59.1 ms | **20,407** | 18,417 |
+| **大型文件** | 12,006 行 | 597.8 ms | **20,085** | 184,017 |
+
+#### Release 模式 (`cargo run --bin benchmark --release`)
+| 测试规模 | 行数 | 处理时间 | 吞吐量 (行/秒) | 段落数 |
+|----------|------|----------|----------------|--------|
+| **小型文件** | 126 行 | 679 µs | **185,521** | 1,857 |
+| **中型文件** | 1,206 行 | 5.49 ms | **219,574** | 18,417 |
+| **大型文件** | 12,006 行 | 55.4 ms | **216,857** | 184,017 |
+
+**性能提升**: Release 模式相比 Debug 模式性能提升 **9-10 倍**
+
+### 性能特征分析
+
+**稳定性**: 吞吐量在不同文件大小下保持稳定 (~20K 行/秒)
+**线性扩展**: 处理时间与文件大小呈线性关系
+**内存效率**: 段落数量与行数比例合理 (~15 段落/行)
+
+## ⚠️ 数据来源说明
+
+### 1. Highlight Engine 数据
+- **来源**: 项目内部基准测试 (`src/bin/benchmark.rs`)
+- **可靠性**: ✅ **高** - 实际运行测试
+- **测试条件**: Debug 模式，未优化编译
+- **局限性**: 仅测试 C# 语言，生成的测试数据
+
+### 2. 其他库性能数据
+- **来源**: 基于公开文档、基准测试报告和社区讨论的**估算**
+- **可靠性**: ⚠️ **中等** - 非直接对比测试
+- **估算方法**: 
+  - 参考官方性能声明
+  - 社区基准测试报告
+  - 语言特性分析
+  - 架构复杂度评估
+
+### 3. 对比数据估算方法
+
+**highlight.js (JavaScript)**:
+- **估算依据**: 
+  - JavaScript 单线程执行特性
+  - 正则表达式性能限制
+  - 浏览器环境开销
+  - 社区基准测试报告
+- **估算吞吐量**: ~50K 行/秒 (浏览器环境)
+
+**Prism.js (JavaScript)**:
+- **估算依据**:
+  - 类似 highlight.js 的技术栈
+  - 插件化架构开销
+  - 按需加载特性
+- **估算吞吐量**: ~30K 行/秒
+
+**syntect (Rust)**:
+- **估算依据**:
+  - 同样使用 Rust 语言
+  - 成熟的优化算法
+  - Sublime Text 兼容性开销
+- **估算吞吐量**: ~500K 行/秒
+
+**Pygments (Python)**:
+- **估算依据**:
+  - Python 解释执行特性
+  - 对象内存开销
+  - GIL 限制
+- **估算吞吐量**: ~10K 行/秒
+
+## 🔬 性能对比分析
+
+### 相对性能评估
+
+| 库 | 估算相对性能 | 置信度 | 说明 |
+|----|--------------|--------|------|
+| **Highlight Engine** | **1x** (基准) | ✅ 高 | 实际测试数据 |
+| **highlight.js** | **0.4x** | ⚠️ 中 | 基于技术栈分析 |
+| **Prism.js** | **0.3x** | ⚠️ 中 | 基于架构分析 |
+| **syntect** | **1.2x** | ⚠️ 中 | 基于同类项目分析 |
+| **Pygments** | **0.2x** | ⚠️ 中 | 基于语言特性分析 |
+
+### 性能优势分析
+
+**Highlight Engine 的优势**:
+1. **Rust 语言优势**: 编译型语言，零成本抽象
+2. **优化算法**: 查找表、二分查找等优化
+3. **内存管理**: 字符串驻留减少分配
+4. **无运行时开销**: 无垃圾回收、无解释器
+
+**相对劣势**:
+1. **调试模式**: 当前测试在 debug 模式下进行
+2. **语言限制**: 仅测试 C# 语言
+3. **数据规模**: 测试数据相对较小
+
+## 🚀 性能优化建议
+
+### 短期优化 (1-2 周)
+
+1. **Release 模式测试**
+   ```bash
+   cargo run --bin benchmark --release
+   ```
+   - 预期性能提升: 3-5 倍
+   - 优化级别: `-O2` 或 `-O3`
+
+2. **更大规模测试**
+   - 测试 100K+ 行文件
+   - 测试真实代码样本
+   - 内存使用分析
+
+3. **多语言测试**
+   - 测试所有支持的语言
+   - 比较不同语言的解析性能
+   - 识别性能瓶颈
+
+### 中期优化 (1-2 月)
+
+1. **并行处理**
+   - 实现多线程解析
+   - 使用 Rayon 进行并行迭代
+   - 预期性能提升: 2-4 倍 (多核 CPU)
 
-## 📊 Current Rust Performance
+2. **内存优化**
+   - 实现 arena 分配
+   - 减少内存分配次数
+   - 使用 `bumpalo` 或 `typed-arena`
 
-### Benchmark Results (Release Mode)
+3. **算法优化**
+   - SIMD 指令优化
+   - 更高效的正则表达式引擎
+   - 缓存优化
 
-| File Size | Lines | Time | Lines/sec | Segments |
-|-----------|-------|------|-----------|----------|
-| Small | 126 | 562µs | **223,983** | 1,443 |
-| Medium | 1,206 | 5.03ms | **239,783** | 14,313 |
-| Large | 12,006 | 49.6ms | **242,183** | 143,013 |
+### 长期优化 (3-6 月)
 
-### Debug Mode Performance
+1. **增量解析**
+   - 支持文件修改后的增量更新
+   - 避免重复解析未修改部分
+   - 实时编辑支持
 
-| File Size | Lines | Time | Lines/sec |
-|-----------|-------|------|-----------|
-| Small | 126 | 3.79ms | 33,282 |
-| Medium | 1,206 | 31.6ms | 38,106 |
-| Large | 12,006 | 323ms | 37,175 |
-
-**Performance Improvement (Release vs Debug):** ~6-7x
-
----
-
-## 🔍 C# Optimization Analysis
-
-### Original C# Optimizations
-
-The C# version implemented several optimizations:
-
-1. **Boyer-Moore String Search** - 10-50x faster string matching
-2. **Regex Compilation Cache** - Avoid recompiling patterns
-3. **Keyword Pre-sorting** - Binary search instead of linear (O(n) → O(log n))
-4. **Bad Character Table Cache** - Precomputed lookup tables
-5. **LPS Table Cache** - KMP preprocessing
-6. **Parallel Parsing** - Multi-core support
-7. **Incremental Parsing** - Editor scenario optimization
-
-### Expected C# Performance Gains
-
-| Scenario | Original | Optimized | Speedup |
-|----------|----------|-----------|---------|
-| Small (100 lines) | ~10ms | ~2ms | **5x** |
-| Medium (1000 lines) | ~150ms | ~15ms | **10x** |
-| Large (10000 lines) | ~2500ms | ~150ms | **17x** |
-| Huge (100000 lines) | ~40000ms | ~2000ms | **20x** |
-
----
-
-## 🦀 Rust vs C# Performance Comparison
-
-### Current Rust Performance (Already Excellent!)
-
-| File Size | Rust (Release) | C# Optimized (Expected) | Rust Advantage |
-|-----------|----------------|------------------------|----------------|
-| Small (100 lines) | **0.56ms** | ~2ms | **3.6x faster** |
-| Medium (1000 lines) | **5.03ms** | ~15ms | **3x faster** |
-| Large (10000 lines) | **49.6ms** | ~150ms | **3x faster** |
-
-### Why Rust is Already Fast
-
-1. **Zero-cost Abstractions** - No runtime overhead
-2. **Efficient Regex Engine** - Rust's `regex` crate is highly optimized
-3. **Memory Safety without GC** - No garbage collection pauses
-4. **Native Compilation** - Direct machine code, no JIT warmup
-5. **Efficient String Handling** - UTF-8 by default, no encoding overhead
-
----
-
-## 🤔 Should We Implement C# Optimizations in Rust?
-
-### Analysis: **Mostly NOT Necessary**
-
-#### ✅ Already Optimized in Rust
-
-1. **Regex Compilation**
-   - Rust's `regex` crate compiles patterns once
-   - No need for manual caching
-   - Already includes optimizations like DFA
-
-2. **String Search**
-   - Rust's standard library uses optimized algorithms
-   - `memchr` crate provides SIMD-accelerated search
-   - No need for manual Boyer-Moore implementation
-
-3. **Memory Management**
-   - No GC overhead
-   - Efficient allocation patterns
-   - Stack allocation where possible
-
-#### ⚠️ Potentially Beneficial Optimizations
-
-1. **Keyword Binary Search** (Minor benefit)
-   - Current: Linear search through keywords
-   - Could be: Binary search with pre-sorted array
-   - **Expected gain:** 10-20% for keyword-heavy code
-   - **Implementation cost:** Low
-
-2. **String Interning** (Situational)
-   - For repeated strings (common keywords, types)
-   - **Expected gain:** 5-10% memory reduction
-   - **Implementation cost:** Medium
-
-3. **Incremental Parsing** (Editor scenarios)
-   - Only re-parse changed lines
-   - **Expected gain:** 10-100x for single-line edits
-   - **Implementation cost:** High
-   - **Use case:** Code editors only
-
-#### ❌ Not Necessary
-
-1. **Boyer-Moore Search**
-   - Rust's standard library already uses efficient algorithms
-   - `memchr` provides SIMD-accelerated byte search
-   - Manual implementation would likely be slower
-
-2. **Parallel Parsing**
-   - Rust's `rayon` crate makes this trivial if needed
-   - Current performance is already excellent
-   - Would add complexity for minimal gain
-
-3. **LPS/KMP Tables**
-   - Rust's regex engine handles this internally
-   - Manual implementation redundant
-
----
-
-## 📈 Performance Comparison Table
-
-| Metric | C# Original | C# Optimized | Rust (Current) | Rust vs C# Optimized |
-|--------|--------------|--------------|----------------|---------------------|
-| Small file | ~10ms | ~2ms | **0.56ms** | **3.6x faster** |
-| Medium file | ~150ms | ~15ms | **5.03ms** | **3x faster** |
-| Large file | ~2500ms | ~150ms | **49.6ms** | **3x faster** |
-| Lines/sec | ~4,000 | ~66,000 | **242,000** | **3.7x faster** |
-
----
-
-## 🎯 Recommendations
-
-### 1. **No Immediate Optimizations Needed**
-
-The Rust implementation is already **3-4x faster** than the optimized C# version. The performance is excellent for typical use cases.
-
-### 2. **Optional: Keyword Binary Search**
-
-If profiling shows keyword matching is a bottleneck:
-
-```rust
-// Current approach (linear search)
-for keyword in &keywords {
-    if word == keyword {
-        return Some(keyword);
-    }
-}
-
-// Optimized approach (binary search)
-keywords.binary_search(&word).ok().map(|i| &keywords[i])
-```
-
-**Expected gain:** 10-20% for keyword-heavy code
-**Implementation time:** 1-2 hours
-
-### 3. **Future: Incremental Parsing**
-
-For code editor integration:
-
-```rust
-pub struct IncrementalParser {
-    parser: HighlightParser,
-    cached_lines: HashMap<usize, TextLineInfo>,
-}
-
-impl IncrementalParser {
-    pub fn update_line(&mut self, line_num: usize, content: &str) -> Result<()> {
-        // Only re-parse the changed line
-        // Invalidate dependent lines (multi-line blocks)
-    }
-}
-```
-
-**Use case:** Real-time syntax highlighting in editors
-**Implementation time:** 1-2 days
-
-### 4. **Benchmark Against Real-World Code**
-
-Test with actual codebases to validate performance:
-
-```bash
-# Test with real Rust code
-cargo run --bin highlight -- /path/to/rust/project/src/**/*.rs
-
-# Test with real Python code
-cargo run --bin highlight -- /path/to/python/project/**/*.py
-```
-
----
-
-## 📊 Conclusion
-
-### Performance Summary
-
-| Aspect | Status | Notes |
-|--------|--------|-------|
-| **Overall Performance** | ✅ Excellent | 3-4x faster than optimized C# |
-| **Memory Usage** | ✅ Efficient | No GC, stack allocation |
-| **Startup Time** | ✅ Instant | No JIT warmup |
-| **Scalability** | ✅ Good | Linear scaling with file size |
-
-### Optimization Priority
-
-1. **P0 (Critical):** None - performance is already excellent
-2. **P1 (High):** Keyword binary search (optional)
-3. **P2 (Medium):** Incremental parsing (editor scenarios)
-4. **P3 (Low):** String interning, parallel parsing
-
-### Final Verdict
-
-**The Rust implementation does NOT need the C# optimizations** because:
-
-1. ✅ **Already faster** - 3-4x faster than optimized C#
-2. ✅ **Better algorithms** - Rust's regex and string handling are superior
-3. ✅ **No GC overhead** - Deterministic performance
-4. ✅ **Native compilation** - No runtime warmup
-5. ✅ **Memory safe** - No buffer overflows or memory leaks
-
-The C# optimizations were necessary to overcome .NET runtime overhead, but Rust's design inherently provides these benefits without manual optimization.
-
----
-
-## 🚀 Next Steps
-
-### If You Want to Optimize Further
-
-1. **Profile first** - Use `cargo flamegraph` to find actual bottlenecks
-2. **Benchmark changes** - Ensure optimizations actually help
-3. **Consider use case** - Editor integration? Batch processing?
-4. **Measure memory** - Not just speed
-
-### Recommended Approach
-
-```bash
-# Install profiling tools
-cargo install flamegraph
-
-# Profile the benchmark
-cargo flamegraph --bin benchmark
-
-# Profile with real code
-cargo flamegraph --bin highlight -- examples/test.rs --languages-dir languages
-```
-
-**Focus on actual bottlenecks, not theoretical optimizations.**
-
----
-
-*Analysis performed on 2026-03-20*
-*Rust version: 0.1.0*
-*Platform: macOS (Apple Silicon)*
+2. **WebAssembly**
+   - 编译为 WASM 用于浏览器
+   - 与 JavaScript 库直接对比
+   - 跨平台性能测试
+
+## 📈 性能基准建立
+
+### 建议的测试框架
+
+1. **标准化测试**
+   ```rust
+   use criterion::{black_box, criterion_group, criterion_main, Criterion};
+   
+   fn benchmark_parse(c: &mut Criterion) {
+       let code = include_str!("../tests/fixtures/large_file.cs");
+       let parser = create_test_parser();
+       
+       c.bench_function("parse_large_file", |b| {
+           b.iter(|| {
+               let lines: Vec<&str> = code.lines().collect();
+               parser.parse(black_box(&lines), 1).unwrap()
+           })
+       });
+   }
+   ```
+
+2. **跨语言对比**
+   - 使用相同的测试数据
+   - 相同的硬件环境
+   - 标准化的测试流程
+
+3. **持续集成**
+   - 自动化性能测试
+   - 性能回归检测
+   - 基准数据跟踪
+
+## 🎯 准确性能评估
+
+### 当前状态
+
+**实际性能**: ~20K 行/秒 (Debug 模式)
+**预期性能**: ~60-100K 行/秒 (Release 模式)
+**优化潜力**: 2-5 倍 (通过并行化和算法优化)
+
+### 与行业标准对比
+
+**基于技术栈的合理推测**:
+
+| 技术栈 | 典型性能范围 | Highlight Engine 预期位置 |
+|--------|--------------|---------------------------|
+| **Rust** | 100K-1M 行/秒 | 中上水平 |
+| **JavaScript** | 10K-100K 行/秒 | 高于平均水平 |
+| **Python** | 1K-50K 行/秒 | 显著优势 |
+
+### 结论
+
+**性能定位**: Highlight Engine 在 Rust 生态中处于**中等偏上**水平，相比脚本语言有**显著优势**。
+
+**优势**:
+- ✅ 编译型语言性能优势
+- ✅ 内存安全无运行时开销
+- ✅ 优化的算法实现
+
+**改进空间**:
+- ⚠️ Release 模式优化
+- ⚠️ 并行处理支持
+- ⚠️ 更大规模测试
+
+## 🔍 数据可靠性说明
+
+### 重要声明
+
+1. **Highlight Engine 数据**: 基于实际测试，**可靠**
+2. **其他库数据**: 基于估算和分析，**仅供参考**
+3. **对比有效性**: 需要在相同条件下进行直接测试才能得出准确结论
+
+### 建议
+
+1. **进行直接对比测试**: 在相同环境下测试所有库
+2. **使用标准化基准**: 采用业界标准的基准测试套件
+3. **公开测试数据**: 提供可重现的测试结果
+
+## 📋 总结
+
+**当前性能**:
+- Debug 模式: ~20K 行/秒
+- Release 模式: ~217K 行/秒
+
+**相对优势**: 相比脚本语言有 4-20 倍性能优势
+**改进潜力**: 通过并行化可达 500K+ 行/秒
+
+**关键发现**:
+1. 性能数据基于实际测试，但仅限于 Debug 模式
+2. 与其他库的对比为估算值，需要实际验证
+3. 有显著的优化空间和潜力
+4. 在 Rust 生态中处于合理水平
+
+**下一步行动**:
+1. 运行 Release 模式基准测试
+2. 建立标准化测试框架
+3. 进行跨语言直接对比
+4. 实施性能优化措施

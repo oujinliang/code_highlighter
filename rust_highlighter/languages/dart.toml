@@ -1,0 +1,92 @@
+name = "dart"
+extensions = [".dart"]
+delimiters = [" ", "\t", "(", ")", "{", "}", "[", "]", ";", ",", ".", "<", ">", "+", "-", "*", "/", "%", "&", "|", "^", "!", "~", "=", "?", ":", "@"]
+back_delimiters = []
+ignore_case = false
+
+[[keywords]]
+name = "keyword"
+keywords = [
+    "abstract", "as", "assert", "async", "await",
+    "break", "case", "catch", "class", "const",
+    "continue", "covariant", "default", "deferred", "do",
+    "dynamic", "else", "enum", "export", "extends",
+    "extension", "external", "factory", "false", "final",
+    "finally", "for", "Function", "get", "hide",
+    "if", "implements", "import", "in", "interface",
+    "is", "late", "library", "mixin", "new",
+    "null", "on", "operator", "part", "required",
+    "rethrow", "return", "set", "show", "static",
+    "super", "switch", "sync", "this", "throw",
+    "true", "try", "typedef", "var", "void",
+    "while", "with", "yield"
+]
+
+[[keywords]]
+name = "type"
+keywords = [
+    "bool", "double", "int", "num", "String",
+    "List", "Map", "Set", "Iterable", "Iterator",
+    "Future", "Stream", "dynamic", "void", "Never",
+    "Object?", "Null"
+]
+
+[[keywords]]
+name = "builtin"
+keywords = [
+    "print", "identical", "identityHashCode", "runtimeType", "toString",
+    "hashCode", "length", "isEmpty", "isNotEmpty", "contains",
+    "indexOf", "lastIndexOf", "substring", "trim", "trimLeft",
+    "trimRight", "toUpperCase", "toLowerCase", "replaceAll", "split"
+]
+
+[[single_line_blocks]]
+name = "comment"
+start = "//"
+end = ""
+
+[[single_line_blocks]]
+name = "string"
+start = """
+end = """
+
+[[single_line_blocks]]
+name = "string"
+start = "'"
+end = "'"
+
+[[multi_line_blocks]]
+name = "multi-line comment"
+start = "/*"
+end = "*/"
+
+[[multi_line_blocks]]
+name = "documentation"
+start = "/**"
+end = "*/"
+
+[[multi_line_blocks]]
+name = "multi-line string"
+start = """""
+end = """""
+
+[[multi_line_blocks]]
+name = "multi-line string"
+start = "'''"
+end = "'''"
+
+[[tokens]]
+name = "number"
+pattern = "\\b\\d+\\.?\\d*([eE][+-]?\\d+)?\\b"
+
+[[tokens]]
+name = "hex number"
+pattern = "\\b0[xX][0-9a-fA-F]+\\b"
+
+[[tokens]]
+name = "symbol"
+pattern = "#[a-zA-Z_][a-zA-Z0-9_]*"
+
+[[tokens]]
+name = "annotation"
+pattern = "@\\w+"

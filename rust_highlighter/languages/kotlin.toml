@@ -1,0 +1,82 @@
+name = "kotlin"
+extensions = [".kt", ".kts"]
+delimiters = [" ", "\t", "(", ")", "{", "}", "[", "]", ";", ",", ".", "<", ">", "+", "-", "*", "/", "%", "&", "|", "^", "!", "~", "=", "?", ":", "@"]
+back_delimiters = []
+ignore_case = false
+
+[[keywords]]
+name = "keyword"
+keywords = [
+    "abstract", "actual", "annotation", "as", "break",
+    "by", "catch", "class", "companion", "const",
+    "constructor", "continue", "crossinline", "data", "do",
+    "else", "enum", "expect", "external", "false",
+    "final", "finally", "for", "fun", "get",
+    "if", "import", "in", "infix", "init",
+    "inline", "inner", "interface", "internal", "is",
+    "lateinit", "noinline", "null", "object", "open",
+    "operator", "out", "override", "package", "private",
+    "protected", "public", "reified", "return", "sealed",
+    "set", "super", "suspend", "tailrec", "this",
+    "throw", "true", "try", "typealias", "val",
+    "var", "vararg", "when", "while", "yield"
+]
+
+[[keywords]]
+name = "type"
+keywords = [
+    "Boolean", "Byte", "Char", "Double", "Float",
+    "Int", "Long", "Short", "String", "Array",
+    "List", "Map", "Set", "Pair", "Triple",
+    "Unit", "Nothing", "Any", "Any?"
+]
+
+[[keywords]]
+name = "builtin"
+keywords = [
+    "println", "print", "readLine", "readln", "TODO",
+    "require", "check", "assert", "error", "listOf",
+    "mapOf", "setOf", "arrayOf", "emptyList", "emptyMap",
+    "emptySet"
+]
+
+[[single_line_blocks]]
+name = "comment"
+start = "//"
+end = ""
+
+[[single_line_blocks]]
+name = "string"
+start = """
+end = """
+
+[[single_line_blocks]]
+name = "char"
+start = "'"
+end = "'"
+
+[[multi_line_blocks]]
+name = "multi-line comment"
+start = "/*"
+end = "*/"
+
+[[multi_line_blocks]]
+name = "kdoc"
+start = "/**"
+end = "*/"
+
+[[tokens]]
+name = "number"
+pattern = "\\b\\d+\\.?\\d*([eE][+-]?\\d+)?[fFlL]?\\b"
+
+[[tokens]]
+name = "hex number"
+pattern = "\\b0[xX][0-9a-fA-F]+[lL]?\\b"
+
+[[tokens]]
+name = "binary number"
+pattern = "\\b0[bB][01]+[lL]?\\b"
+
+[[tokens]]
+name = "annotation"
+pattern = "@\\w+"
