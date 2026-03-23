@@ -1,0 +1,50 @@
+2026.03.23 14:12:45 INFO  Started: Metals version 1.6.6 in folders '/Users/oujinliang/Code/jinou/code_highlighter/rust_highlighter' for client Visual Studio Code - Insiders 1.113.0-insider.
+2026.03.23 14:12:45 INFO  Memory monitor started
+2026.03.23 14:12:45 WARN  Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2026.03.23 14:12:45 INFO  no build target found for /Users/oujinliang/Code/jinou/code_highlighter/rust_highlighter/multiline_test.scala. Using presentation compiler with project's scala-library version: 3.3.7
+2026.03.23 14:12:50 INFO  Running List(/Users/oujinliang/.sdkman/candidates/scalacli/current/bin/scala-cli, setup-ide, /Users/oujinliang/Code/jinou/code_highlighter/rust_highlighter)
+2026.03.23 14:12:50 INFO  Scala CLI: Downloading https://repo1.maven.org/maven2/org/scala-lang/scala-library/maven-metadata.xml
+2026.03.23 14:12:50 INFO  Scala CLI: Downloaded https://repo1.maven.org/maven2/org/scala-lang/scala-library/maven-metadata.xml
+2026.03.23 14:12:50 INFO  Scala CLI: Downloading https://repo1.maven.org/maven2/org/scala-lang/scala3-library_3/maven-metadata.xml
+2026.03.23 14:12:50 INFO  Scala CLI: Downloaded https://repo1.maven.org/maven2/org/scala-lang/scala3-library_3/maven-metadata.xml
+2026.03.23 14:12:50 INFO  Scala CLI: Downloading https://github.com/VirtusLab/scala-cli-scala-versions/raw/main/scala-versions-v1.json
+2026.03.23 14:12:52 INFO  Scala CLI: Downloaded https://github.com/VirtusLab/scala-cli-scala-versions/raw/main/scala-versions-v1.json
+2026.03.23 14:12:52 INFO  Scala CLI: Downloading https://repo1.maven.org/maven2/org/scala-lang/scala3-compiler_3/3.2.2/scala3-compiler_3-3.2.2.pom
+2026.03.23 14:12:52 INFO  Scala CLI: Downloaded https://repo1.maven.org/maven2/org/scala-lang/scala3-compiler_3/3.2.2/scala3-compiler_3-3.2.2.pom
+2026.03.23 14:12:52 INFO  Scala CLI: Downloading https://repo1.maven.org/maven2/org/scala-lang/scala3-library_3/3.2.2/scala3-library_3-3.2.2.pom
+2026.03.23 14:12:52 INFO  Scala CLI: Downloading https://repo1.maven.org/maven2/org/scala-lang/scala3-interfaces/3.2.2/scala3-interfaces-3.2.2.pom
+2026.03.23 14:12:52 INFO  Scala CLI: Downloading https://repo1.maven.org/maven2/org/scala-lang/modules/scala-asm/9.3.0-scala-1/scala-asm-9.3.0-scala-1.pom
+2026.03.23 14:12:52 INFO  Scala CLI: Downloading https://repo1.maven.org/maven2/org/scala-lang/tasty-core_3/3.2.2/tasty-core_3-3.2.2.pom
+2026.03.23 14:12:52 INFO  Scala CLI: Downloaded https://repo1.maven.org/maven2/org/scala-lang/scala3-library_3/3.2.2/scala3-library_3-3.2.2.pom
+2026.03.23 14:12:52 INFO  Scala CLI: Downloaded https://repo1.maven.org/maven2/org/scala-lang/scala3-interfaces/3.2.2/scala3-interfaces-3.2.2.pom
+2026.03.23 14:12:52 INFO  Scala CLI: Downloaded https://repo1.maven.org/maven2/org/scala-lang/tasty-core_3/3.2.2/tasty-core_3-3.2.2.pom
+2026.03.23 14:12:52 INFO  Scala CLI: Downloaded https://repo1.maven.org/maven2/org/scala-lang/modules/scala-asm/9.3.0-scala-1/scala-asm-9.3.0-scala-1.pom
+2026.03.23 14:12:52 INFO  Scala CLI: Downloading https://repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.10/scala-library-2.13.10.pom
+2026.03.23 14:12:52 INFO  Scala CLI: Downloading https://repo1.maven.org/maven2/com/google/protobuf/protobuf-java/3.7.0/protobuf-java-3.7.0.pom
+2026.03.23 14:12:52 INFO  Scala CLI: Downloaded https://repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.10/scala-library-2.13.10.pom
+2026.03.23 14:12:52 INFO  Scala CLI: Downloaded https://repo1.maven.org/maven2/com/google/protobuf/protobuf-java/3.7.0/protobuf-java-3.7.0.pom
+2026.03.23 14:12:52 INFO  Scala CLI: Downloading https://repo1.maven.org/maven2/com/google/protobuf/protobuf-parent/3.7.0/protobuf-parent-3.7.0.pom
+2026.03.23 14:12:52 INFO  Scala CLI: Downloaded https://repo1.maven.org/maven2/com/google/protobuf/protobuf-parent/3.7.0/protobuf-parent-3.7.0.pom
+2026.03.23 14:12:52 INFO  Scala CLI: Downloading https://repo1.maven.org/maven2/com/google/protobuf/protobuf-bom/3.7.0/protobuf-bom-3.7.0.pom
+2026.03.23 14:12:52 INFO  Scala CLI: Downloaded https://repo1.maven.org/maven2/com/google/protobuf/protobuf-bom/3.7.0/protobuf-bom-3.7.0.pom
+2026.03.23 14:12:52 INFO  Scala CLI: Downloading https://repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.10/scala-library-2.13.10.jar
+2026.03.23 14:12:52 INFO  Scala CLI: Downloading https://repo1.maven.org/maven2/org/scala-lang/scala3-library_3/3.2.2/scala3-library_3-3.2.2.jar
+2026.03.23 14:12:52 INFO  Scala CLI: Downloading https://repo1.maven.org/maven2/org/scala-lang/scala3-interfaces/3.2.2/scala3-interfaces-3.2.2.jar
+2026.03.23 14:12:52 INFO  Scala CLI: Downloading https://repo1.maven.org/maven2/org/scala-lang/modules/scala-asm/9.3.0-scala-1/scala-asm-9.3.0-scala-1.jar
+2026.03.23 14:12:52 INFO  Scala CLI: Downloading https://repo1.maven.org/maven2/org/scala-lang/scala3-compiler_3/3.2.2/scala3-compiler_3-3.2.2.jar
+2026.03.23 14:12:52 INFO  Scala CLI: Downloading https://repo1.maven.org/maven2/com/google/protobuf/protobuf-java/3.7.0/protobuf-java-3.7.0.jar
+2026.03.23 14:12:52 INFO  Scala CLI: Downloaded https://repo1.maven.org/maven2/org/scala-lang/scala3-interfaces/3.2.2/scala3-interfaces-3.2.2.jar
+2026.03.23 14:12:52 INFO  Scala CLI: Downloading https://repo1.maven.org/maven2/org/scala-lang/tasty-core_3/3.2.2/tasty-core_3-3.2.2.jar
+2026.03.23 14:12:53 INFO  Scala CLI: Downloaded https://repo1.maven.org/maven2/org/scala-lang/modules/scala-asm/9.3.0-scala-1/scala-asm-9.3.0-scala-1.jar
+2026.03.23 14:12:53 INFO  Scala CLI: Downloaded https://repo1.maven.org/maven2/org/scala-lang/tasty-core_3/3.2.2/tasty-core_3-3.2.2.jar
+2026.03.23 14:12:53 INFO  Scala CLI: Downloaded https://repo1.maven.org/maven2/org/scala-lang/scala3-library_3/3.2.2/scala3-library_3-3.2.2.jar
+2026.03.23 14:12:53 INFO  Scala CLI: Downloaded https://repo1.maven.org/maven2/com/google/protobuf/protobuf-java/3.7.0/protobuf-java-3.7.0.jar
+2026.03.23 14:12:54 INFO  Scala CLI: Downloaded https://repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.10/scala-library-2.13.10.jar
+2026.03.23 14:12:59 INFO  Scala CLI: Downloaded https://repo1.maven.org/maven2/org/scala-lang/scala3-compiler_3/3.2.2/scala3-compiler_3-3.2.2.jar
+2026.03.23 14:12:59 INFO  Attempting to connect to the build server...
+2026.03.23 14:13:05 ERROR Failed to connect with build server, no functionality will work.
+scala.concurrent.Future$$anon$2: Future.filter predicate is not satisfied
+
+2026.03.23 14:13:05 WARN  no build target for: /Users/oujinliang/Code/jinou/code_highlighter/rust_highlighter/multiline_test.scala
+2026.03.23 14:13:05 INFO  no build target found for /Users/oujinliang/Code/jinou/code_highlighter/rust_highlighter/multiline_test.scala. Using presentation compiler with project's scala-library version: 3.3.7
+2026.03.23 14:15:43 INFO  no build target found for /Users/oujinliang/Code/jinou/code_highlighter/rust_highlighter/multiline_test.scala. Using presentation compiler with project's scala-library version: 3.3.7

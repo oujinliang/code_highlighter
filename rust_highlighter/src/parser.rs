@@ -51,9 +51,6 @@ pub struct MultiLineState {
 pub struct HighlightParser {
     profile: HighlightProfile,
     delimiter_set: HashSet<char>,
-    back_delimiter_set: HashSet<char>,
-    /// Fast lookup table for ASCII delimiters (0-127)
-    ascii_delimiter_table: [bool; 128],
     /// String interner for common tokens (using RefCell for interior mutability)
     interner: RefCell<StringInterner>,
 }
@@ -62,21 +59,10 @@ impl HighlightParser {
     /// Create a new parser with the given profile.
     pub fn new(profile: HighlightProfile) -> Self {
         let delimiter_set: HashSet<char> = profile.language.delimiters.iter().cloned().collect();
-        let back_delimiter_set: HashSet<char> = profile.language.back_delimiters.iter().cloned().collect();
-
-        // Build fast ASCII delimiter lookup table
-        let mut ascii_delimiter_table = [false; 128];
-        for &c in &profile.language.delimiters {
-            if (c as usize) < 128 {
-                ascii_delimiter_table[c as usize] = true;
-            }
-        }
 
         Self {
             profile,
             delimiter_set,
-            back_delimiter_set,
-            ascii_delimiter_table,
             interner: RefCell::new(StringInterner::new()),
         }
     }
@@ -290,15 +276,6 @@ impl HighlightParser {
         Ok(())
     }
 
-    /// Fast check if an ASCII character is a delimiter using lookup table.
-    fn is_ascii_delimiter(&self, c: u8) -> bool {
-        if (c as usize) < 128 {
-            self.ascii_delimiter_table[c as usize]
-        } else {
-            false
-        }
-    }
-    
     /// Find a keyword in the profile using binary search.
     fn find_keyword(&self, word: &str) -> Option<&crate::profile::KeywordCollection> {
         let compare_word = if self.profile.language.ignore_case {
@@ -323,14 +300,19 @@ impl HighlightParser {
         line: &str,
         start_pos: usize,
     ) -> Option<(&'a crate::profile::CodeBlock, usize)> {
+        // Ensure start_pos is a valid char boundary
+        if !line.is_char_boundary(start_pos) {
+            return None;
+        }
+
         let search_text = &line[start_pos..];
-        
+
         for block in &self.profile.language.multi_line_blocks {
             if let Some(pos) = search_text.find(&block.start) {
                 return Some((block, start_pos + pos));
             }
         }
-        
+
         None
     }
     
@@ -341,8 +323,13 @@ impl HighlightParser {
         state: &MultiLineState,
         start_pos: usize,
     ) -> Option<usize> {
+        // Ensure start_pos is a valid char boundary
+        if !line.is_char_boundary(start_pos) {
+            return None;
+        }
+
         let search_text = &line[start_pos..];
-        
+
         // Handle escape sequences
         if let Some(escape) = &state.escape {
             let mut pos = 0;
@@ -353,26 +340,31 @@ impl HighlightParser {
                         continue;
                     }
                 }
-                
+
                 for item in &escape.items {
                     if search_text[pos..].starts_with(item) {
                         pos += item.len();
                         continue;
                     }
                 }
-                
+
                 if search_text[pos..].starts_with(&state.end_marker) {
                     return Some(start_pos + pos);
                 }
-                
-                pos += 1;
+
+                // Move to next character boundary
+                if let Some(next_char) = search_text[pos..].chars().next() {
+                    pos += next_char.len_utf8();
+                } else {
+                    break;
+                }
             }
         } else {
             if let Some(pos) = search_text.find(&state.end_marker) {
                 return Some(start_pos + pos);
             }
         }
-        
+
         None
     }
     
@@ -383,8 +375,13 @@ impl HighlightParser {
         block: &crate::profile::CodeBlock,
         start_pos: usize,
     ) -> Option<usize> {
+        // Ensure start_pos is a valid char boundary
+        if !line.is_char_boundary(start_pos) {
+            return None;
+        }
+
         let search_text = &line[start_pos..];
-        
+
         if let Some(escape) = &block.escape {
             let mut pos = 0;
             while pos < search_text.len() {
@@ -394,26 +391,31 @@ impl HighlightParser {
                         continue;
                     }
                 }
-                
+
                 for item in &escape.items {
                     if search_text[pos..].starts_with(item) {
                         pos += item.len();
                         continue;
                     }
                 }
-                
+
                 if search_text[pos..].starts_with(&block.end) {
                     return Some(start_pos + pos);
                 }
-                
-                pos += 1;
+
+                // Move to next character boundary
+                if let Some(next_char) = search_text[pos..].chars().next() {
+                    pos += next_char.len_utf8();
+                } else {
+                    break;
+                }
             }
         } else {
             if let Some(pos) = search_text.find(&block.end) {
                 return Some(start_pos + pos);
             }
         }
-        
+
         None
     }
     
@@ -423,14 +425,19 @@ impl HighlightParser {
         line: &str,
         start_pos: usize,
     ) -> Option<(&'a crate::profile::CodeBlock, usize)> {
+        // Ensure start_pos is a valid char boundary
+        if !line.is_char_boundary(start_pos) {
+            return None;
+        }
+
         let search_text = &line[start_pos..];
-        
+
         for block in &self.profile.language.single_line_blocks {
             if let Some(pos) = search_text.find(&block.start) {
                 return Some((block, start_pos + pos));
             }
         }
-        
+
         None
     }
     
@@ -444,9 +451,14 @@ impl HighlightParser {
         if block.end.is_empty() {
             return Some(line.len());
         }
-        
+
+        // Ensure start_pos is a valid char boundary
+        if !line.is_char_boundary(start_pos) {
+            return None;
+        }
+
         let search_text = &line[start_pos..];
-        
+
         if let Some(escape) = &block.escape {
             let mut pos = 0;
             while pos < search_text.len() {
@@ -456,26 +468,31 @@ impl HighlightParser {
                         continue;
                     }
                 }
-                
+
                 for item in &escape.items {
                     if search_text[pos..].starts_with(item) {
                         pos += item.len();
                         continue;
                     }
                 }
-                
+
                 if search_text[pos..].starts_with(&block.end) {
                     return Some(start_pos + pos);
                 }
-                
-                pos += 1;
+
+                // Move to next character boundary
+                if let Some(next_char) = search_text[pos..].chars().next() {
+                    pos += next_char.len_utf8();
+                } else {
+                    break;
+                }
             }
         } else {
             if let Some(pos) = search_text.find(&block.end) {
                 return Some(start_pos + pos);
             }
         }
-        
+
         None
     }
     
@@ -485,8 +502,13 @@ impl HighlightParser {
         line: &str,
         start_pos: usize,
     ) -> Option<(&crate::profile::CompiledToken, usize, usize)> {
+        // Ensure start_pos is a valid char boundary
+        if !line.is_char_boundary(start_pos) {
+            return None;
+        }
+
         let search_text = &line[start_pos..];
-        
+
         for token in &self.profile.compiled_tokens {
             if let Some(captures) = token.pattern.captures(search_text) {
                 if let Some(match_) = captures.get(0) {
@@ -494,7 +516,7 @@ impl HighlightParser {
                 }
             }
         }
-        
+
         None
     }
 }

@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+
+.hl {
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.4;
+    background-color: #FFFFFF;
+    color: #000000;
+    padding: 10px;
+    border-radius: 4px;
+    overflow-x: auto;
+}
+</style>
+</head>
+<body>
+<pre><code>
+<span style="color: #000000">&quot;&quot;&quot;</span>
+<span style="color: #000000">Python algorithms implementation</span>
+<span style="color: #000000">&quot;&quot;&quot;</span>
+<span style="color: #0000FF">from</span> typing <span style="color: #0000FF">import</span> List, Tuple, Optional
+<span style="color: #0000FF">import</span> time
+<span style="color: #0000FF">from</span> functools <span style="color: #0000FF">import</span> lru_cache
+
+<span style="color: #0000FF">class</span> Algorithms:
+    
+    <span style="color: #D2691E">@staticmethod</span>
+    <span style="color: #0000FF">def</span> binary_search(arr<span style="color: #000000">: List[int]</span>, target<span style="color: #000000">: int</span>) <span style="color: #000000">-&gt; int</span>:
+        <span style="color: #000000">&quot;&quot;&quot;</span>
+<span style="color: #000000">        Binary search implementation</span>
+<span style="color: #000000">        Returns index of target if found, otherwise -1</span>
+<span style="color: #000000">        &quot;&quot;&quot;</span>
+        left, right = <span style="color: #FF00FF">0</span>, <span style="color: #000000">len</span>(arr) - <span style="color: #FF00FF">1</span>
+        
+        <span style="color: #0000FF">while</span> left &lt;= right:
+            mid = left + (right - left) // <span style="color: #FF00FF">2</span>
+            
+            <span style="color: #0000FF">if</span> arr[mid] == target:
+                <span style="color: #0000FF">return</span> mid
+            <span style="color: #0000FF">elif</span> arr[mid] &lt; target:
+                left = mid + <span style="color: #FF00FF">1</span>
+            <span style="color: #0000FF">else</span>:
+                right = mid - <span style="color: #FF00FF">1</span>
+        
+        <span style="color: #0000FF">return</span> -<span style="color: #FF00FF">1</span>
+    
+    <span style="color: #D2691E">@staticmethod</span>
+    <span style="color: #0000FF">def</span> linear_search(arr<span style="color: #000000">: List[int]</span>, target<span style="color: #000000">: int</span>) <span style="color: #000000">-&gt; int</span>:
+        <span style="color: #000000">&quot;&quot;&quot;</span>
+<span style="color: #000000">        Linear search implementation</span>
+<span style="color: #000000">        Returns index of target if found, otherwise -1</span>
+<span style="color: #000000">        &quot;&quot;&quot;</span>
+        <span style="color: #0000FF">for</span> i, value <span style="color: #0000FF">in</span> <span style="color: #000000">enumerate</span>(arr):
+            <span style="color: #0000FF">if</span> value == target:
+                <span style="color: #0000FF">return</span> i
+        <span style="color: #0000FF">return</span> -<span style="color: #FF00FF">1</span>
+    
+    <span style="color: #D2691E">@staticmethod</span>
+    <span style="color: #0000FF">def</span> gcd(a<span style="color: #000000">: int</span>, b<span style="color: #000000">: int</span>) <span style="color: #000000">-&gt; int</span>:
+        <span style="color: #000000">&quot;&quot;&quot;</span>
+<span style="color: #000000">        Greatest Common Divisor using Euclidean algorithm</span>
+<span style="color: #000000">        &quot;&quot;&quot;</span>
+        <span style="color: #0000FF">while</span> b:
+            a, b = b, a % b
+        <span style="color: #0000FF">return</span> a
+    
+    <span style="color: #D2691E">@staticmethod</span>
+    <span style="color: #0000FF">def</span> lcm(a<span style="color: #000000">: int</span>, b<span style="color: #000000">: int</span>) <span style="color: #000000">-&gt; int</span>:
+        <span style="color: #000000">&quot;&quot;&quot;</span>
+<span style="color: #000000">        Least Common Multiple</span>
+<span style="color: #000000">        &quot;&quot;&quot;</span>
+        <span style="color: #0000FF">return</span> <span style="color: #000000">abs</span>(a * b) // Algorithms.gcd(a, b)
+    
+    <span style="color: #D2691E">@staticmethod</span>
+    <span style="color: #0000FF">def</span> is_prime(n<span style="color: #000000">: int</span>) <span style="color: #000000">-&gt; bool</span>:
+        <span style="color: #000000">&quot;&quot;&quot;</span>
+<span style="color: #000000">        Check if a number is prime</span>
+<span style="color: #000000">        &quot;&quot;&quot;</span>
+        <span style="color: #0000FF">if</span> n &lt; <span style="color: #FF00FF">2</span>:
+            <span style="color: #0000FF">return</span> <span style="color: #0000FF">False</span>
+        <span style="color: #0000FF">if</span> n == <span style="color: #FF00FF">2</span>:
+            <span style="color: #0000FF">return</span> <span style="color: #0000FF">True</span>
+        <span style="color: #0000FF">if</span> n % <span style="color: #FF00FF">2</span> == <span style="color: #FF00FF">0</span>:
+            <span style="color: #0000FF">return</span> <span style="color: #0000FF">False</span>
+        
+        <span style="color: #0000FF">for</span> i <span style="color: #0000FF">in</span> <span style="color: #000000">range</span>(<span style="color: #FF00FF">3</span>, <span style="color: #000000">int</span>(n**<span style="color: #FF00FF">0.5</span>) + <span style="color: #FF00FF">1</span>, <span style="color: #FF00FF">2</span>):
+            <span style="color: #0000FF">if</span> n % i == <span style="color: #FF00FF">0</span>:
+                <span style="color: #0000FF">return</span> <span style="color: #0000FF">False</span>
+        <span style="color: #0000FF">return</span> <span style="color: #0000FF">True</span>
+    
+    <span style="color: #D2691E">@staticmethod</span>
+    <span style="color: #0000FF">def</span> sieve_of_eratosthenes(limit<span style="color: #000000">: int</span>) <span style="color: #000000">-&gt; List[int]</span>:
+        <span style="color: #000000">&quot;&quot;&quot;</span>
+<span style="color: #000000">        Sieve of Eratosthenes to find all primes up to limit</span>
+<span style="color: #000000">        &quot;&quot;&quot;</span>
+        <span style="color: #0000FF">if</span> limit &lt; <span style="color: #FF00FF">2</span>:
+            <span style="color: #0000FF">return</span> []
+        
+        sieve = [<span style="color: #0000FF">True</span>] * (limit + <span style="color: #FF00FF">1</span>)
+        sieve[<span style="color: #FF00FF">0</span>] = sieve[<span style="color: #FF00FF">1</span>] = <span style="color: #0000FF">False</span>
+        
+        <span style="color: #0000FF">for</span> i <span style="color: #0000FF">in</span> <span style="color: #000000">range</span>(<span style="color: #FF00FF">2</span>, <span style="color: #000000">int</span>(limit**<span style="color: #FF00FF">0.5</span>) + <span style="color: #FF00FF">1</span>):
+            <span style="color: #0000FF">if</span> sieve[i]:
+                <span style="color: #0000FF">for</span> j <span style="color: #0000FF">in</span> <span style="color: #000000">range</span>(i*i, limit + <span style="color: #FF00FF">1</span>, i):
+                    sieve[j] = <span style="color: #0000FF">False</span>
+        
+        <span style="color: #0000FF">return</span> [i <span style="color: #0000FF">for</span> i <span style="color: #0000FF">in</span> <span style="color: #000000">range</span>(limit + <span style="color: #FF00FF">1</span>) <span style="color: #0000FF">if</span> sieve[i]]
+    
+    <span style="color: #D2691E">@staticmethod</span>
+    <span style="color: #0000FF">def</span> factorial(n<span style="color: #000000">: int</span>) <span style="color: #000000">-&gt; int</span>:
+        <span style="color: #000000">&quot;&quot;&quot;</span>
+<span style="color: #000000">        Calculate factorial recursively</span>
+<span style="color: #000000">        &quot;&quot;&quot;</span>
+        <span style="color: #0000FF">if</span> n &lt; <span style="color: #FF00FF">0</span>:
+            <span style="color: #0000FF">raise</span> ValueError(<span style="color: #8B0000">&quot;Factorial not defined for negative numbers</span><span style="color: #8B0000">&quot;)</span>
+        <span style="color: #0000FF">if</span> n == <span style="color: #FF00FF">0</span> <span style="color: #0000FF">or</span> n == <span style="color: #FF00FF">1</span>:
+            <span style="color: #0000FF">return</span> <span style="color: #FF00FF">1</span>
+        <span style="color: #0000FF">return</span> n * Algorithms.factorial(n - <span style="color: #FF00FF">1</span>)
+    
+    <span style="color: #D2691E">@staticmethod</span>
+    <span style="color: #D2691E">@lru_cache</span>(maxsize=<span style="color: #0000FF">None</span>)
+    <span style="color: #0000FF">def</span> fibonacci(n<span style="color: #000000">: int</span>) <span style="color: #000000">-&gt; int</span>:
+        <span style="color: #000000">&quot;&quot;&quot;</span>
+<span style="color: #000000">        Calculate Fibonacci number with memoization</span>
+<span style="color: #000000">        &quot;&quot;&quot;</span>
+        <span style="color: #0000FF">if</span> n &lt; <span style="color: #FF00FF">0</span>:
+            <span style="color: #0000FF">raise</span> ValueError(<span style="color: #8B0000">&quot;Fibonacci not defined for negative numbers</span><span style="color: #8B0000">&quot;)</span>
+        <span style="color: #0000FF">if</span> n == <span style="color: #FF00FF">0</span>:
+            <span style="color: #0000FF">return</span> <span style="color: #FF00FF">0</span>
+        <span style="color: #0000FF">if</span> n == <span style="color: #FF00FF">1</span>:
+            <span style="color: #0000FF">return</span> <span style="color: #FF00FF">1</span>
+        <span style="color: #0000FF">return</span> Algorithms.fibonacci(n - <span style="color: #FF00FF">1</span>) + Algorithms.fibonacci(n - <span style="color: #FF00FF">2</span>)
+    
+    <span style="color: #D2691E">@staticmethod</span>
+    <span style="color: #0000FF">def</span> power(base<span style="color: #000000">: int</span>, exponent<span style="color: #000000">: int</span>) <span style="color: #000000">-&gt; int</span>:
+        <span style="color: #000000">&quot;&quot;&quot;</span>
+<span style="color: #000000">        Calculate power using fast exponentiation</span>
+<span style="color: #000000">        &quot;&quot;&quot;</span>
+        <span style="color: #0000FF">if</span> exponent == <span style="color: #FF00FF">0</span>:
+            <span style="color: #0000FF">return</span> <span style="color: #FF00FF">1</span>
+        <span style="color: #0000FF">if</span> exponent &lt; <span style="color: #FF00FF">0</span>:
+            <span style="color: #0000FF">return</span> <span style="color: #FF00FF">1</span> / Algorithms.power(base, -exponent)
+        
+        <span style="color: #0000FF">if</span> exponent % <span style="color: #FF00FF">2</span> == <span style="color: #FF00FF">0</span>:
+            half = Algorithms.power(base, exponent // <span style="color: #FF00FF">2</span>)
+            <span style="color: #0000FF">return</span> half * half
+        <span style="color: #0000FF">else</span>:
+            <span style="color: #0000FF">return</span> base * Algorithms.power(base, exponent - <span style="color: #FF00FF">1</span>)
+    
+    <span style="color: #D2691E">@staticmethod</span>
+    <span style="color: #0000FF">def</span> matrix_multiply(a<span style="color: #000000">: List[List[int]</span>], b<span style="color: #000000">: List[List[int]</span>]) <span style="color: #000000">-&gt; List[List[int]</span>]:
+        <span style="color: #000000">&quot;&quot;&quot;</span>
+<span style="color: #000000">        Matrix multiplication</span>
+<span style="color: #000000">        &quot;&quot;&quot;</span>
+        <span style="color: #0000FF">if</span> <span style="color: #000000">len</span>(a[<span style="color: #FF00FF">0</span>]) != <span style="color: #000000">len</span>(b):
+            <span style="color: #0000FF">raise</span> ValueError(<span style="color: #8B0000">&quot;Matrix dimensions don't match for multiplication</span><span style="color: #8B0000">&quot;)</span>
+        
+        rows_a, cols_a = <span style="color: #000000">len</span>(a), <span style="color: #000000">len</span>(a[<span style="color: #FF00FF">0</span>])
+        cols_b = <span style="color: #000000">len</span>(b[<span style="color: #FF00FF">0</span>])
+        
+        result = [[<span style="color: #FF00FF">0</span> <span style="color: #0000FF">for</span> _ <span style="color: #0000FF">in</span> <span style="color: #000000">range</span>(cols_b)] <span style="color: #0000FF">for</span> _ <span style="color: #0000FF">in</span> <span style="color: #000000">range</span>(rows_a)]
+        
+        <span style="color: #0000FF">for</span> i <span style="color: #0000FF">in</span> <span style="color: #000000">range</span>(rows_a):
+            <span style="color: #0000FF">for</span> j <span style="color: #0000FF">in</span> <span style="color: #000000">range</span>(cols_b):
+                <span style="color: #0000FF">for</span> k <span style="color: #0000FF">in</span> <span style="color: #000000">range</span>(cols_a):
+                    result[i][j] += a[i][k] * b[k][j]
+        
+        <span style="color: #0000FF">return</span> result
+    
+    <span style="color: #D2691E">@staticmethod</span>
+    <span style="color: #0000FF">def</span> transpose(matrix<span style="color: #000000">: List[List[int]</span>]) <span style="color: #000000">-&gt; List[List[int]</span>]:
+        <span style="color: #000000">&quot;&quot;&quot;</span>
+<span style="color: #000000">        Transpose a matrix</span>
+<span style="color: #000000">        &quot;&quot;&quot;</span>
+        <span style="color: #0000FF">if</span> <span style="color: #0000FF">not</span> matrix:
+            <span style="color: #0000FF">return</span> []
+        
+        rows, cols = <span style="color: #000000">len</span>(matrix), <span style="color: #000000">len</span>(matrix[<span style="color: #FF00FF">0</span>])
+        <span style="color: #0000FF">return</span> [[matrix[i][j] <span style="color: #0000FF">for</span> i <span style="color: #0000FF">in</span> <span style="color: #000000">range</span>(rows)] <span style="color: #0000FF">for</span> j <span style="color: #0000FF">in</span> <span style="color: #000000">range</span>(cols)]
+    
+    <span style="color: #D2691E">@staticmethod</span>
+    <span style="color: #0000FF">def</span> determinant(matrix<span style="color: #000000">: List[List[int]</span>]) <span style="color: #000000">-&gt; int</span>:
+        <span style="color: #000000">&quot;&quot;&quot;</span>
+<span style="color: #000000">        Calculate determinant of a square matrix</span>
+<span style="color: #000000">        &quot;&quot;&quot;</span>
+        n = <span style="color: #000000">len</span>(matrix)
+        <span style="color: #0000FF">if</span> n == <span style="color: #FF00FF">0</span>:
+            <span style="color: #0000FF">return</span> <span style="color: #FF00FF">1</span>
+        <span style="color: #0000FF">if</span> n == <span style="color: #FF00FF">1</span>:
+            <span style="color: #0000FF">return</span> matrix[<span style="color: #FF00FF">0</span>][<span style="color: #FF00FF">0</span>]
+        <span style="color: #0000FF">if</span> n == <span style="color: #FF00FF">2</span>:
+            <span style="color: #0000FF">return</span> matrix[<span style="color: #FF00FF">0</span>][<span style="color: #FF00FF">0</span>] * matrix[<span style="color: #FF00FF">1</span>][<span style="color: #FF00FF">1</span>] - matrix[<span style="color: #FF00FF">0</span>][<span style="color: #FF00FF">1</span>] * matrix[<span style="color: #FF00FF">1</span>][<span style="color: #FF00FF">0</span>]
+        
+        det = <span style="color: #FF00FF">0</span>
+        <span style="color: #0000FF">for</span> j <span style="color: #0000FF">in</span> <span style="color: #000000">range</span>(n):
+            <span style="color: #008000"># Create submatrix by removing first row and column j</span>
+            submatrix = []
+            <span style="color: #0000FF">for</span> i <span style="color: #0000FF">in</span> <span style="color: #000000">range</span>(<span style="color: #FF00FF">1</span>, n):
+                row = []
+                <span style="color: #0000FF">for</span> k <span style="color: #0000FF">in</span> <span style="color: #000000">range</span>(n):
+                    <span style="color: #0000FF">if</span> k != j:
+                        row.append(matrix[i][k])
+                submatrix.append(row)
+            
+            sign = (-<span style="color: #FF00FF">1</span>) ** j
+            det += sign * matrix[<span style="color: #FF00FF">0</span>][j] * Algorithms.determinant(submatrix)
+        
+        <span style="color: #0000FF">return</span> det
+    
+    <span style="color: #D2691E">@staticmethod</span>
+    <span style="color: #0000FF">def</span> knapsack_01(weights<span style="color: #000000">: List[int]</span>, values<span style="color: #000000">: List[int]</span>, capacity<span style="color: #000000">: int</span>) <span style="color: #000000">-&gt; int</span>:
+        <span style="color: #000000">&quot;&quot;&quot;</span>
+<span style="color: #000000">        0/1 Knapsack problem using dynamic programming</span>
+<span style="color: #000000">        &quot;&quot;&quot;</span>
+        n = <span style="color: #000000">len</span>(weights)
+        dp = [[<span style="color: #FF00FF">0</span> <span style="color: #0000FF">for</span> _ <span style="color: #0000FF">in</span> <span style="color: #000000">range</span>(capacity + <span style="color: #FF00FF">1</span>)] <span style="color: #0000FF">for</span> _ <span style="color: #0000FF">in</span> <span style="color: #000000">range</span>(n + <span style="color: #FF00FF">1</span>)]
+        
+        <span style="color: #0000FF">for</span> i <span style="color: #0000FF">in</span> <span style="color: #000000">range</span>(<span style="color: #FF00FF">1</span>, n + <span style="color: #FF00FF">1</span>):
+            <span style="color: #0000FF">for</span> w <span style="color: #0000FF">in</span> <span style="color: #000000">range</span>(capacity + <span style="color: #FF00FF">1</span>):
+                <span style="color: #0000FF">if</span> weights[i-<span style="color: #FF00FF">1</span>] &lt;= w:
+                    dp[i][w] = <span style="color: #000000">max</span>(
+                        dp[i-<span style="color: #FF00FF">1</span>][w],
+                        dp[i-<span style="color: #FF00FF">1</span>][w - weights[i-<span style="color: #FF00FF">1</span>]] + values[i-<span style="color: #FF00FF">1</span>]
+                    )
+                <span style="color: #0000FF">else</span>:
+                    dp[i][w] = dp[i-<span style="color: #FF00FF">1</span>][w]
+        
+        <span style="color: #0000FF">return</span> dp[n][capacity]
+    
+    <span style="color: #D2691E">@staticmethod</span>
+    <span style="color: #0000FF">def</span> longest_common_subsequence(s1<span style="color: #000000">: str</span>, s2<span style="color: #000000">: str</span>) <span style="color: #000000">-&gt; int</span>:
+        <span style="color: #000000">&quot;&quot;&quot;</span>
+<span style="color: #000000">        Longest Common Subsequence using dynamic programming</span>
+<span style="color: #000000">        &quot;&quot;&quot;</span>
+        m, n = <span style="color: #000000">len</span>(s<span style="color: #FF00FF">1</span>), <span style="color: #000000">len</span>(s<span style="color: #FF00FF">2</span>)
+        dp = [[<span style="color: #FF00FF">0</span>] * (n + <span style="color: #FF00FF">1</span>) <span style="color: #0000FF">for</span> _ <span style="color: #0000FF">in</span> <span style="color: #000000">range</span>(m + <span style="color: #FF00FF">1</span>)]
+        
+        <span style="color: #0000FF">for</span> i <span style="color: #0000FF">in</span> <span style="color: #000000">range</span>(<span style="color: #FF00FF">1</span>, m + <span style="color: #FF00FF">1</span>):
+            <span style="color: #0000FF">for</span> j <span style="color: #0000FF">in</span> <span style="color: #000000">range</span>(<span style="color: #FF00FF">1</span>, n + <span style="color: #FF00FF">1</span>):
+                <span style="color: #0000FF">if</span> s1[i-<span style="color: #FF00FF">1</span>] == s2[j-<span style="color: #FF00FF">1</span>]:
+                    dp[i][j] = dp[i-<span style="color: #FF00FF">1</span>][j-<span style="color: #FF00FF">1</span>] + <span style="color: #FF00FF">1</span>
+                <span style="color: #0000FF">else</span>:
+                    dp[i][j] = <span style="color: #000000">max</span>(dp[i-<span style="color: #FF00FF">1</span>][j], dp[i][j-<span style="color: #FF00FF">1</span>])
+        
+        <span style="color: #0000FF">return</span> dp[m][n]
+    
+    <span style="color: #D2691E">@staticmethod</span>
+    <span style="color: #0000FF">def</span> edit_distance(s1<span style="color: #000000">: str</span>, s2<span style="color: #000000">: str</span>) <span style="color: #000000">-&gt; int</span>:
+        <span style="color: #000000">&quot;&quot;&quot;</span>
+<span style="color: #000000">        Edit Distance (Levenshtein Distance) using dynamic programming</span>
+<span style="color: #000000">        &quot;&quot;&quot;</span>
+        m, n = <span style="color: #000000">len</span>(s<span style="color: #FF00FF">1</span>), <span style="color: #000000">len</span>(s<span style="color: #FF00FF">2</span>)
+        dp = [[<span style="color: #FF00FF">0</span>] * (n + <span style="color: #FF00FF">1</span>) <span style="color: #0000FF">for</span> _ <span style="color: #0000FF">in</span> <span style="color: #000000">range</span>(m + <span style="color: #FF00FF">1</span>)]
+        
+        <span style="color: #0000FF">for</span> i <span style="color: #0000FF">in</span> <span style="color: #000000">range</span>(m + <span style="color: #FF00FF">1</span>):
+            dp[i][<span style="color: #FF00FF">0</span>] = i
+        <span style="color: #0000FF">for</span> j <span style="color: #0000FF">in</span> <span style="color: #000000">range</span>(n + <span style="color: #FF00FF">1</span>):
+            dp[<span style="color: #FF00FF">0</span>][j] = j
+        
+        <span style="color: #0000FF">for</span> i <span style="color: #0000FF">in</span> <span style="color: #000000">range</span>(<span style="color: #FF00FF">1</span>, m + <span style="color: #FF00FF">1</span>):
+            <span style="color: #0000FF">for</span> j <span style="color: #0000FF">in</span> <span style="color: #000000">range</span>(<span style="color: #FF00FF">1</span>, n + <span style="color: #FF00FF">1</span>):
+                <span style="color: #0000FF">if</span> s1[i-<span style="color: #FF00FF">1</span>] == s2[j-<span style="color: #FF00FF">1</span>]:
+                    dp[i][j] = dp[i-<span style="color: #FF00FF">1</span>][j-<span style="color: #FF00FF">1</span>]
+                <span style="color: #0000FF">else</span>:
+                    dp[i][j] = <span style="color: #FF00FF">1</span> + <span style="color: #000000">min</span>(
+                        dp[i-1][j],      <span style="color: #008000"># deletion</span>
+                        dp[i][j-1],      <span style="color: #008000"># insertion</span>
+                        dp[i-1][j-1]     <span style="color: #008000"># substitution</span>
+                    )
+        
+        <span style="color: #0000FF">return</span> dp[m][n]
+
+<span style="color: #0000FF">def</span> main():
+    <span style="color: #000000">&quot;&quot;&quot;Main function to demonstrate algorithms&quot;&quot;&quot;</span>
+    <span style="color: #000000">print</span>(<span style="color: #8B0000">&quot;=== Python Algorithms Demo ===</span><span style="color: #8B0000">&quot;)</span>
+    
+    <span style="color: #008000"># Binary Search</span>
+    <span style="color: #000000">print</span>(<span style="color: #8B0000">&quot;\n--- Binary Search ---</span><span style="color: #8B0000">&quot;)</span>
+    arr = [<span style="color: #FF00FF">1</span>, <span style="color: #FF00FF">3</span>, <span style="color: #FF00FF">5</span>, <span style="color: #FF00FF">7</span>, <span style="color: #FF00FF">9</span>, <span style="color: #FF00FF">11</span>, <span style="color: #FF00FF">13</span>, <span style="color: #FF00FF">15</span>]
+    target = <span style="color: #FF00FF">7</span>
+    result = Algorithms.binary_search(arr, target)
+    <span style="color: #000000">print</span>(f<span style="color: #8B0000">&quot;Array: {arr}</span><span style="color: #8B0000">&quot;)</span>
+    <span style="color: #000000">print</span>(f<span style="color: #8B0000">&quot;Search for {target}: index {result}</span><span style="color: #8B0000">&quot;)</span>
+    
+    <span style="color: #008000"># GCD and LCM</span>
+    <span style="color: #000000">print</span>(<span style="color: #8B0000">&quot;\n--- GCD and LCM ---</span><span style="color: #8B0000">&quot;)</span>
+    a, b = <span style="color: #FF00FF">12</span>, <span style="color: #FF00FF">18</span>
+    <span style="color: #000000">print</span>(f<span style="color: #8B0000">&quot;GCD({a}, {b}) = {Algorithms.gcd(a, b)}</span><span style="color: #8B0000">&quot;)</span>
+    <span style="color: #000000">print</span>(f<span style="color: #8B0000">&quot;LCM({a}, {b}) = {Algorithms.lcm(a, b)}</span><span style="color: #8B0000">&quot;)</span>
+    
+    <span style="color: #008000"># Prime numbers</span>
+    <span style="color: #000000">print</span>(<span style="color: #8B0000">&quot;\n--- Prime Numbers ---</span><span style="color: #8B0000">&quot;)</span>
+    n = <span style="color: #FF00FF">20</span>
+    primes = Algorithms.sieve_of_eratosthenes(n)
+    <span style="color: #000000">print</span>(f<span style="color: #8B0000">&quot;Primes up to {n}: {primes}</span><span style="color: #8B0000">&quot;)</span>
+    <span style="color: #000000">print</span>(f<span style="color: #8B0000">&quot;Is 17 prime? {Algorithms.is_prime(17)}</span><span style="color: #8B0000">&quot;)</span>
+    <span style="color: #000000">print</span>(f<span style="color: #8B0000">&quot;Is 15 prime? {Algorithms.is_prime(15)}</span><span style="color: #8B0000">&quot;)</span>
+    
+    <span style="color: #008000"># Factorial</span>
+    <span style="color: #000000">print</span>(<span style="color: #8B0000">&quot;\n--- Factorial ---</span><span style="color: #8B0000">&quot;)</span>
+    n = <span style="color: #FF00FF">10</span>
+    <span style="color: #000000">print</span>(f<span style="color: #8B0000">&quot;{n}! = {Algorithms.factorial(n)}</span><span style="color: #8B0000">&quot;)</span>
+    
+    <span style="color: #008000"># Fibonacci</span>
+    <span style="color: #000000">print</span>(<span style="color: #8B0000">&quot;\n--- Fibonacci ---</span><span style="color: #8B0000">&quot;)</span>
+    n = <span style="color: #FF00FF">15</span>
+    <span style="color: #000000">print</span>(f<span style="color: #8B0000">&quot;Fibonacci({n}) = {Algorithms.fibonacci(n)}</span><span style="color: #8B0000">&quot;)</span>
+    
+    <span style="color: #008000"># Power</span>
+    <span style="color: #000000">print</span>(<span style="color: #8B0000">&quot;\n--- Fast Exponentiation ---</span><span style="color: #8B0000">&quot;)</span>
+    base, exp = <span style="color: #FF00FF">2</span>, <span style="color: #FF00FF">10</span>
+    <span style="color: #000000">print</span>(f<span style="color: #8B0000">&quot;{base}^{exp} = {Algorithms.power(base, exp)}</span><span style="color: #8B0000">&quot;)</span>
+    
+    <span style="color: #008000"># Matrix operations</span>
+    <span style="color: #000000">print</span>(<span style="color: #8B0000">&quot;\n--- Matrix Operations ---</span><span style="color: #8B0000">&quot;)</span>
+    matrix = [[<span style="color: #FF00FF">1</span>, <span style="color: #FF00FF">2</span>, <span style="color: #FF00FF">3</span>], [<span style="color: #FF00FF">4</span>, <span style="color: #FF00FF">5</span>, <span style="color: #FF00FF">6</span>], [<span style="color: #FF00FF">7</span>, <span style="color: #FF00FF">8</span>, <span style="color: #FF00FF">9</span>]]
+    <span style="color: #000000">print</span>(f<span style="color: #8B0000">&quot;Matrix: {matrix}</span><span style="color: #8B0000">&quot;)</span>
+    <span style="color: #000000">print</span>(f<span style="color: #8B0000">&quot;Transpose: {Algorithms.transpose(matrix)}</span><span style="color: #8B0000">&quot;)</span>
+    <span style="color: #000000">print</span>(f<span style="color: #8B0000">&quot;Determinant: {Algorithms.determinant(matrix)}</span><span style="color: #8B0000">&quot;)</span>
+    
+    <span style="color: #008000"># Knapsack problem</span>
+    <span style="color: #000000">print</span>(<span style="color: #8B0000">&quot;\n--- 0/1 Knapsack Problem ---</span><span style="color: #8B0000">&quot;)</span>
+    weights = [<span style="color: #FF00FF">10</span>, <span style="color: #FF00FF">20</span>, <span style="color: #FF00FF">30</span>]
+    values = [<span style="color: #FF00FF">60</span>, <span style="color: #FF00FF">100</span>, <span style="color: #FF00FF">120</span>]
+    capacity = <span style="color: #FF00FF">50</span>
+    max_value = Algorithms.knapsack_<span style="color: #FF00FF">01</span>(weights, values, capacity)
+    <span style="color: #000000">print</span>(f<span style="color: #8B0000">&quot;Weights: {weights}</span><span style="color: #8B0000">&quot;)</span>
+    <span style="color: #000000">print</span>(f<span style="color: #8B0000">&quot;Values: {values}</span><span style="color: #8B0000">&quot;)</span>
+    <span style="color: #000000">print</span>(f<span style="color: #8B0000">&quot;Capacity: {capacity}</span><span style="color: #8B0000">&quot;)</span>
+    <span style="color: #000000">print</span>(f<span style="color: #8B0000">&quot;Maximum value: {max_value}</span><span style="color: #8B0000">&quot;)</span>
+    
+    <span style="color: #008000"># Longest Common Subsequence</span>
+    <span style="color: #000000">print</span>(<span style="color: #8B0000">&quot;\n--- Longest Common Subsequence ---</span><span style="color: #8B0000">&quot;)</span>
+    s1 = <span style="color: #8B0000">&quot;ABCDGH</span><span style="color: #8B0000">&quot;</span>
+    s2 = <span style="color: #8B0000">&quot;AEDFHR</span><span style="color: #8B0000">&quot;</span>
+    lcs_length = Algorithms.longest_common_subsequence(s<span style="color: #FF00FF">1</span>, s<span style="color: #FF00FF">2</span>)
+    <span style="color: #000000">print</span>(f<span style="color: #8B0000">&quot;String 1: {s1}</span><span style="color: #8B0000">&quot;)</span>
+    <span style="color: #000000">print</span>(f<span style="color: #8B0000">&quot;String 2: {s2}</span><span style="color: #8B0000">&quot;)</span>
+    <span style="color: #000000">print</span>(f<span style="color: #8B0000">&quot;LCS length: {lcs_length}</span><span style="color: #8B0000">&quot;)</span>
+    
+    <span style="color: #008000"># Edit Distance</span>
+    <span style="color: #000000">print</span>(<span style="color: #8B0000">&quot;\n--- Edit Distance ---</span><span style="color: #8B0000">&quot;)</span>
+    s1 = <span style="color: #8B0000">&quot;kitten</span><span style="color: #8B0000">&quot;</span>
+    s2 = <span style="color: #8B0000">&quot;sitting</span><span style="color: #8B0000">&quot;</span>
+    distance = Algorithms.edit_distance(s<span style="color: #FF00FF">1</span>, s<span style="color: #FF00FF">2</span>)
+    <span style="color: #000000">print</span>(f<span style="color: #8B0000">&quot;String 1: {s1}</span><span style="color: #8B0000">&quot;)</span>
+    <span style="color: #000000">print</span>(f<span style="color: #8B0000">&quot;String 2: {s2}</span><span style="color: #8B0000">&quot;)</span>
+    <span style="color: #000000">print</span>(f<span style="color: #8B0000">&quot;Edit distance: {distance}</span><span style="color: #8B0000">&quot;)</span>
+
+<span style="color: #0000FF">if</span> __name__ == <span style="color: #8B0000">&quot;__main__</span><span style="color: #8B0000">&quot;:</span>
+    main()
+</code></pre>
+</body>
+</html>

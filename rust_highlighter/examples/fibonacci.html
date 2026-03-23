@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+
+.hl {
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.4;
+    background-color: #FFFFFF;
+    color: #000000;
+    padding: 10px;
+    border-radius: 4px;
+    overflow-x: auto;
+}
+</style>
+</head>
+<body>
+<pre><code>
+<span style="color: #0000FF">package</span> examples
+
+<span style="color: #008000">/**</span>
+<span style="color: #008000"> * Scala Fibonacci implementation with various approaches</span>
+<span style="color: #008000"> */</span>
+<span style="color: #0000FF">object</span> Fibonacci {
+  
+  <span style="color: #008000">// Recursive approach (naive)</span>
+  <span style="color: #0000FF">def</span> fibRecursive(n: <span style="color: #008080">Int</span>): <span style="color: #008080">Int</span> = {
+    <span style="color: #0000FF">if</span> (n &lt;= <span style="color: #FF00FF">1</span>) n
+    <span style="color: #0000FF">else</span> fibRecursive(n - <span style="color: #FF00FF">1</span>) + fibRecursive(n - <span style="color: #FF00FF">2</span>)
+  }
+  
+  <span style="color: #008000">// Tail-recursive approach</span>
+  <span style="color: #0000FF">def</span> fibTailRecursive(n: <span style="color: #008080">Int</span>): <span style="color: #008080">Int</span> = {
+    <span style="color: #000000">@annotation</span>.tailrec
+    <span style="color: #0000FF">def</span> fibHelper(n: <span style="color: #008080">Int</span>, a: <span style="color: #008080">Int</span>, b: <span style="color: #008080">Int</span>): <span style="color: #008080">Int</span> = {
+      <span style="color: #0000FF">if</span> (n == <span style="color: #FF00FF">0</span>) a
+      <span style="color: #0000FF">else</span> fibHelper(n - <span style="color: #FF00FF">1</span>, b, a + b)
+    }
+    fibHelper(n, <span style="color: #FF00FF">0</span>, <span style="color: #FF00FF">1</span>)
+  }
+  
+  <span style="color: #008000">// Memoized approach using mutable Map</span>
+  <span style="color: #0000FF">def</span> fibMemoized(n: <span style="color: #008080">Int</span>): <span style="color: #008080">Int</span> = {
+    <span style="color: #0000FF">val</span> memo = scala.collection.mutable.<span style="color: #008080">Map</span>[<span style="color: #008080">Int</span>, <span style="color: #008080">Int</span>]()
+    
+    <span style="color: #0000FF">def</span> fib(n: <span style="color: #008080">Int</span>): <span style="color: #008080">Int</span> = {
+      memo.getOrElseUpdate(n, {
+        <span style="color: #0000FF">if</span> (n &lt;= <span style="color: #FF00FF">1</span>) n
+        <span style="color: #0000FF">else</span> fib(n - <span style="color: #FF00FF">1</span>) + fib(n - <span style="color: #FF00FF">2</span>)
+      })
+    }
+    
+    fib(n)
+  }
+  
+  <span style="color: #008000">// Stream-based approach (lazy evaluation)</span>
+  <span style="color: #0000FF">def</span> fibStream: LazyList[<span style="color: #008080">Int</span>] = {
+    <span style="color: #0000FF">def</span> fibHelper(a: <span style="color: #008080">Int</span>, b: <span style="color: #008080">Int</span>): LazyList[<span style="color: #008080">Int</span>] = 
+      a #:: fibHelper(b, a + b)
+    fibHelper(<span style="color: #FF00FF">0</span>, <span style="color: #FF00FF">1</span>)
+  }
+  
+  <span style="color: #008000">// Pattern matching approach</span>
+  <span style="color: #0000FF">def</span> fibPatternMatch(n: <span style="color: #008080">Int</span>): <span style="color: #008080">Int</span> = n <span style="color: #0000FF">match</span> {
+    <span style="color: #0000FF">case</span> <span style="color: #FF00FF">0</span> =&gt; <span style="color: #FF00FF">0</span>
+    <span style="color: #0000FF">case</span> <span style="color: #FF00FF">1</span> =&gt; <span style="color: #FF00FF">1</span>
+    <span style="color: #0000FF">case</span> _ =&gt; fibPatternMatch(n - <span style="color: #FF00FF">1</span>) + fibPatternMatch(n - <span style="color: #FF00FF">2</span>)
+  }
+  
+  <span style="color: #008000">// Main function to demonstrate all approaches</span>
+  <span style="color: #0000FF">def</span> main(args: <span style="color: #008080">Array</span>[<span style="color: #008080">String</span>]): <span style="color: #008080">Unit</span> = {
+    <span style="color: #0000FF">val</span> n = <span style="color: #FF00FF">10</span>
+    
+    <span style="color: #000000">println</span>(s<span style="color: #8B0000">&quot;Fibonacci of $n:</span><span style="color: #8B0000">&quot;)</span>
+    <span style="color: #000000">println</span>(s<span style="color: #8B0000">&quot;Recursive: ${fibRecursive(n)}</span><span style="color: #8B0000">&quot;)</span>
+    <span style="color: #000000">println</span>(s<span style="color: #8B0000">&quot;Tail Recursive: ${fibTailRecursive(n)}</span><span style="color: #8B0000">&quot;)</span>
+    <span style="color: #000000">println</span>(s<span style="color: #8B0000">&quot;Memoized: ${fibMemoized(n)}</span><span style="color: #8B0000">&quot;)</span>
+    <span style="color: #000000">println</span>(s<span style="color: #8B0000">&quot;Pattern Match: ${fibPatternMatch(n)}</span><span style="color: #8B0000">&quot;)</span>
+    <span style="color: #000000">println</span>(s<span style="color: #8B0000">&quot;Stream (first 10): ${fibStream.take(10).toList}</span><span style="color: #8B0000">&quot;)</span>
+    
+    <span style="color: #008000">// Performance comparison</span>
+    <span style="color: #0000FF">val</span> start = System.currentTimeMillis()
+    <span style="color: #0000FF">val</span> result = fibTailRecursive(<span style="color: #FF00FF">30</span>)
+    <span style="color: #0000FF">val</span> end = System.currentTimeMillis()
+    <span style="color: #000000">println</span>(s<span style="color: #8B0000">&quot;Tail recursive fib(30) = $result, time: ${end - start}ms</span><span style="color: #8B0000">&quot;)</span>
+  }
+}
+</code></pre>
+</body>
+</html>

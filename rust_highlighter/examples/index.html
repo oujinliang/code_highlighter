@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Highlighter Examples</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .language-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .language-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease;
+        }
+        
+        .language-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .language-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .language-description {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .language-features {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        
+        .language-features h4 {
+            margin: 0 0 8px 0;
+            color: #495057;
+        }
+        
+        .language-features ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+        .language-features li {
+            color: #6c757d;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+        
+        .view-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .view-link {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: background 0.2s ease;
+        }
+        
+        .view-link:hover {
+            background: #0056b3;
+        }
+        
+        .view-link.source {
+            background: #28a745;
+        }
+        
+        .view-link.source:hover {
+            background: #1e7e34;
+        }
+        
+        .stats {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .stats h2 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        .stat-number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #007bff;
+        }
+        
+        .stat-label {
+            color: #6c757d;
+            font-size: 14px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #6c757d;
+            border-top: 1px solid #dee2e6;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎨 Code Highlighter Examples</h1>
+    
+    <div class="stats">
+        <h2>📊 Statistics</h2>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number">6</div>
+                <div class="stat-label">Languages Supported</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">5</div>
+                <div class="stat-label">Example Programs</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">1500+</div>
+                <div class="stat-label">Lines of Code</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Syntax Coverage</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="language-grid">
+        <!-- Scala -->
+        <div class="language-card">
+            <div class="language-name">🟠 Scala</div>
+            <div class="language-description">
+                Functional and object-oriented programming with strong static typing.
+                Demonstrates pattern matching, higher-order functions, and collections.
+            </div>
+            <div class="language-features">
+                <h4>Features Demonstrated:</h4>
+                <ul>
+                    <li>Pattern matching</li>
+                    <li>Higher-order functions</li>
+                    <li>Lazy evaluation</li>
+                    <li>Type inference</li>
+                    <li>Case classes</li>
+                </ul>
+            </div>
+            <div class="view-links">
+                <a href="fibonacci.html" class="view-link">View Highlighted</a>
+                <a href="fibonacci.scala" class="view-link source">View Source</a>
+            </div>
+        </div>
+        
+        <!-- Java -->
+        <div class="language-card">
+            <div class="language-name">☕ Java</div>
+            <div class="language-description">
+                Object-oriented programming with strong static typing.
+                Demonstrates various sorting algorithms and performance comparison.
+            </div>
+            <div class="language-features">
+                <h4>Features Demonstrated:</h4>
+                <ul>
+                    <li>Object-oriented design</li>
+                    <li>Sorting algorithms</li>
+                    <li>Performance measurement</li>
+                    <li>Array manipulation</li>
+                    <li>Static methods</li>
+                </ul>
+            </div>
+            <div class="view-links">
+                <a href="sorting.html" class="view-link">View Highlighted</a>
+                <a href="sorting.java" class="view-link source">View Source</a>
+            </div>
+        </div>
+        
+        <!-- Kotlin -->
+        <div class="language-card">
+            <div class="language-name">🟣 Kotlin</div>
+            <div class="language-description">
+                Modern JVM language with concise syntax.
+                Demonstrates data structures implementation with generics.
+            </div>
+            <div class="language-features">
+                <h4>Features Demonstrated:</h4>
+                <ul>
+                    <li>Generic classes</li>
+                    <li>Data structures</li>
+                    <li>Null safety</li>
+                    <li>Extension functions</li>
+                    <li>Companion objects</li>
+                </ul>
+            </div>
+            <div class="view-links">
+                <a href="data_structures.html" class="view-link">View Highlighted</a>
+                <a href="data_structures.kt" class="view-link source">View Source</a>
+            </div>
+        </div>
+        
+        <!-- Python -->
+        <div class="language-card">
+            <div class="language-name">🐍 Python</div>
+            <div class="language-description">
+                Dynamic programming language with clear syntax.
+                Demonstrates various algorithms and dynamic programming.
+            </div>
+            <div class="language-features">
+                <h4>Features Demonstrated:</h4>
+                <ul>
+                    <li>Dynamic programming</li>
+                    <li>Algorithm implementations</li>
+                    <li>Type hints</li>
+                    <li>Decorators</li>
+                    <li>List comprehensions</li>
+                </ul>
+            </div>
+            <div class="view-links">
+                <a href="algorithms.html" class="view-link">View Highlighted</a>
+                <a href="algorithms.py" class="view-link source">View Source</a>
+            </div>
+        </div>
+        
+        <!-- Rust -->
+        <div class="language-card">
+            <div class="language-name">🦀 Rust</div>
+            <div class="language-description">
+                Systems programming with memory safety.
+                Demonstrates ownership, concurrency, and error handling.
+            </div>
+            <div class="language-features">
+                <h4>Features Demonstrated:</h4>
+                <ul>
+                    <li>Ownership system</li>
+                    <li>Concurrency</li>
+                    <li>Error handling</li>
+                    <li>Smart pointers</li>
+                    <li>Pattern matching</li>
+                </ul>
+            </div>
+            <div class="view-links">
+                <a href="system_programming.html" class="view-link">View Highlighted</a>
+                <a href="system_programming.rs" class="view-link source">View Source</a>
+            </div>
+        </div>
+        
+        <!-- C# -->
+        <div class="language-card">
+            <div class="language-name">🔵 C#</div>
+            <div class="language-description">
+                Object-oriented language with strong typing.
+                Basic example demonstrating syntax highlighting.
+            </div>
+            <div class="language-features">
+                <h4>Features Demonstrated:</h4>
+                <ul>
+                    <li>Basic syntax</li>
+                    <li>Class structure</li>
+                    <li>Method definitions</li>
+                    <li>Comments</li>
+                    <li>Data types</li>
+                </ul>
+            </div>
+            <div class="view-links">
+                <a href="test.cs" class="view-link source">View Source</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>Generated by <strong>Code Highlighter</strong> - A syntax highlighting engine for source code</p>
+        <p>Supports 18+ programming languages with customizable themes</p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+
+.hl {
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.4;
+    background-color: #FFFFFF;
+    color: #000000;
+    padding: 10px;
+    border-radius: 4px;
+    overflow-x: auto;
+}
+</style>
+</head>
+<body>
+<pre><code>
+<span style="color: #0000FF">package</span> examples
+
+<span style="color: #008000">/**</span>
+<span style="color: #008000"> * Kotlin data structures implementation</span>
+<span style="color: #008000"> */</span>
+<span style="color: #0000FF">class</span> DataStructures {
+    
+    <span style="color: #008000">// Generic Stack implementation</span>
+    <span style="color: #0000FF">class</span> Stack&lt;T&gt; {
+        <span style="color: #0000FF">private</span> <span style="color: #0000FF">val</span> elements = mutableListOf&lt;T&gt;()
+        
+        <span style="color: #0000FF">fun</span> push(element: T) {
+            elements.add(element)
+        }
+        
+        <span style="color: #0000FF">fun</span> pop(): T? {
+            <span style="color: #0000FF">if</span> (elements.isEmpty()) {
+                <span style="color: #0000FF">return</span> <span style="color: #0000FF">null</span>
+            }
+            <span style="color: #0000FF">return</span> elements.removeAt(elements.size - <span style="color: #FF00FF">1</span>)
+        }
+        
+        <span style="color: #0000FF">fun</span> peek(): T? {
+            <span style="color: #0000FF">return</span> elements.lastOrNull()
+        }
+        
+        <span style="color: #0000FF">fun</span> isEmpty(): <span style="color: #008080">Boolean</span> = elements.isEmpty()
+        
+        <span style="color: #0000FF">fun</span> size(): <span style="color: #008080">Int</span> = elements.size
+        
+        <span style="color: #0000FF">override</span> <span style="color: #0000FF">fun</span> toString(): <span style="color: #008080">String</span> = &quot;Stack(${elements.joinToString(&quot;, &quot;)})&quot;
+    }
+    
+    <span style="color: #008000">// Generic Queue implementation</span>
+    <span style="color: #0000FF">class</span> Queue&lt;T&gt; {
+        <span style="color: #0000FF">private</span> <span style="color: #0000FF">val</span> elements = mutableListOf&lt;T&gt;()
+        
+        <span style="color: #0000FF">fun</span> enqueue(element: T) {
+            elements.add(element)
+        }
+        
+        <span style="color: #0000FF">fun</span> dequeue(): T? {
+            <span style="color: #0000FF">if</span> (elements.isEmpty()) {
+                <span style="color: #0000FF">return</span> <span style="color: #0000FF">null</span>
+            }
+            <span style="color: #0000FF">return</span> elements.removeAt(<span style="color: #FF00FF">0</span>)
+        }
+        
+        <span style="color: #0000FF">fun</span> peek(): T? {
+            <span style="color: #0000FF">return</span> elements.firstOrNull()
+        }
+        
+        <span style="color: #0000FF">fun</span> isEmpty(): <span style="color: #008080">Boolean</span> = elements.isEmpty()
+        
+        <span style="color: #0000FF">fun</span> size(): <span style="color: #008080">Int</span> = elements.size
+        
+        <span style="color: #0000FF">override</span> <span style="color: #0000FF">fun</span> toString(): <span style="color: #008080">String</span> = &quot;Queue(${elements.joinToString(&quot;, &quot;)})&quot;
+    }
+    
+    <span style="color: #008000">// Binary Search Tree implementation</span>
+    <span style="color: #0000FF">class</span> BinarySearchTree&lt;T : Comparable&lt;T&gt;&gt; {
+        <span style="color: #0000FF">data</span> <span style="color: #0000FF">class</span> Node&lt;T&gt;(
+            <span style="color: #0000FF">val</span> value: T,
+            <span style="color: #0000FF">var</span> left: Node&lt;T&gt;? = <span style="color: #0000FF">null</span>,
+            <span style="color: #0000FF">var</span> right: Node&lt;T&gt;? = <span style="color: #0000FF">null</span>
+        )
+        
+        <span style="color: #0000FF">private</span> <span style="color: #0000FF">var</span> root: Node&lt;T&gt;? = <span style="color: #0000FF">null</span>
+        
+        <span style="color: #0000FF">fun</span> insert(value: T) {
+            root = insertRecursive(root, value)
+        }
+        
+        <span style="color: #0000FF">private</span> <span style="color: #0000FF">fun</span> insertRecursive(node: Node&lt;T&gt;?, value: T): Node&lt;T&gt; {
+            <span style="color: #0000FF">if</span> (node == <span style="color: #0000FF">null</span>) {
+                <span style="color: #0000FF">return</span> Node(value)
+            }
+            
+            <span style="color: #0000FF">when</span> {
+                value &lt; node.value -&gt; node.left = insertRecursive(node.left, value)
+                value &gt; node.value -&gt; node.right = insertRecursive(node.right, value)
+                <span style="color: #008000">// Value already exists, do nothing</span>
+            }
+            
+            <span style="color: #0000FF">return</span> node
+        }
+        
+        <span style="color: #0000FF">fun</span> search(value: T): <span style="color: #008080">Boolean</span> {
+            <span style="color: #0000FF">return</span> searchRecursive(root, value)
+        }
+        
+        <span style="color: #0000FF">private</span> <span style="color: #0000FF">fun</span> searchRecursive(node: Node&lt;T&gt;?, value: T): <span style="color: #008080">Boolean</span> {
+            <span style="color: #0000FF">if</span> (node == <span style="color: #0000FF">null</span>) {
+                <span style="color: #0000FF">return</span> <span style="color: #0000FF">false</span>
+            }
+            
+            <span style="color: #0000FF">return</span> <span style="color: #0000FF">when</span> {
+                value == node.value -&gt; <span style="color: #0000FF">true</span>
+                value &lt; node.value -&gt; searchRecursive(node.left, value)
+                <span style="color: #0000FF">else</span> -&gt; searchRecursive(node.right, value)
+            }
+        }
+        
+        <span style="color: #0000FF">fun</span> inorderTraversal(): <span style="color: #008080">List</span>&lt;T&gt; {
+            <span style="color: #0000FF">val</span> result = mutableListOf&lt;T&gt;()
+            inorderRecursive(root, result)
+            <span style="color: #0000FF">return</span> result
+        }
+        
+        <span style="color: #0000FF">private</span> <span style="color: #0000FF">fun</span> inorderRecursive(node: Node&lt;T&gt;?, result: MutableList&lt;T&gt;) {
+            <span style="color: #0000FF">if</span> (node != <span style="color: #0000FF">null</span>) {
+                inorderRecursive(node.left, result)
+                result.add(node.value)
+                inorderRecursive(node.right, result)
+            }
+        }
+        
+        <span style="color: #0000FF">fun</span> preorderTraversal(): <span style="color: #008080">List</span>&lt;T&gt; {
+            <span style="color: #0000FF">val</span> result = mutableListOf&lt;T&gt;()
+            preorderRecursive(root, result)
+            <span style="color: #0000FF">return</span> result
+        }
+        
+        <span style="color: #0000FF">private</span> <span style="color: #0000FF">fun</span> preorderRecursive(node: Node&lt;T&gt;?, result: MutableList&lt;T&gt;) {
+            <span style="color: #0000FF">if</span> (node != <span style="color: #0000FF">null</span>) {
+                result.add(node.value)
+                preorderRecursive(node.left, result)
+                preorderRecursive(node.right, result)
+            }
+        }
+        
+        <span style="color: #0000FF">fun</span> postorderTraversal(): <span style="color: #008080">List</span>&lt;T&gt; {
+            <span style="color: #0000FF">val</span> result = mutableListOf&lt;T&gt;()
+            postorderRecursive(root, result)
+            <span style="color: #0000FF">return</span> result
+        }
+        
+        <span style="color: #0000FF">private</span> <span style="color: #0000FF">fun</span> postorderRecursive(node: Node&lt;T&gt;?, result: MutableList&lt;T&gt;) {
+            <span style="color: #0000FF">if</span> (node != <span style="color: #0000FF">null</span>) {
+                postorderRecursive(node.left, result)
+                postorderRecursive(node.right, result)
+                result.add(node.value)
+            }
+        }
+        
+        <span style="color: #0000FF">fun</span> height(): <span style="color: #008080">Int</span> {
+            <span style="color: #0000FF">return</span> heightRecursive(root)
+        }
+        
+        <span style="color: #0000FF">private</span> <span style="color: #0000FF">fun</span> heightRecursive(node: Node&lt;T&gt;?): <span style="color: #008080">Int</span> {
+            <span style="color: #0000FF">if</span> (node == <span style="color: #0000FF">null</span>) {
+                <span style="color: #0000FF">return</span> -<span style="color: #FF00FF">1</span>
+            }
+            
+            <span style="color: #0000FF">val</span> leftHeight = heightRecursive(node.left)
+            <span style="color: #0000FF">val</span> rightHeight = heightRecursive(node.right)
+            
+            <span style="color: #0000FF">return</span> maxOf(leftHeight, rightHeight) + <span style="color: #FF00FF">1</span>
+        }
+    }
+    
+    <span style="color: #008000">// Linked List implementation</span>
+    <span style="color: #0000FF">class</span> LinkedList&lt;T&gt; {
+        <span style="color: #0000FF">data</span> <span style="color: #0000FF">class</span> Node&lt;T&gt;(
+            <span style="color: #0000FF">val</span> value: T,
+            <span style="color: #0000FF">var</span> next: Node&lt;T&gt;? = <span style="color: #0000FF">null</span>
+        )
+        
+        <span style="color: #0000FF">private</span> <span style="color: #0000FF">var</span> head: Node&lt;T&gt;? = <span style="color: #0000FF">null</span>
+        <span style="color: #0000FF">private</span> <span style="color: #0000FF">var</span> size = <span style="color: #FF00FF">0</span>
+        
+        <span style="color: #0000FF">fun</span> addFirst(value: T) {
+            head = Node(value, head)
+            size++
+        }
+        
+        <span style="color: #0000FF">fun</span> addLast(value: T) {
+            <span style="color: #0000FF">if</span> (head == <span style="color: #0000FF">null</span>) {
+                head = Node(value)
+            } <span style="color: #0000FF">else</span> {
+                <span style="color: #0000FF">var</span> current = head
+                <span style="color: #0000FF">while</span> (current?.next != <span style="color: #0000FF">null</span>) {
+                    current = current.next
+                }
+                current?.next = Node(value)
+            }
+            size++
+        }
+        
+        <span style="color: #0000FF">fun</span> removeFirst(): T? {
+            <span style="color: #0000FF">if</span> (head == <span style="color: #0000FF">null</span>) {
+                <span style="color: #0000FF">return</span> <span style="color: #0000FF">null</span>
+            }
+            
+            <span style="color: #0000FF">val</span> value = head?.value
+            head = head?.next
+            size--
+            <span style="color: #0000FF">return</span> value
+        }
+        
+        <span style="color: #0000FF">fun</span> removeLast(): T? {
+            <span style="color: #0000FF">if</span> (head == <span style="color: #0000FF">null</span>) {
+                <span style="color: #0000FF">return</span> <span style="color: #0000FF">null</span>
+            }
+            
+            <span style="color: #0000FF">if</span> (head?.next == <span style="color: #0000FF">null</span>) {
+                <span style="color: #0000FF">val</span> value = head?.value
+                head = <span style="color: #0000FF">null</span>
+                size--
+                <span style="color: #0000FF">return</span> value
+            }
+            
+            <span style="color: #0000FF">var</span> current = head
+            <span style="color: #0000FF">while</span> (current?.next?.next != <span style="color: #0000FF">null</span>) {
+                current = current?.next
+            }
+            
+            <span style="color: #0000FF">val</span> value = current?.next?.value
+            current?.next = <span style="color: #0000FF">null</span>
+            size--
+            <span style="color: #0000FF">return</span> value
+        }
+        
+        <span style="color: #0000FF">fun</span> <span style="color: #0000FF">get</span>(index: <span style="color: #008080">Int</span>): T? {
+            <span style="color: #0000FF">if</span> (index &lt; <span style="color: #FF00FF">0</span> || index &gt;= size) {
+                <span style="color: #0000FF">return</span> <span style="color: #0000FF">null</span>
+            }
+            
+            <span style="color: #0000FF">var</span> current = head
+            repeat(index) {
+                current = current?.next
+            }
+            
+            <span style="color: #0000FF">return</span> current?.value
+        }
+        
+        <span style="color: #0000FF">fun</span> isEmpty(): <span style="color: #008080">Boolean</span> = size == <span style="color: #FF00FF">0</span>
+        
+        <span style="color: #0000FF">fun</span> size(): <span style="color: #008080">Int</span> = size
+        
+        <span style="color: #0000FF">fun</span> toList(): <span style="color: #008080">List</span>&lt;T&gt; {
+            <span style="color: #0000FF">val</span> result = mutableListOf&lt;T&gt;()
+            <span style="color: #0000FF">var</span> current = head
+            <span style="color: #0000FF">while</span> (current != <span style="color: #0000FF">null</span>) {
+                result.add(current.value)
+                current = current.next
+            }
+            <span style="color: #0000FF">return</span> result
+        }
+        
+        <span style="color: #0000FF">override</span> <span style="color: #0000FF">fun</span> toString(): <span style="color: #008080">String</span> = &quot;LinkedList(${toList().joinToString(&quot;, &quot;)})&quot;
+    }
+    
+    <span style="color: #0000FF">companion</span> <span style="color: #0000FF">object</span> {
+        <span style="color: #000000">@JvmStatic</span>
+        <span style="color: #0000FF">fun</span> main(args: <span style="color: #008080">Array</span>&lt;<span style="color: #008080">String</span>&gt;) {
+            <span style="color: #000000">println</span>(&quot;=== Data Structures Demo ===&quot;)
+            
+            <span style="color: #008000">// Stack demo</span>
+            <span style="color: #000000">println</span>(&quot;\n--- Stack Demo ---&quot;)
+            <span style="color: #0000FF">val</span> stack = Stack&lt;<span style="color: #008080">Int</span>&gt;()
+            stack.push(<span style="color: #FF00FF">1</span>)
+            stack.push(<span style="color: #FF00FF">2</span>)
+            stack.push(<span style="color: #FF00FF">3</span>)
+            <span style="color: #000000">println</span>(&quot;Stack: $stack&quot;)
+            <span style="color: #000000">println</span>(&quot;Pop: ${stack.pop()}&quot;)
+            <span style="color: #000000">println</span>(&quot;Peek: ${stack.peek()}&quot;)
+            <span style="color: #000000">println</span>(&quot;Size: ${stack.size()}&quot;)
+            
+            <span style="color: #008000">// Queue demo</span>
+            <span style="color: #000000">println</span>(&quot;\n--- Queue Demo ---&quot;)
+            <span style="color: #0000FF">val</span> queue = Queue&lt;<span style="color: #008080">String</span>&gt;()
+            queue.enqueue(&quot;First&quot;)
+            queue.enqueue(&quot;Second&quot;)
+            queue.enqueue(&quot;Third&quot;)
+            <span style="color: #000000">println</span>(&quot;Queue: $queue&quot;)
+            <span style="color: #000000">println</span>(&quot;Dequeue: ${queue.dequeue()}&quot;)
+            <span style="color: #000000">println</span>(&quot;Peek: ${queue.peek()}&quot;)
+            <span style="color: #000000">println</span>(&quot;Size: ${queue.size()}&quot;)
+            
+            <span style="color: #008000">// Binary Search Tree demo</span>
+            <span style="color: #000000">println</span>(&quot;\n--- Binary Search Tree Demo ---&quot;)
+            <span style="color: #0000FF">val</span> bst = BinarySearchTree&lt;<span style="color: #008080">Int</span>&gt;()
+            <span style="color: #0000FF">val</span> values = <span style="color: #000000">listOf</span>(<span style="color: #FF00FF">5</span>, <span style="color: #FF00FF">3</span>, <span style="color: #FF00FF">7</span>, <span style="color: #FF00FF">2</span>, <span style="color: #FF00FF">4</span>, <span style="color: #FF00FF">6</span>, <span style="color: #FF00FF">8</span>)
+            values.forEach { bst.insert(it) }
+            
+            <span style="color: #000000">println</span>(&quot;Inserted values: $values&quot;)
+            <span style="color: #000000">println</span>(&quot;Inorder: ${bst.inorderTraversal()}&quot;)
+            <span style="color: #000000">println</span>(&quot;Preorder: ${bst.preorderTraversal()}&quot;)
+            <span style="color: #000000">println</span>(&quot;Postorder: ${bst.postorderTraversal()}&quot;)
+            <span style="color: #000000">println</span>(&quot;Height: ${bst.height()}&quot;)
+            <span style="color: #000000">println</span>(&quot;Search <span style="color: #FF00FF">4</span>: ${bst.search(<span style="color: #FF00FF">4</span>)}&quot;)
+            <span style="color: #000000">println</span>(&quot;Search <span style="color: #FF00FF">9</span>: ${bst.search(<span style="color: #FF00FF">9</span>)}&quot;)
+            
+            <span style="color: #008000">// Linked List demo</span>
+            <span style="color: #000000">println</span>(&quot;\n--- Linked <span style="color: #008080">List</span> Demo ---&quot;)
+            <span style="color: #0000FF">val</span> linkedList = LinkedList&lt;<span style="color: #008080">Char</span>&gt;()
+            linkedList.addLast(<span style="color: #8B0000">'A</span><span style="color: #8B0000">')</span>
+            linkedList.addLast(<span style="color: #8B0000">'B</span><span style="color: #8B0000">')</span>
+            linkedList.addFirst(<span style="color: #8B0000">'C</span><span style="color: #8B0000">')</span>
+            linkedList.addLast(<span style="color: #8B0000">'D</span><span style="color: #8B0000">')</span>
+            <span style="color: #000000">println</span>(&quot;Linked <span style="color: #008080">List</span>: $linkedList&quot;)
+            <span style="color: #000000">println</span>(&quot;Get index <span style="color: #FF00FF">1</span>: ${linkedList.<span style="color: #0000FF">get</span>(<span style="color: #FF00FF">1</span>)}&quot;)
+            <span style="color: #000000">println</span>(&quot;Remove first: ${linkedList.removeFirst()}&quot;)
+            <span style="color: #000000">println</span>(&quot;Remove last: ${linkedList.removeLast()}&quot;)
+            <span style="color: #000000">println</span>(&quot;Final list: $linkedList&quot;)
+            <span style="color: #000000">println</span>(&quot;Size: ${linkedList.size()}&quot;)
+        }
+    }
+}
+</code></pre>
+</body>
+</html>

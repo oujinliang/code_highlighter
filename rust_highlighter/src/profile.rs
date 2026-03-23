@@ -4,7 +4,6 @@ use serde::Deserialize;
 use std::collections::HashMap;
 use std::path::Path;
 use crate::error::Result;
-use crate::theme::Color;
 
 /// A complete language highlighting profile.
 #[derive(Debug, Clone, Deserialize)]

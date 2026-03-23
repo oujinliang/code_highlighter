@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+
+.hl {
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.4;
+    background-color: #FFFFFF;
+    color: #000000;
+    padding: 10px;
+    border-radius: 4px;
+    overflow-x: auto;
+}
+</style>
+</head>
+<body>
+<pre><code>
+<span style="color: #008000">//! Rust system programming examples</span>
+<span style="color: #008000">//! Demonstrates ownership, borrowing, and system-level operations</span>
+
+<span style="color: #000000">use</span> <span style="color: #000000">std</span>::<span style="color: #000000">collections</span>::<span style="color: #000000">HashMap</span>;
+<span style="color: #000000">use</span> <span style="color: #000000">std</span>::<span style="color: #000000">fs</span>::{<span style="color: #000000">self, File</span>};
+<span style="color: #000000">use</span> <span style="color: #000000">std</span>::<span style="color: #000000">io</span>::{<span style="color: #000000">self, BufRead, BufReader, Write</span>};
+<span style="color: #000000">use</span> <span style="color: #000000">std</span>::<span style="color: #000000">path</span>::<span style="color: #000000">Path</span>;
+<span style="color: #000000">use</span> <span style="color: #000000">std</span>::<span style="color: #000000">sync</span>::{<span style="color: #000000">Arc, Mutex</span>};
+<span style="color: #000000">use</span> <span style="color: #000000">std</span>::<span style="color: #000000">thread</span>;
+<span style="color: #000000">use</span> <span style="color: #000000">std</span>::<span style="color: #000000">time</span>::{<span style="color: #000000">Duration, Instant</span>};
+
+<span style="color: #008000">/// File processing utilities</span>
+<span style="color: #000000">struct</span> <span style="color: #000000">FileProcessor</span>;
+
+<span style="color: #000000">impl</span> <span style="color: #000000">FileProcessor</span> {
+    <span style="color: #008000">/// Read file and count lines, words, and characters</span>
+    <span style="color: #000000">fn</span> <span style="color: #000000">count_file_stats</span>&lt;<span style="color: #000000">P</span>: <span style="color: #000000">AsRef</span>&lt;<span style="color: #000000">Path</span>&gt;&gt;(<span style="color: #000000">path</span>: <span style="color: #000000">P</span>) -&gt; <span style="color: #000000">io</span>::<span style="color: #000000">Result</span>&lt;(<span style="color: #000000">usize, usize, usize</span>)&gt; {
+        <span style="color: #000000">let</span> <span style="color: #000000">file</span> = <span style="color: #000000">File</span>::<span style="color: #000000">open</span>(<span style="color: #000000">path</span>)?;
+        <span style="color: #000000">let</span> <span style="color: #000000">reader</span> = <span style="color: #000000">BufReader</span>::<span style="color: #000000">new</span>(<span style="color: #000000">file</span>);
+        
+        <span style="color: #0000FF">let</span> <span style="color: #0000FF">mut</span> lines = <span style="color: #FF00FF">0</span>;
+        <span style="color: #0000FF">let</span> <span style="color: #0000FF">mut</span> words = <span style="color: #FF00FF">0</span>;
+        <span style="color: #0000FF">let</span> <span style="color: #0000FF">mut</span> chars = <span style="color: #FF00FF">0</span>;
+        
+        <span style="color: #000000">for</span> <span style="color: #000000">line</span> <span style="color: #000000">in</span> <span style="color: #000000">reader</span>.<span style="color: #000000">lines</span>() {
+            <span style="color: #000000">let</span> <span style="color: #000000">line</span> = <span style="color: #000000">line</span>?;
+            lines += <span style="color: #FF00FF">1</span>;
+            <span style="color: #000000">chars</span> += <span style="color: #000000">line</span>.<span style="color: #000000">len</span>();
+            <span style="color: #000000">words</span> += <span style="color: #000000">line</span>.<span style="color: #000000">split_whitespace</span>().<span style="color: #000000">count</span>();
+        }
+        
+        <span style="color: #000000">Ok</span>((<span style="color: #000000">lines, words, chars</span>))
+    }
+    
+    <span style="color: #008000">/// Search for pattern in file and return matching lines</span>
+    <span style="color: #000000">fn</span> <span style="color: #000000">search_in_file</span>&lt;<span style="color: #000000">P</span>: <span style="color: #000000">AsRef</span>&lt;<span style="color: #000000">Path</span>&gt;&gt;(<span style="color: #000000">path</span>: <span style="color: #000000">P, pattern</span>: &amp;<span style="color: #000000">str</span>) -&gt; <span style="color: #000000">io</span>::<span style="color: #000000">Result</span>&lt;<span style="color: #000000">Vec</span>&lt;<span style="color: #000000">String</span>&gt;&gt; {
+        <span style="color: #000000">let</span> <span style="color: #000000">file</span> = <span style="color: #000000">File</span>::<span style="color: #000000">open</span>(<span style="color: #000000">path</span>)?;
+        <span style="color: #000000">let</span> <span style="color: #000000">reader</span> = <span style="color: #000000">BufReader</span>::<span style="color: #000000">new</span>(<span style="color: #000000">file</span>);
+        <span style="color: #000000">let</span> <span style="color: #000000">mut</span> <span style="color: #000000">matches</span> = <span style="color: #000000">Vec</span>::<span style="color: #000000">new</span>();
+        
+        <span style="color: #000000">for</span> (<span style="color: #000000">line_num, line</span>) <span style="color: #000000">in</span> <span style="color: #000000">reader</span>.<span style="color: #000000">lines</span>().<span style="color: #000000">enumerate</span>() {
+            <span style="color: #000000">let</span> <span style="color: #000000">line</span> = <span style="color: #000000">line</span>?;
+            <span style="color: #000000">if</span> <span style="color: #000000">line</span>.<span style="color: #000000">contains</span>(<span style="color: #000000">pattern</span>) {
+                matches.push(<span style="color: #000000">format</span>!(<span style="color: #8B0000">&quot;Line {}: {}</span><span style="color: #8B0000">&quot;, line_num + 1, line));</span>
+            }
+        }
+        
+        <span style="color: #000000">Ok</span>(<span style="color: #000000">matches</span>)
+    }
+    
+    <span style="color: #008000">/// Copy file with progress tracking</span>
+    <span style="color: #000000">fn</span> <span style="color: #000000">copy_file_with_progress</span>&lt;<span style="color: #000000">P</span>: <span style="color: #000000">AsRef</span>&lt;<span style="color: #000000">Path</span>&gt;&gt;(<span style="color: #000000">src</span>: <span style="color: #000000">P, dst</span>: <span style="color: #000000">P</span>) -&gt; <span style="color: #000000">io</span>::<span style="color: #000000">Result</span>&lt;<span style="color: #000000">u64</span>&gt; {
+        <span style="color: #000000">let</span> <span style="color: #000000">mut</span> <span style="color: #000000">src_file</span> = <span style="color: #000000">File</span>::<span style="color: #000000">open</span>(<span style="color: #000000">src</span>)?;
+        <span style="color: #000000">let</span> <span style="color: #000000">mut</span> <span style="color: #000000">dst_file</span> = <span style="color: #000000">File</span>::<span style="color: #000000">create</span>(<span style="color: #000000">dst</span>)?;
+        
+        <span style="color: #0000FF">let</span> <span style="color: #0000FF">mut</span> buffer = [<span style="color: #FF00FF">0</span>; <span style="color: #FF00FF">8192</span>];
+        <span style="color: #0000FF">let</span> <span style="color: #0000FF">mut</span> total_bytes = <span style="color: #FF00FF">0</span>;
+        
+        <span style="color: #000000">loop</span> {
+            <span style="color: #000000">let</span> <span style="color: #000000">bytes_read</span> = <span style="color: #000000">src_file</span>.<span style="color: #000000">read</span>(&amp;<span style="color: #000000">mut</span> <span style="color: #000000">buffer</span>)?;
+            <span style="color: #0000FF">if</span> bytes_read == <span style="color: #FF00FF">0</span> {
+                <span style="color: #000000">break</span>;
+            }
+            
+            <span style="color: #000000">dst_file</span>.<span style="color: #000000">write_all</span>(&amp;<span style="color: #000000">buffer</span>[..<span style="color: #000000">bytes_read</span>])?;
+            <span style="color: #000000">total_bytes</span> += <span style="color: #000000">bytes_read</span> <span style="color: #000000">as</span> <span style="color: #000000">u64</span>;
+            
+            <span style="color: #008000">// Simulate progress reporting</span>
+            <span style="color: #0000FF">if</span> total_bytes % <span style="color: #FF00FF">1024</span> == <span style="color: #FF00FF">0</span> {
+                <span style="color: #000000">print</span>!(<span style="color: #8B0000">&quot;.</span><span style="color: #8B0000">&quot;);</span>
+                <span style="color: #000000">io</span>::<span style="color: #000000">stdout</span>().<span style="color: #000000">flush</span>()?;
+            }
+        }
+        
+        <span style="color: #000000">println!</span>();
+        <span style="color: #000000">Ok</span>(<span style="color: #000000">total_bytes</span>)
+    }
+}
+
+<span style="color: #008000">/// Concurrent data processing</span>
+<span style="color: #000000">struct</span> <span style="color: #000000">ConcurrentProcessor</span>;
+
+<span style="color: #000000">impl</span> <span style="color: #000000">ConcurrentProcessor</span> {
+    <span style="color: #008000">/// Process data in parallel using multiple threads</span>
+    <span style="color: #000000">fn</span> <span style="color: #000000">process_parallel</span>(<span style="color: #000000">data</span>: <span style="color: #000000">Vec</span>&lt;<span style="color: #000000">i32</span>&gt;, <span style="color: #000000">num_threads</span>: <span style="color: #000000">usize</span>) -&gt; <span style="color: #000000">Vec</span>&lt;<span style="color: #000000">i32</span>&gt; {
+        <span style="color: #0000FF">let</span> chunk_size = (data.len() + num_threads - <span style="color: #FF00FF">1</span>) / <span style="color: #000000">num_threads</span>;
+        <span style="color: #000000">let</span> <span style="color: #000000">data_arc</span> = <span style="color: #000000">Arc</span>::<span style="color: #000000">new</span>(<span style="color: #000000">data</span>);
+        <span style="color: #000000">let</span> <span style="color: #000000">results</span> = <span style="color: #000000">Arc</span>::<span style="color: #000000">new</span>(<span style="color: #000000">Mutex</span>::<span style="color: #000000">new</span>(<span style="color: #000000">Vec</span>::<span style="color: #000000">new</span>()));
+        
+        <span style="color: #0000FF">let</span> <span style="color: #0000FF">mut</span> handles = <span style="color: #000000">vec!</span>[];
+        
+        <span style="color: #0000FF">for</span> i <span style="color: #0000FF">in</span> <span style="color: #FF00FF">0</span>..<span style="color: #000000">num_threads</span> {
+            <span style="color: #000000">let</span> <span style="color: #000000">data_clone</span> = <span style="color: #000000">Arc</span>::<span style="color: #000000">clone</span>(&amp;<span style="color: #000000">data_arc</span>);
+            <span style="color: #000000">let</span> <span style="color: #000000">results_clone</span> = <span style="color: #000000">Arc</span>::<span style="color: #000000">clone</span>(&amp;<span style="color: #000000">results</span>);
+            
+            <span style="color: #000000">let</span> <span style="color: #000000">handle</span> = <span style="color: #000000">thread</span>::<span style="color: #000000">spawn</span>(<span style="color: #000000">move</span> || {
+                <span style="color: #000000">let</span> <span style="color: #000000">start</span> = <span style="color: #000000">i</span> * <span style="color: #000000">chunk_size</span>;
+                <span style="color: #000000">let</span> <span style="color: #000000">end</span> = <span style="color: #000000">std</span>::<span style="color: #000000">cmp</span>::<span style="color: #000000">min</span>(<span style="color: #000000">start</span> + <span style="color: #000000">chunk_size, data_clone</span>.<span style="color: #000000">len</span>());
+                
+                <span style="color: #000000">let</span> <span style="color: #000000">mut</span> <span style="color: #000000">local_result</span> = <span style="color: #000000">Vec</span>::<span style="color: #000000">new</span>();
+                <span style="color: #000000">for</span> <span style="color: #000000">j</span> <span style="color: #000000">in</span> <span style="color: #000000">start</span>..<span style="color: #000000">end</span> {
+                    <span style="color: #008000">// Simulate some processing</span>
+                    <span style="color: #0000FF">let</span> processed = data_clone[j] * <span style="color: #FF00FF">2</span> + <span style="color: #FF00FF">1</span>;
+                    <span style="color: #000000">local_result</span>.<span style="color: #000000">push</span>(<span style="color: #000000">processed</span>);
+                }
+                
+                <span style="color: #000000">let</span> <span style="color: #000000">mut</span> <span style="color: #000000">results</span> = <span style="color: #000000">results_clone</span>.<span style="color: #000000">lock</span>().<span style="color: #000000">unwrap</span>();
+                <span style="color: #000000">results</span>.<span style="color: #000000">extend</span>(<span style="color: #000000">local_result</span>);
+            });
+            
+            <span style="color: #000000">handles</span>.<span style="color: #000000">push</span>(<span style="color: #000000">handle</span>);
+        }
+        
+        <span style="color: #000000">for</span> <span style="color: #000000">handle</span> <span style="color: #000000">in</span> <span style="color: #000000">handles</span> {
+            <span style="color: #000000">handle</span>.<span style="color: #000000">join</span>().<span style="color: #000000">unwrap</span>();
+        }
+        
+        <span style="color: #000000">let</span> <span style="color: #000000">results</span> = <span style="color: #000000">results</span>.<span style="color: #000000">lock</span>().<span style="color: #000000">unwrap</span>();
+        <span style="color: #000000">results</span>.<span style="color: #000000">clone</span>()
+    }
+    
+    <span style="color: #008000">/// Producer-consumer pattern using channels</span>
+    <span style="color: #000000">fn</span> <span style="color: #000000">producer_consumer_pattern</span>() {
+        <span style="color: #000000">use</span> <span style="color: #000000">std</span>::<span style="color: #000000">sync</span>::<span style="color: #000000">mpsc</span>;
+        
+        <span style="color: #000000">let</span> (<span style="color: #000000">tx, rx</span>) = <span style="color: #000000">mpsc</span>::<span style="color: #000000">channel</span>();
+        <span style="color: #0000FF">let</span> num_producers = <span style="color: #FF00FF">3</span>;
+        <span style="color: #0000FF">let</span> num_consumers = <span style="color: #FF00FF">2</span>;
+        
+        <span style="color: #008000">// Spawn producers</span>
+        <span style="color: #0000FF">let</span> <span style="color: #0000FF">mut</span> producer_handles = <span style="color: #000000">vec!</span>[];
+        <span style="color: #0000FF">for</span> i <span style="color: #0000FF">in</span> <span style="color: #FF00FF">0</span>..<span style="color: #000000">num_producers</span> {
+            <span style="color: #000000">let</span> <span style="color: #000000">tx_clone</span> = <span style="color: #000000">tx</span>.<span style="color: #000000">clone</span>();
+            <span style="color: #000000">let</span> <span style="color: #000000">handle</span> = <span style="color: #000000">thread</span>::<span style="color: #000000">spawn</span>(<span style="color: #000000">move</span> || {
+                <span style="color: #0000FF">for</span> j <span style="color: #0000FF">in</span> <span style="color: #FF00FF">0</span>..<span style="color: #FF00FF">5</span> {
+                    <span style="color: #0000FF">let</span> message = <span style="color: #000000">format</span>!(<span style="color: #8B0000">&quot;Producer {}: Message {}</span><span style="color: #8B0000">&quot;, i, j);</span>
+                    <span style="color: #000000">tx_clone</span>.<span style="color: #000000">send</span>(<span style="color: #000000">message</span>).<span style="color: #000000">unwrap</span>();
+                    thread::sleep(Duration::from_millis(<span style="color: #FF00FF">100</span>));
+                }
+            });
+            <span style="color: #000000">producer_handles</span>.<span style="color: #000000">push</span>(<span style="color: #000000">handle</span>);
+        }
+        
+        <span style="color: #008000">// Drop the original sender</span>
+        <span style="color: #000000">drop</span>(<span style="color: #000000">tx</span>);
+        
+        <span style="color: #008000">// Spawn consumers</span>
+        <span style="color: #0000FF">let</span> <span style="color: #0000FF">mut</span> consumer_handles = <span style="color: #000000">vec!</span>[];
+        <span style="color: #0000FF">for</span> i <span style="color: #0000FF">in</span> <span style="color: #FF00FF">0</span>..<span style="color: #000000">num_consumers</span> {
+            <span style="color: #000000">let</span> <span style="color: #000000">rx_clone</span> = <span style="color: #000000">rx</span>.<span style="color: #000000">clone</span>();
+            <span style="color: #000000">let</span> <span style="color: #000000">handle</span> = <span style="color: #000000">thread</span>::<span style="color: #000000">spawn</span>(<span style="color: #000000">move</span> || {
+                <span style="color: #000000">while</span> <span style="color: #000000">let</span> <span style="color: #000000">Ok</span>(<span style="color: #000000">message</span>) = <span style="color: #000000">rx_clone</span>.<span style="color: #000000">recv</span>() {
+                    <span style="color: #000000">println</span>!(<span style="color: #8B0000">&quot;Consumer {}: Received '{}'</span><span style="color: #8B0000">&quot;, i, message);</span>
+                }
+            });
+            <span style="color: #000000">consumer_handles</span>.<span style="color: #000000">push</span>(<span style="color: #000000">handle</span>);
+        }
+        
+        <span style="color: #008000">// Wait for all producers to finish</span>
+        <span style="color: #000000">for</span> <span style="color: #000000">handle</span> <span style="color: #000000">in</span> <span style="color: #000000">producer_handles</span> {
+            <span style="color: #000000">handle</span>.<span style="color: #000000">join</span>().<span style="color: #000000">unwrap</span>();
+        }
+        
+        <span style="color: #008000">// Wait for all consumers to finish</span>
+        <span style="color: #000000">for</span> <span style="color: #000000">handle</span> <span style="color: #000000">in</span> <span style="color: #000000">consumer_handles</span> {
+            <span style="color: #000000">handle</span>.<span style="color: #000000">join</span>().<span style="color: #000000">unwrap</span>();
+        }
+    }
+}
+
+<span style="color: #008000">/// Memory management examples</span>
+<span style="color: #000000">struct</span> <span style="color: #000000">MemoryManager</span>;
+
+<span style="color: #000000">impl</span> <span style="color: #000000">MemoryManager</span> {
+    <span style="color: #008000">/// Demonstrate ownership and borrowing</span>
+    <span style="color: #000000">fn</span> <span style="color: #000000">demonstrate_ownership</span>() {
+        <span style="color: #0000FF">let</span> <span style="color: #0000FF">mut</span> data = <span style="color: #000000">vec</span>![<span style="color: #FF00FF">1</span>, <span style="color: #FF00FF">2</span>, <span style="color: #FF00FF">3</span>, <span style="color: #FF00FF">4</span>, <span style="color: #FF00FF">5</span>];
+        
+        <span style="color: #008000">// Borrowing immutably</span>
+        <span style="color: #000000">let</span> <span style="color: #000000">sum</span>: <span style="color: #000000">i32</span> = <span style="color: #000000">data</span>.<span style="color: #000000">iter</span>().<span style="color: #000000">sum</span>();
+        <span style="color: #000000">println</span>!(<span style="color: #8B0000">&quot;Sum: {}</span><span style="color: #8B0000">&quot;, sum);</span>
+        
+        <span style="color: #008000">// Borrowing mutably</span>
+        <span style="color: #000000">for</span> <span style="color: #000000">item</span> <span style="color: #000000">in</span> &amp;<span style="color: #000000">mut</span> <span style="color: #000000">data</span> {
+            *item *= <span style="color: #FF00FF">2</span>;
+        }
+        
+        <span style="color: #000000">println</span>!(<span style="color: #8B0000">&quot;Doubled: {:?}</span><span style="color: #8B0000">&quot;, data);</span>
+        
+        <span style="color: #008000">// Ownership transfer</span>
+        <span style="color: #000000">let</span> <span style="color: #000000">data2</span> = <span style="color: #000000">data</span>;
+        <span style="color: #000000">println</span>!(<span style="color: #8B0000">&quot;Moved data: {:?}</span><span style="color: #8B0000">&quot;, data2);</span>
+        <span style="color: #008000">// println!(&quot;{:?}&quot;, data); // This would cause compile error</span>
+    }
+    
+    <span style="color: #008000">/// Demonstrate smart pointers</span>
+    <span style="color: #000000">fn</span> <span style="color: #000000">demonstrate_smart_pointers</span>() {
+        <span style="color: #000000">use</span> <span style="color: #000000">std</span>::<span style="color: #000000">rc</span>::<span style="color: #000000">Rc</span>;
+        <span style="color: #000000">use</span> <span style="color: #000000">std</span>::<span style="color: #000000">cell</span>::<span style="color: #000000">RefCell</span>;
+        
+        <span style="color: #008000">// Rc (Reference Counting)</span>
+        <span style="color: #0000FF">let</span> data = <span style="color: #008080">Rc</span>::new(<span style="color: #000000">vec</span>![<span style="color: #FF00FF">1</span>, <span style="color: #FF00FF">2</span>, <span style="color: #FF00FF">3</span>]);
+        <span style="color: #000000">let</span> <span style="color: #000000">data_clone1</span> = <span style="color: #000000">Rc</span>::<span style="color: #000000">clone</span>(&amp;<span style="color: #000000">data</span>);
+        <span style="color: #000000">let</span> <span style="color: #000000">data_clone2</span> = <span style="color: #000000">Rc</span>::<span style="color: #000000">clone</span>(&amp;<span style="color: #000000">data</span>);
+        
+        <span style="color: #000000">println</span>!(<span style="color: #8B0000">&quot;Reference count: {}</span><span style="color: #8B0000">&quot;, Rc::strong_count(&amp;data));</span>
+        <span style="color: #000000">println</span>!(<span style="color: #8B0000">&quot;Data: {:?}</span><span style="color: #8B0000">&quot;, data);</span>
+        <span style="color: #000000">println</span>!(<span style="color: #8B0000">&quot;Clone 1: {:?}</span><span style="color: #8B0000">&quot;, data_clone1);</span>
+        <span style="color: #000000">println</span>!(<span style="color: #8B0000">&quot;Clone 2: {:?}</span><span style="color: #8B0000">&quot;, data_clone2);</span>
+        
+        <span style="color: #008000">// RefCell (Interior Mutability)</span>
+        <span style="color: #0000FF">let</span> cell = <span style="color: #008080">RefCell</span>::new(<span style="color: #FF00FF">5</span>);
+        *cell.borrow_mut() += <span style="color: #FF00FF">10</span>;
+        <span style="color: #000000">println</span>!(<span style="color: #8B0000">&quot;RefCell value: {}</span><span style="color: #8B0000">&quot;, cell.borrow());</span>
+    }
+    
+    <span style="color: #008000">/// Demonstrate lifetimes</span>
+    <span style="color: #0000FF">fn</span> demonstrate_lifetimes&lt;<span style="color: #000000">'a&gt;(x: &amp;</span><span style="color: #000000">'a str, y: &amp;</span><span style="color: #000000">'a str) -&gt; &amp;</span><span style="color: #000000">'a str {</span>
+        <span style="color: #000000">if</span> <span style="color: #000000">x</span>.<span style="color: #000000">len</span>() &gt; <span style="color: #000000">y</span>.<span style="color: #000000">len</span>() {
+            <span style="color: #000000">x</span>
+        } <span style="color: #000000">else</span> {
+            <span style="color: #000000">y</span>
+        }
+    }
+}
+
+<span style="color: #008000">/// Error handling examples</span>
+<span style="color: #000000">struct</span> <span style="color: #000000">ErrorHandler</span>;
+
+<span style="color: #000000">impl</span> <span style="color: #000000">ErrorHandler</span> {
+    <span style="color: #008000">/// Custom error type</span>
+    <span style="color: #6495ED">#[derive(Debug)]</span>
+    <span style="color: #000000">enum</span> <span style="color: #000000">AppError</span> {
+        <span style="color: #000000">IoError</span>(<span style="color: #000000">io</span>::<span style="color: #000000">Error</span>),
+        <span style="color: #000000">ParseError</span>(<span style="color: #000000">std</span>::<span style="color: #000000">num</span>::<span style="color: #000000">ParseIntError</span>),
+        <span style="color: #000000">CustomError</span>(<span style="color: #000000">String</span>),
+    }
+    
+    <span style="color: #000000">impl</span> <span style="color: #000000">From</span>&lt;<span style="color: #000000">io</span>::<span style="color: #000000">Error</span>&gt; <span style="color: #000000">for</span> <span style="color: #000000">AppError</span> {
+        <span style="color: #000000">fn</span> <span style="color: #000000">from</span>(<span style="color: #000000">error</span>: <span style="color: #000000">io</span>::<span style="color: #000000">Error</span>) -&gt; <span style="color: #000000">Self</span> {
+            <span style="color: #000000">AppError</span>::<span style="color: #000000">IoError</span>(<span style="color: #000000">error</span>)
+        }
+    }
+    
+    <span style="color: #000000">impl</span> <span style="color: #000000">From</span>&lt;<span style="color: #000000">std</span>::<span style="color: #000000">num</span>::<span style="color: #000000">ParseIntError</span>&gt; <span style="color: #000000">for</span> <span style="color: #000000">AppError</span> {
+        <span style="color: #000000">fn</span> <span style="color: #000000">from</span>(<span style="color: #000000">error</span>: <span style="color: #000000">std</span>::<span style="color: #000000">num</span>::<span style="color: #000000">ParseIntError</span>) -&gt; <span style="color: #000000">Self</span> {
+            <span style="color: #000000">AppError</span>::<span style="color: #000000">ParseError</span>(<span style="color: #000000">error</span>)
+        }
+    }
+    
+    <span style="color: #008000">/// Function that returns Result</span>
+    <span style="color: #000000">fn</span> <span style="color: #000000">read_and_parse_file</span>&lt;<span style="color: #000000">P</span>: <span style="color: #000000">AsRef</span>&lt;<span style="color: #000000">Path</span>&gt;&gt;(<span style="color: #000000">path</span>: <span style="color: #000000">P</span>) -&gt; <span style="color: #000000">Result</span>&lt;<span style="color: #000000">i32, AppError</span>&gt; {
+        <span style="color: #000000">let</span> <span style="color: #000000">content</span> = <span style="color: #000000">fs</span>::<span style="color: #000000">read_to_string</span>(<span style="color: #000000">path</span>)?;
+        <span style="color: #000000">let</span> <span style="color: #000000">number</span>: <span style="color: #000000">i32</span> = <span style="color: #000000">content</span>.<span style="color: #000000">trim</span>().<span style="color: #000000">parse</span>()?;
+        <span style="color: #000000">Ok</span>(<span style="color: #000000">number</span>)
+    }
+    
+    <span style="color: #008000">/// Demonstrate error handling patterns</span>
+    <span style="color: #000000">fn</span> <span style="color: #000000">demonstrate_error_handling</span>() {
+        <span style="color: #008000">// Using match</span>
+        <span style="color: #0000FF">match</span> <span style="color: #0000FF">Self</span>::read_and_parse_file(<span style="color: #8B0000">&quot;number.txt</span><span style="color: #8B0000">&quot;) {</span>
+            Ok(number) =&gt; <span style="color: #000000">println</span>!(<span style="color: #8B0000">&quot;Parsed number: {}</span><span style="color: #8B0000">&quot;, number),</span>
+            Err(e) =&gt; <span style="color: #000000">println</span>!(<span style="color: #8B0000">&quot;Error: {:?}</span><span style="color: #8B0000">&quot;, e),</span>
+        }
+        
+        <span style="color: #008000">// Using if let</span>
+        <span style="color: #0000FF">if</span> <span style="color: #0000FF">let</span> Ok(number) = <span style="color: #0000FF">Self</span>::read_and_parse_file(<span style="color: #8B0000">&quot;number.txt</span><span style="color: #8B0000">&quot;) {</span>
+            <span style="color: #000000">println</span>!(<span style="color: #8B0000">&quot;Successfully parsed: {}</span><span style="color: #8B0000">&quot;, number);</span>
+        }
+        
+        <span style="color: #008000">// Using unwrap_or</span>
+        <span style="color: #0000FF">let</span> number = <span style="color: #0000FF">Self</span>::read_and_parse_file(<span style="color: #8B0000">&quot;number.txt</span><span style="color: #8B0000">&quot;).unwrap_or(0);</span>
+        <span style="color: #000000">println</span>!(<span style="color: #8B0000">&quot;Number with default: {}</span><span style="color: #8B0000">&quot;, number);</span>
+    }
+}
+
+<span style="color: #008000">/// Performance measurement utilities</span>
+<span style="color: #000000">struct</span> <span style="color: #000000">PerformanceMonitor</span>;
+
+<span style="color: #000000">impl</span> <span style="color: #000000">PerformanceMonitor</span> {
+    <span style="color: #008000">/// Measure execution time of a closure</span>
+    <span style="color: #000000">fn</span> <span style="color: #000000">measure_time</span>&lt;<span style="color: #000000">F, T</span>&gt;(<span style="color: #000000">f</span>: <span style="color: #000000">F</span>) -&gt; (<span style="color: #000000">T, Duration</span>)
+    <span style="color: #000000">where</span>
+        <span style="color: #000000">F</span>: <span style="color: #000000">FnOnce</span>() -&gt; <span style="color: #000000">T</span>,
+    {
+        <span style="color: #000000">let</span> <span style="color: #000000">start</span> = <span style="color: #000000">Instant</span>::<span style="color: #000000">now</span>();
+        <span style="color: #000000">let</span> <span style="color: #000000">result</span> = <span style="color: #000000">f</span>();
+        <span style="color: #000000">let</span> <span style="color: #000000">duration</span> = <span style="color: #000000">start</span>.<span style="color: #000000">elapsed</span>();
+        (<span style="color: #000000">result, duration</span>)
+    }
+    
+    <span style="color: #008000">/// Benchmark different algorithms</span>
+    <span style="color: #000000">fn</span> <span style="color: #000000">benchmark_algorithms</span>() {
+        <span style="color: #0000FF">let</span> data: <span style="color: #008080">Vec</span>&lt;<span style="color: #008080">i32</span>&gt; = (<span style="color: #FF00FF">1</span>..=<span style="color: #FF00FF">1000</span>).<span style="color: #000000">collect</span>();
+        
+        <span style="color: #008000">// Benchmark sum calculation</span>
+        <span style="color: #000000">let</span> (<span style="color: #000000">sum, duration</span>) = <span style="color: #000000">Self</span>::<span style="color: #000000">measure_time</span>(|| {
+            <span style="color: #000000">data</span>.<span style="color: #000000">iter</span>().<span style="color: #000000">sum</span>::&lt;<span style="color: #000000">i32</span>&gt;()
+        });
+        <span style="color: #000000">println</span>!(<span style="color: #8B0000">&quot;Sum: {}, Time: {:?}</span><span style="color: #8B0000">&quot;, sum, duration);</span>
+        
+        <span style="color: #008000">// Benchmark filtering</span>
+        <span style="color: #000000">let</span> (<span style="color: #000000">evens, duration</span>) = <span style="color: #000000">Self</span>::<span style="color: #000000">measure_time</span>(|| {
+            data.iter().filter(|&amp;&amp;x| x % <span style="color: #FF00FF">2</span> == <span style="color: #FF00FF">0</span>).<span style="color: #000000">collect</span>::&lt;<span style="color: #000000">Vec</span>&lt;<span style="color: #000000">_</span>&gt;&gt;()
+        });
+        <span style="color: #000000">println</span>!(<span style="color: #8B0000">&quot;Even numbers count: {}, Time: {:?}</span><span style="color: #8B0000">&quot;, evens.len(), duration);</span>
+        
+        <span style="color: #008000">// Benchmark sorting</span>
+        <span style="color: #000000">let</span> <span style="color: #000000">mut</span> <span style="color: #000000">data_copy</span> = <span style="color: #000000">data</span>.<span style="color: #000000">clone</span>();
+        <span style="color: #000000">let</span> (<span style="color: #000000">_, duration</span>) = <span style="color: #000000">Self</span>::<span style="color: #000000">measure_time</span>(|| {
+            <span style="color: #000000">data_copy</span>.<span style="color: #000000">sort</span>();
+        });
+        <span style="color: #000000">println</span>!(<span style="color: #8B0000">&quot;Sorting time: {:?}</span><span style="color: #8B0000">&quot;, duration);</span>
+    }
+}
+
+<span style="color: #008000">/// Main function demonstrating all examples</span>
+<span style="color: #000000">fn</span> <span style="color: #000000">main</span>() {
+    <span style="color: #000000">println</span>!(<span style="color: #8B0000">&quot;=== Rust System Programming Examples ===</span><span style="color: #8B0000">&quot;);</span>
+    
+    <span style="color: #008000">// File processing</span>
+    <span style="color: #000000">println</span>!(<span style="color: #8B0000">&quot;\n--- File Processing ---</span><span style="color: #8B0000">&quot;);</span>
+    <span style="color: #0000FF">match</span> FileProcessor::count_file_stats(<span style="color: #8B0000">&quot;Cargo.toml</span><span style="color: #8B0000">&quot;) {</span>
+        <span style="color: #000000">Ok</span>((<span style="color: #000000">lines, words, chars</span>)) =&gt; {
+            <span style="color: #000000">println</span>!(<span style="color: #8B0000">&quot;File stats - Lines: {}, Words: {}, Chars: {}</span><span style="color: #8B0000">&quot;, lines, words, chars);</span>
+        }
+        Err(e) =&gt; <span style="color: #000000">println</span>!(<span style="color: #8B0000">&quot;Error reading file: {}</span><span style="color: #8B0000">&quot;, e),</span>
+    }
+    
+    <span style="color: #008000">// Concurrent processing</span>
+    <span style="color: #000000">println</span>!(<span style="color: #8B0000">&quot;\n--- Concurrent Processing ---</span><span style="color: #8B0000">&quot;);</span>
+    <span style="color: #0000FF">let</span> data = <span style="color: #000000">vec</span>![<span style="color: #FF00FF">1</span>, <span style="color: #FF00FF">2</span>, <span style="color: #FF00FF">3</span>, <span style="color: #FF00FF">4</span>, <span style="color: #FF00FF">5</span>, <span style="color: #FF00FF">6</span>, <span style="color: #FF00FF">7</span>, <span style="color: #FF00FF">8</span>, <span style="color: #FF00FF">9</span>, <span style="color: #FF00FF">10</span>];
+    <span style="color: #0000FF">let</span> processed = ConcurrentProcessor::process_parallel(data, <span style="color: #FF00FF">3</span>);
+    <span style="color: #000000">println</span>!(<span style="color: #8B0000">&quot;Parallel processed: {:?}</span><span style="color: #8B0000">&quot;, processed);</span>
+    
+    <span style="color: #008000">// Memory management</span>
+    <span style="color: #000000">println</span>!(<span style="color: #8B0000">&quot;\n--- Memory Management ---</span><span style="color: #8B0000">&quot;);</span>
+    <span style="color: #000000">MemoryManager</span>::<span style="color: #000000">demonstrate_ownership</span>();
+    <span style="color: #000000">MemoryManager</span>::<span style="color: #000000">demonstrate_smart_pointers</span>();
+    
+    <span style="color: #0000FF">let</span> longer = MemoryManager::demonstrate_lifetimes(<span style="color: #8B0000">&quot;hello</span><span style="color: #8B0000">&quot;, </span><span style="color: #8B0000">&quot;world!</span><span style="color: #8B0000">&quot;);</span>
+    <span style="color: #000000">println</span>!(<span style="color: #8B0000">&quot;Longer string: {}</span><span style="color: #8B0000">&quot;, longer);</span>
+    
+    <span style="color: #008000">// Error handling</span>
+    <span style="color: #000000">println</span>!(<span style="color: #8B0000">&quot;\n--- Error Handling ---</span><span style="color: #8B0000">&quot;);</span>
+    <span style="color: #000000">ErrorHandler</span>::<span style="color: #000000">demonstrate_error_handling</span>();
+    
+    <span style="color: #008000">// Performance measurement</span>
+    <span style="color: #000000">println</span>!(<span style="color: #8B0000">&quot;\n--- Performance Measurement ---</span><span style="color: #8B0000">&quot;);</span>
+    <span style="color: #000000">PerformanceMonitor</span>::<span style="color: #000000">benchmark_algorithms</span>();
+    
+    <span style="color: #008000">// Producer-consumer pattern</span>
+    <span style="color: #000000">println</span>!(<span style="color: #8B0000">&quot;\n--- Producer-Consumer Pattern ---</span><span style="color: #8B0000">&quot;);</span>
+    <span style="color: #000000">ConcurrentProcessor</span>::<span style="color: #000000">producer_consumer_pattern</span>();
+    
+    <span style="color: #000000">println</span>!(<span style="color: #8B0000">&quot;\n=== All examples completed ===</span><span style="color: #8B0000">&quot;);</span>
+}
+</code></pre>
+</body>
+</html>
